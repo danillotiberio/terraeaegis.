@@ -152,15 +152,27 @@
         }
 
         /* AJUSTES PARA CELULAR */
-        @media (max-width: 768px) {
-            header { padding: 30px 20px; }
-            .logo img { height: 160px; } /* Ajuste de tamanho no celular */
-            .hero h1 { font-size: 2.2em; }
-            .pilares { flex-direction: column; align-items: center; padding: 60px 5%; }
-            .card { width: 90%; margin-bottom: 30px; }
-            .footer { flex-direction: column; text-align: center; align-items: center; }
-            .info-final { text-align: center; margin-top: 50px; }
+                @media (max-width: 768px) {
+            header { 
+                padding: 10px 10px; 
+            }
+            .logo img { 
+                height: 120px; 
+            }
+            .hero { 
+                min-height: auto; 
+                padding: 20px 5%; 
+            }
+            .hero h1 { 
+                font-size: 1.8em; 
+                margin-top: 10px;
+            }
+            .pilares { flex-direction: column; align-items: center; padding: 40px 5%; }
+            .card { width: 90%; margin-bottom: 20px; }
+            .footer { flex-direction: column; text-align: center; align-items: center; padding: 40px 5%; }
+            .info-final { text-align: center; margin-top: 30px; }
         }
+
     </style>
 </head>
 <body>
