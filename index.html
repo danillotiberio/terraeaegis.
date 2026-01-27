@@ -3,154 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terrae Aegis - Gestão de Patrimônio e Governança</title>
+    <title>Terrae Aegis | Holding Financeira</title>
     <style>
+        :root {
+            --azul-profundo: #0A192F;
+            --dourado-fosco: #C5A059;
+            --branco-marfim: #E6E6E6;
+        }
+
         body {
             margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--azul-profundo);
+            color: var(--branco-marfim);
             overflow-x: hidden;
         }
+
+        /* HEADER CENTRALIZADO E ESTÁTICO (SOBE COM O SCROLL) */
         header {
-            height: 100vh;
+            padding: 40px 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--azul-profundo);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .logo img {
+            height: 280px; /* Tamanho imponente para Desktop */
+            width: auto;
+            max-width: 90%;
+            transition: 0.3s;
+        }
+
+        .hero {
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070') no-repeat center center/cover;
+            padding: 40px 10%;
+            background: radial-gradient(circle, rgba(16,33,65,1) 0%, rgba(10,25,47,1) 100%);
         }
-        .logo-container img {
-            width: 250px;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+
+        .hero h1 {
+            color: var(--dourado-fosco);
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 300;
+            line-height: 1.2;
         }
-        h1 {
-            font-size: 3rem;
-            color: #d4af37;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
+
+        .hero p {
+            max-width: 800px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 40px;
         }
-        p.subtitle {
-            font-size: 1.2rem;
-            color: #ccc;
-            max-width: 600px;
-        }
-        .cta-button {
-            margin-top: 30px;
-            padding: 15px 40px;
-            background-color: #d4af37;
-            color: #000;
+
+        .btn-entenda {
+            background: var(--dourado-fosco);
+            color: var(--azul-profundo);
+            padding: 18px 50px;
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
-            border-radius: 5px;
+            border-radius: 2px;
+            letter-spacing: 1px;
             transition: 0.3s;
         }
-        .cta-button:hover {
-            background-color: #b8962e;
-            transform: scale(1.05);
+
+        .btn-entenda:hover {
+            background: #a68545;
+            transform: translateY(-2px);
         }
-        section {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
+
+        .pilares {
+            display: flex;
+            justify-content: space-around;
+            padding: 100px 5%;
+            background: #0d213f;
         }
-        h2 {
-            color: #d4af37;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-        }
-        .grid-servicos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
+
         .card {
-            background: #0a0a0a;
-            padding: 40px;
-            border: 1px solid #1a1a1a;
-            border-radius: 10px;
-            transition: 0.3s;
+            width: 25%;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid var(--dourado-fosco);
+            background: rgba(255,255,255,0.02);
         }
-        .card:hover {
-            border-color: #d4af37;
-        }
+
         .card h3 {
-            color: #d4af37;
+            color: var(--dourado-fosco);
             margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
+        .footer {
+            padding: 80px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: #050c16;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .form-contato {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-contato h3 {
+            color: var(--dourado-fosco);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .form-contato input {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #333;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .info-final {
+            text-align: right;
+        }
+
+        .info-final p {
+            margin: 5px 0;
+            color: var(--dourado-fosco);
+        }
+
+        .qr-code {
+            width: 140px;
+            margin-top: 25px;
+            border: 4px solid var(--dourado-fosco);
+            padding: 5px;
+            background: white;
+        }
+
+        /* AJUSTES PARA CELULAR */
+                @media (max-width: 768px) {
+            header { 
+                padding: 10px 10px; 
+            }
+            .logo img { 
+                height: 120px; 
+            }
+            .hero { 
+                min-height: auto; 
+                padding: 20px 5%; 
+            }
+            .hero h1 { 
+                font-size: 1.8em; 
+                margin-top: 10px;
+            }
+            .pilares { flex-direction: column; align-items: center; padding: 40px 5%; }
+            .card { width: 90%; margin-bottom: 20px; }
+            .footer { flex-direction: column; text-align: center; align-items: center; padding: 40px 5%; }
+            .info-final { text-align: center; margin-top: 30px; }
+        }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <img src="logo.png" alt="Terrae Aegis Logo">
+        <div class="logo">
+            <img src="logo-touro.png" alt="Terrae Aegis Logo">
         </div>
-        <h1>Terrae Aegis</h1>
-        <p class="subtitle">Estratégia, Proteção e Governança para o seu Legado.</p>
-        <a href="#solicite" class="cta-button">Falar com um Especialista</a>
     </header>
 
-    <section id="sobre">
-        <h2>Nossa Essência</h2>
-        <p style="color: #888; line-height: 1.8; font-size: 1.1rem; max-width: 800px; margin: 0 auto;">
-            A Terrae Aegis atua na preservação e expansão de patrimônios familiares e corporativos. 
-            Combinamos tradição e inovação para garantir que o seu legado atravesse gerações com segurança e inteligência estratégica.
-        </p>
+    <section class="hero">
+        <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
+        <p>Uma Holding projetada para a convergência entre a sua Segurança Patrimonial e Financeira com aceleração de crescimento utilizando o que há de vanguarda no Mercado Mundial.</p>
+        <a href="#pilares" class="btn-entenda">Entenda</a>
     </section>
 
-    <section id="servicos">
-        <h2>Pilares de Atuação</h2>
-        <div class="grid-servicos">
-            <div class="card">
-                <h3>Holding Familiar</h3>
-                <p>Organização societária focada em proteção de ativos e eficiência sucessória.</p>
-            </div>
-            <div class="card">
-                <h3>Governança</h3>
-                <p>Implementação de processos e acordos para a longevidade do negócio familiar.</p>
-            </div>
-            <div class="card">
-                <h3>Proteção Patrimonial</h3>
-                <p>Mecanismos legais para blindagem e mitigação de riscos financeiros.</p>
-            </div>
+    <section class="pilares" id="pilares">
+        <div class="card">
+            <h3>Segurança</h3>
+            <p>A base sólida para a preservação do seu patrimônio com blindagem internacional.</p>
+        </div>
+        <div class="card">
+            <h3>Financeira</h3>
+            <p>Acesso aos principais bancos do mundo com Taxas estratégicas abaixo de <strong>12% ao ano</strong>.</p>
+        </div>
+        <div class="card">
+            <h3>Governança</h3>
+            <p>A transparência e o rigor da gestão moderna sobre o seu total controle.</p>
         </div>
     </section>
 
-    <footer class="footer" id="solicite" style="padding: 80px 20px; background-color: #050505; color: #fff; text-align: center; border-top: 1px solid #1a1a1a;">
-        <div style="max-width: 950px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: start; text-align: left;">
-            
-            <div style="flex: 1; min-width: 320px; background: #0a0a0a; padding: 35px; border-radius: 15px; border: 1px solid #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                <h3 style="color: #d4af37; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; text-align: center;">Solicite Contato</h3>
-                <form action="https://formspree.io/f/SEU_ID_AQUI" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-                    <input type="text" name="nome" placeholder="Nome Completo" required style="padding: 14px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; width: 100%; box-sizing: border-box;">
-                    <input type="email" name="email" placeholder="E-mail Corporativo" required style="padding: 14px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; width: 100%; box-sizing: border-box;">
-                    <textarea name="mensagem" rows="4" placeholder="Como podemos ajudar seu patrimônio?" required style="padding: 14px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; resize: none; width: 100%; box-sizing: border-box;"></textarea>
-                    <button type="submit" style="background: linear-gradient(90deg, #d4af37, #b8962e); color: #000; padding: 18px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.3s;">Enviar Mensagem</button>
-                </form>
-            </div>
-
-            <div style="flex: 1; min-width: 300px; text-align: center; padding-top: 10px;">
-                <p style="color: #d4af37; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Atendimento Exclusivo Humanizado</p>
-                <a href="https://wa.me/5511961962833" target="_blank" style="text-decoration: none; display: inline-block;">
-                    <div style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; border: 4px solid #d4af37; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://wa.me/5511961962833" alt="WhatsApp QR Code" style="width: 180px; display: block;">
-                    </div>
-                    <p style="color: #888; font-size: 0.85rem; margin-top: 20px; line-height: 1.5;">Escaneie o QR Code ou <br><span style="color:#d4af37; text-decoration: underline;">clique aqui</span> para iniciar via WhatsApp</p>
-                </a>
-            </div>
-
-        </div>
+    <footer class="footer" id="solicite" style="padding: 60px 20px; background-color: #050505; color: #fff; text-align: center; border-top: 1px solid #1a1a1a;">
+    <div style="max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; text-align: left;">
         
-        <div style="margin-top: 80px; padding-top: 20px; border-top: 1px solid #1a1a1a; color: #444; font-size: 0.75rem; width: 100%;">
-            &copy; 2026 Terrae Aegis - Gestão de Patrimônio e Governança Profissional.
+        <div style="background: #0a0a0a; padding: 30px; border-radius: 12px; border: 1px solid #1a1a1a;">
+            <h3 style="color: #d4af37; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Solicite Contato</h3>
+            <form action="https://formspree.io/f/SEU_ID_AQUI" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="text" name="nome" placeholder="Nome Completo" required style="padding: 12px; border-radius: 5px; border: 1px solid #333; background: #000; color: #fff;">
+                <input type="email" name="email" placeholder="E-mail Corporativo" required style="padding: 12px; border-radius: 5px; border: 1px solid #333; background: #000; color: #fff;">
+                <textarea name="mensagem" rows="4" placeholder="Como podemos ajudar seu patrimônio?" required style="padding: 12px; border-radius: 5px; border: 1px solid #333; background: #000; color: #fff; resize: none;"></textarea>
+                <button type="submit" style="background-color: #d4af37; color: #000; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; text-transform: uppercase;">Enviar Mensagem</button>
+            </form>
         </div>
-    </footer>
 
-</body>
+        <div style="text-align: center; padding-top: 20px;">
+            <p style="color: #d4af37; font-weight: bold; margin-bottom: 15px; text-transform: uppercase;">Atendimento Exclusivo</p>
+            <a href="https://wa.me/5511961962833" target="_blank" style="text-decoration: none;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/5511961962833" 
+                     alt="WhatsApp QR Code" 
+                     style="width: 150px; border: 4px solid #d4af37; padding: 5px; background: white; border-radius: 10px;">
+                <p style="color: #fff; margin-top: 15px; font-size: 1.1rem;">(11) 96196-2833</p>
+                <p style="color: #666; font-size: 0.8rem;">Clique ou aponte a câmera</p>
+            </a>
+        </div>
+
+    </div>
+    
+    <div style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #1a1a1a; color: #444; font-size: 0.7rem;">
+        &copy; 2026 Terrae Aegis - Gestão de Patrimônio e Governança.
+    </div>
+</footer>
 </html>
