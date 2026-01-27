@@ -9,6 +9,7 @@
             --azul-profundo: #0A192F;
             --dourado-fosco: #C5A059;
             --branco-marfim: #E6E6E6;
+            --azul-overlay: rgba(10, 25, 47, 0.95);
         }
 
         body {
@@ -30,10 +31,12 @@
             box-sizing: border-box;
         }
 
+        /* Logo Imponente no Desktop */
         .logo img {
             height: 280px;
             width: auto;
-            max-width: 90%;
+            max-width: 95%;
+            transition: all 0.3s ease;
         }
 
         .hero {
@@ -76,14 +79,58 @@
             text-align: center;
             padding: 30px 20px;
             border-top: 1px solid var(--dourado-fosco);
+            position: relative;
+            cursor: pointer;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .card h3 {
             color: var(--dourado-fosco);
             text-transform: uppercase;
+            margin-bottom: 15px;
         }
 
-        /* RODAPÉ INTEGRADO NO AZUL */
+        .overlay-texto {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--azul-overlay);
+            color: white;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            box-sizing: border-box;
+            text-align: left;
+            font-size: 0.95em;
+            line-height: 1.5;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .card:hover .overlay-texto, .card.ativo .overlay-texto {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .btn-fechar {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: none; border: none;
+            color: var(--dourado-fosco);
+            font-size: 26px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .card.ativo .btn-fechar {
+            display: block;
+        }
+
         .footer {
             padding: 60px 10%;
             display: flex;
@@ -95,41 +142,30 @@
             border-top: 1px solid rgba(197, 160, 89, 0.3);
         }
 
-        .form-contato {
-            flex: 1;
-            min-width: 320px;
-            text-align: left;
-        }
+        .form-contato { flex: 1; min-width: 320px; }
 
         .form-contato input, .form-contato textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
+            width: 100%; padding: 12px; margin-bottom: 15px;
             background: rgba(255,255,255,0.05);
-            border: 1px solid #333;
-            color: white;
+            border: 1px solid #333; color: white;
             box-sizing: border-box;
         }
 
-        .info-final {
-            flex: 1;
-            min-width: 300px;
-            text-align: center;
-        }
+        .info-final { flex: 1; min-width: 300px; text-align: center; }
 
         .qr-code {
-            width: 150px;
-            border: 3px solid var(--dourado-fosco);
-            padding: 5px;
-            background: white;
-            margin-top: 15px;
+            width: 150px; border: 3px solid var(--dourado-fosco);
+            padding: 5px; background: white; margin-top: 15px;
         }
 
+        /* AJUSTES PARA DISPOSITIVOS MÓVEIS */
         @media (max-width: 768px) {
-            .logo img { height: 120px; }
-            .hero h1 { font-size: 2em; }
+            .logo img { 
+                height: 180px; /* Logo aumentada conforme solicitado para maior imponência */
+            }
+            .hero h1 { font-size: 2.2em; }
             .pilares { flex-direction: column; align-items: center; }
-            .card { width: 90%; margin-bottom: 20px; }
+            .card { width: 95%; margin-bottom: 25px; min-height: 280px; }
             .footer { flex-direction: column; align-items: center; text-align: center; }
         }
     </style>
@@ -149,24 +185,38 @@
     </section>
 
     <section class="pilares" id="pilares">
-        <div class="card">
+        <div class="card" onclick="toggleCard(this)">
             <h3>Segurança</h3>
             <p>A base sólida para a preservação do seu patrimônio.</p>
+            <div class="overlay-texto">
+                <button class="btn-fechar" onclick="fecharCard(event, this.parentElement.parentElement)">&times;</button>
+                <span>Inspirados pela <strong>Aegis</strong>, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades jurídicas e governamentais para que seu legado se perpetue por gerações.</span>
+            </div>
         </div>
-        <div class="card">
+
+        <div class="card" onclick="toggleCard(this)">
             <h3>Financeira</h3>
             <p>Acesso aos principais bancos do mundo com taxas estratégicas.</p>
+            <div class="overlay-texto">
+                <button class="btn-fechar" onclick="fecharCard(event, this.parentElement.parentElement)">&times;</button>
+                <span>Quebramos a dependência e as amarras do sistema financeiro nacional, proporcionando total independência para acelerar de forma <strong>exponencial</strong> seus projetos estratégicos.</span>
+            </div>
         </div>
-        <div class="card">
+
+        <div class="card" onclick="toggleCard(this)">
             <h3>Governança</h3>
             <p>A transparência e o rigor da gestão moderna.</p>
+            <div class="overlay-texto">
+                <button class="btn-fechar" onclick="fecharCard(event, this.parentElement.parentElement)">&times;</button>
+                <span>Protocolos internacionais onde o investidor mantém o <strong>controle total e absoluto</strong> sobre seus bens e empresas, permanecendo sempre à frente dos negócios.</span>
+            </div>
         </div>
     </section>
 
     <footer class="footer" id="solicite">
         <div class="form-contato">
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase;">Solicite Contato</h3>
-                        <form action="https://api.web3forms.com/submit" method="POST">
+            <form action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
                 <input type="hidden" name="from_name" value="Terrae Aegis | Site">
                 <input type="hidden" name="subject" value="Nova Consulta Estratégica">
@@ -177,20 +227,31 @@
                 <textarea name="mensagem" rows="4" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
                 <button type="submit" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR ESTRATÉGIA</button>
             </form>
-
         </div>
         <div class="info-final">
             <p style="color: var(--dourado-fosco); font-weight: bold; text-transform: uppercase;">Atendimento Exclusivo Humanizado</p>
             <a href="https://wa.me/5511961962833" target="_blank">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/5511961962833" alt="WhatsApp" class="qr-code">
             </a>
-    
         </div>
     </footer>
 
-    <div style="background: var(--azul-profundo); padding: 20px; font-size: 0.7em; opacity: 0.5;">
+    <div style="background: var(--azul-profundo); padding: 20px; font-size: 0.7em; opacity: 0.5; text-align: center;">
         &copy; 2026 Terrae Aegis
     </div>
 
+    <script>
+        function toggleCard(elemento) {
+            document.querySelectorAll('.card').forEach(c => {
+                if (c !== elemento) c.classList.remove('ativo');
+            });
+            elemento.classList.toggle('ativo');
+        }
+
+        function fecharCard(event, elemento) {
+            event.stopPropagation();
+            elemento.classList.remove('ativo');
+        }
+    </script>
 </body>
 </html>
