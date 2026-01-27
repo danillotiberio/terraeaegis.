@@ -166,20 +166,25 @@
     <footer class="footer" id="solicite">
         <div class="form-contato">
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase;">Solicite Contato</h3>
-            <form action="https://formspree.io/f/SEU_ID_AQUI" method="POST">
+                        <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
+                <input type="hidden" name="from_name" value="Terrae Aegis | Site">
+                <input type="hidden" name="subject" value="Nova Consulta Estratégica">
+                <input type="hidden" name="redirect" value="https://www.terraeaegis.com.br/#solicite">
+
                 <input type="text" name="nome" placeholder="Nome Completo" required>
                 <input type="email" name="email" placeholder="E-mail" required>
                 <textarea name="mensagem" rows="4" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
-                <button type="submit" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR</button>
+                <button type="submit" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR ESTRATÉGIA</button>
             </form>
-        </div>
 
+        </div>
         <div class="info-final">
             <p style="color: var(--dourado-fosco); font-weight: bold; text-transform: uppercase;">Atendimento Exclusivo Humanizado</p>
             <a href="https://wa.me/5511961962833" target="_blank">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/5511961962833" alt="WhatsApp" class="qr-code">
             </a>
-            <p style="margin-top: 15px;">(11) 96196-2833</p>
+    
         </div>
     </footer>
 
