@@ -21,7 +21,7 @@
         }
 
         header {
-            padding: 40px 5%;
+            padding: 20px 5% 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -31,7 +31,6 @@
             box-sizing: border-box;
         }
 
-        /* Logo Imponente no Desktop */
         .logo img {
             height: 280px;
             width: auto;
@@ -40,37 +39,38 @@
         }
 
         .hero {
-            padding: 60px 10%;
+            padding: 20px 10% 40px;
             text-align: center;
         }
 
         .hero h1 {
             color: var(--dourado-fosco);
             font-size: 3em;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: 300;
         }
 
         .hero p {
             max-width: 800px;
             font-size: 1.2em;
-            margin: 0 auto 40px;
+            margin: 0 auto 30px;
         }
 
         .btn-entenda {
             background: var(--dourado-fosco);
             color: var(--azul-profundo);
-            padding: 18px 50px;
+            padding: 15px 40px;
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             border-radius: 2px;
+            font-size: 0.9em;
         }
 
         .pilares {
             display: flex;
             justify-content: space-around;
-            padding: 80px 5%;
+            padding: 50px 5%;
             background: rgba(255,255,255,0.02);
         }
 
@@ -81,7 +81,7 @@
             border-top: 1px solid var(--dourado-fosco);
             position: relative;
             cursor: pointer;
-            min-height: 220px;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -117,18 +117,37 @@
             pointer-events: auto;
         }
 
-        .btn-fechar {
-            position: absolute;
-            top: 10px; right: 10px;
-            background: none; border: none;
-            color: var(--dourado-fosco);
-            font-size: 26px;
-            cursor: pointer;
-            display: none;
+        /* SEÇÃO DE ACESSO AOS SETORES */
+        .setores-operacionais {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 5%;
+            background: var(--azul-profundo);
         }
 
-        .card.ativo .btn-fechar {
-            display: block;
+        .setor-card {
+            flex: 1;
+            max-width: 250px;
+            height: 120px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 2px;
+            color: var(--dourado-fosco);
+            text-align: center;
+            padding: 10px;
+        }
+
+        .setor-card:hover {
+            border-color: var(--dourado-fosco);
+            background: rgba(197, 160, 89, 0.05);
+            transform: translateY(-5px);
         }
 
         .footer {
@@ -158,14 +177,14 @@
             padding: 5px; background: white; margin-top: 15px;
         }
 
-        /* AJUSTES PARA DISPOSITIVOS MÓVEIS */
         @media (max-width: 768px) {
-            .logo img { 
-                height: 180px; /* Logo aumentada conforme solicitado para maior imponência */
-            }
+            header { padding-top: 10px; }
+            .logo img { height: 180px; }
             .hero h1 { font-size: 2.2em; }
-            .pilares { flex-direction: column; align-items: center; }
-            .card { width: 95%; margin-bottom: 25px; min-height: 280px; }
+            .pilares { flex-direction: column; align-items: center; padding: 20px 5%; }
+            .card { width: 95%; margin-bottom: 20px; min-height: 250px; }
+            .setores-operacionais { flex-direction: column; align-items: center; gap: 15px; }
+            .setor-card { width: 90%; max-width: none; height: 100px; }
             .footer { flex-direction: column; align-items: center; text-align: center; }
         }
     </style>
@@ -185,29 +204,36 @@
     </section>
 
     <section class="pilares" id="pilares">
-    <div class="card" onclick="toggleCard(this)">
-        <h3>Segurança</h3>
-        <p>A base sólida para a preservação do seu patrimônio.</p>
-        <div class="overlay-texto">
-            <span>Inspirados pela <strong>Aegis</strong>, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades jurídicas e governamentais para que seu legado se perpetue por gerações.</span>
-        </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-        <h3>Financeira</h3>
-        <p>Acesso aos principais bancos do mundo com taxas estratégicas.</p>
-        <div class="overlay-texto">
-            <span>Quebramos a dependência e as amarras do sistema financeiro nacional, proporcionando total independência para acelerar de forma <strong>exponencial</strong> seus projetos estratégicos.</span>
-        </div>
-    </div>
-
-    <div class="card" onclick="toggleCard(this)">
-        <h3>Governança</h3>
-        <p>A transparência e o rigor da gestão moderna.</p>
-        <div class="overlay-texto">
-            <span>Protocolos internacionais onde o investidor mantém o <strong>controle total e absoluto</strong> sobre seus bens e empresas, permanecendo sempre à frente dos negócios.</span>
+        <div class="card" onclick="toggleCard(this)">
+            <h3>Segurança</h3>
+            <p>A base sólida para a preservação do seu patrimônio.</p>
+            <div class="overlay-texto">
+                <span>Inspirados pela <strong>Aegis</strong>, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades jurídicas e governamentais para que seu legado se perpetue por gerações.</span>
+            </div>
         </div>
 
+        <div class="card" onclick="toggleCard(this)">
+            <h3>Financeira</h3>
+            <p>Acesso aos principais bancos do mundo com taxas estratégicas.</p>
+            <div class="overlay-texto">
+                <span>Quebramos a dependência e as amarras do sistema financeiro nacional, proporcionando total independência para acelerar de forma <strong>exponencial</strong> seus projetos estratégicos.</span>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+            <h3>Governança</h3>
+            <p>A transparência e o rigor da gestão moderna.</p>
+            <div class="overlay-texto">
+                <span>Protocolos internacionais onde o investidor mantém o <strong>controle total e absoluto</strong> sobre seus bens e empresas, permanecendo sempre à frente dos negócios.</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="setores-operacionais">
+        <div class="setor-card" onclick="window.location.href='terrae-aegis-agro.html'">Agro</div>
+        <div class="setor-card" onclick="window.location.href='terrae-aegis-mineracao.html'">Mineração</div>
+        <div class="setor-card" onclick="window.location.href='terrae-aegis-industria.html'">Indústria</div>
+        <div class="setor-card" onclick="window.location.href='terrae-aegis-negocios.html'">Novos Negócios</div>
     </section>
 
     <footer class="footer" id="solicite">
@@ -215,10 +241,6 @@
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase;">Solicite Contato</h3>
             <form action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
-                <input type="hidden" name="from_name" value="Terrae Aegis | Site">
-                <input type="hidden" name="subject" value="Nova Consulta Estratégica">
-                <input type="hidden" name="redirect" value="https://www.terraeaegis.com.br/#solicite">
-
                 <input type="text" name="nome" placeholder="Nome Completo" required>
                 <input type="email" name="email" placeholder="E-mail" required>
                 <textarea name="mensagem" rows="4" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
@@ -233,32 +255,21 @@
         </div>
     </footer>
 
-    <div style="background: var(--azul-profundo); padding: 20px; font-size: 0.7em; opacity: 0.5; text-align: center;">
-        &copy; 2026 Terrae Aegis
-    </div>
-
-            <script>
-    function toggleCard(elemento) {
-        // Se já está aberto, ele fecha no clique (toggle)
-        if (elemento.classList.contains('ativo')) {
-            elemento.classList.remove('ativo');
-            return;
-        }
-
-        // Fecha outros cards abertos
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('ativo'));
-        
-        // Abre o atual
-        elemento.classList.add('ativo');
-    }
-
-    // Clique fora: Se tocar em qualquer lugar que não seja um card, limpa a tela
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.card')) {
+    <script>
+        function toggleCard(elemento) {
+            if (elemento.classList.contains('ativo')) {
+                elemento.classList.remove('ativo');
+                return;
+            }
             document.querySelectorAll('.card').forEach(c => c.classList.remove('ativo'));
+            elemento.classList.add('ativo');
         }
-    });
-</script>
-
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.card')) {
+                document.querySelectorAll('.card').forEach(c => c.classList.remove('ativo'));
+            }
+        });
+    </script>
 </body>
-</html>
+            </html>
+                    
