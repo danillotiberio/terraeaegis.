@@ -185,32 +185,29 @@
     </section>
 
     <section class="pilares" id="pilares">
-        <div class="card" onclick="toggleCard(this)">
-            <h3>Segurança</h3>
-            <p>A base sólida para a preservação do seu patrimônio.</p>
-            <div class="overlay-texto">
-                <button class="btn-fechar" onclick="fecharCard(event, this.parentElement.parentElement)">&times;</button>
-                <span>Inspirados pela <strong>Aegis</strong>, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades jurídicas e governamentais para que seu legado se perpetue por gerações.</span>
-            </div>
+    <div class="card" onclick="toggleCard(this)">
+        <h3>Segurança</h3>
+        <p>A base sólida para a preservação do seu patrimônio.</p>
+        <div class="overlay-texto">
+            <span>Inspirados pela <strong>Aegis</strong>, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades jurídicas e governamentais para que seu legado se perpetue por gerações.</span>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>Financeira</h3>
+        <p>Acesso aos principais bancos do mundo com taxas estratégicas.</p>
+        <div class="overlay-texto">
+            <span>Quebramos a dependência e as amarras do sistema financeiro nacional, proporcionando total independência para acelerar de forma <strong>exponencial</strong> seus projetos estratégicos.</span>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>Governança</h3>
+        <p>A transparência e o rigor da gestão moderna.</p>
+        <div class="overlay-texto">
+            <span>Protocolos internacionais onde o investidor mantém o <strong>controle total e absoluto</strong> sobre seus bens e empresas, permanecendo sempre à frente dos negócios.</span>
         </div>
 
-        <div class="card" onclick="toggleCard(this)">
-            <h3>Financeira</h3>
-            <p>Acesso aos principais bancos do mundo com taxas estratégicas.</p>
-            <div class="overlay-texto">
-                <button class="btn-fechar" onclick="fecharCard(event, this.parentElement.parentElement)">&times;</button>
-                <span>Quebramos a dependência e as amarras do sistema financeiro nacional, proporcionando total independência para acelerar de forma <strong>exponencial</strong> seus projetos estratégicos.</span>
-            </div>
-        </div>
-
-        <div class="card" onclick="toggleCard(this)">
-            <h3>Governança</h3>
-            <p>A transparência e o rigor da gestão moderna.</p>
-            <div class="overlay-texto">
-                <button class="btn-fechar" onclick="fecharCard(event, this.parentElement.parentElement)">&times;</button>
-                <span>Protocolos internacionais onde o investidor mantém o <strong>controle total e absoluto</strong> sobre seus bens e empresas, permanecendo sempre à frente dos negócios.</span>
-            </div>
-        </div>
     </section>
 
     <footer class="footer" id="solicite">
@@ -242,41 +239,26 @@
 
             <script>
     function toggleCard(elemento) {
-        // Remove a trava de fechamento para permitir abrir de novo
-        elemento.classList.remove('fechado');
+        // Se já está aberto, ele fecha no clique (toggle)
+        if (elemento.classList.contains('ativo')) {
+            elemento.classList.remove('ativo');
+            return;
+        }
 
-        if (elemento.classList.contains('ativo')) return;
-
-        document.querySelectorAll('.card').forEach(c => {
-            c.classList.remove('ativo');
-        });
-
+        // Fecha outros cards abertos
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('ativo'));
+        
+        // Abre o atual
         elemento.classList.add('ativo');
     }
 
-    function fecharCard(event, elemento) {
-        event.stopPropagation();
-        
-        // Ordem direta: Remove o estado ativo e aplica uma trava temporária
-        elemento.classList.remove('ativo');
-        elemento.classList.add('fechado'); 
-
-        // Após o mouse sair do card, ele volta a poder ser aberto pelo hover
-        elemento.addEventListener('mouseleave', () => {
-            elemento.classList.remove('fechado');
-        }, { once: true });
-    }
-
+    // Clique fora: Se tocar em qualquer lugar que não seja um card, limpa a tela
     document.addEventListener('click', function(event) {
         if (!event.target.closest('.card')) {
-            document.querySelectorAll('.card').forEach(c => {
-                c.classList.remove('ativo');
-                c.classList.remove('fechado');
-            });
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('ativo'));
         }
     });
 </script>
-
 
 </body>
 </html>
