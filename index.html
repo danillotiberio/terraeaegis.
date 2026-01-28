@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. BARRA DA TRINDADE (Nova Estrutura de Cortina) */
+        /* 1. BARRA DA TRINDADE (Otimizada para Legibilidade) */
         .barra-trindade {
             width: 100%;
             display: flex;
@@ -38,7 +38,7 @@
         }
 
         .item-trindade {
-            font-size: 0.7em;
+            font-size: 0.75em; /* Ligeiro aumento para legibilidade */
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--dourado-fosco);
@@ -46,61 +46,66 @@
             transition: all 0.3s;
         }
 
-        /* A CORTINA (CASCATA INDIVIDUAL) */
+        .divisor-trindade {
+            color: var(--dourado-fosco);
+            padding-top: 13px;
+            opacity: 0.6; /* Devolvendo o requinte visual da barra */
+            font-weight: bold;
+        }
+
+        /* A CORTINA (CASCATA INDIVIDUAL - GEOMETRIA CORRIGIDA) */
         .cortina-info {
             position: absolute;
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 280px;
+            width: 300px; /* Largura fixa para evitar transbordamento lateral */
             height: 0;
             background: rgba(10, 25, 47, 0.95);
             backdrop-filter: blur(15px);
             overflow: hidden;
             transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 0 solid rgba(197, 160, 89, 0.2);
+            border: 0 solid rgba(197, 160, 89, 0.3);
             z-index: 99;
             pointer-events: none;
             box-sizing: border-box;
         }
 
-        /* Desktop: Hover ativa a cortina */
         @media (min-width: 769px) {
             .item-trindade-container:hover .cortina-info {
                 height: auto;
                 min-height: 120px;
-                padding: 20px;
+                padding: 25px; /* Mais respiro para o texto */
                 border-width: 1px;
                 pointer-events: auto;
             }
         }
 
-        /* Mobile: Classe ativa via JS */
         .cortina-info.ativa {
             height: auto;
             min-height: 140px;
-            padding: 20px;
+            padding: 25px;
             border-width: 1px;
             pointer-events: auto;
         }
 
         .cortina-info p {
-            font-size: 0.85em;
-            line-height: 1.5;
+            font-size: 0.95em; /* Fonte maior para leitura confortável */
+            line-height: 1.6;
             color: var(--branco-marfim);
             margin: 0;
             text-align: center;
         }
 
         header {
-            padding: 100px 5% 10px;
+            padding: 110px 5% 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             background: var(--azul-profundo);
         }
 
-        .logo img { height: 250px; width: auto; max-width: 95%; margin-bottom: 20px; }
+        .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
 
         .setores-operacionais {
             display: flex; justify-content: center; gap: 12px;
@@ -112,15 +117,16 @@
             border: 1px solid rgba(197, 160, 89, 0.3);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: all 0.4s ease;
-            text-transform: uppercase; font-size: 0.75em; letter-spacing: 2px;
+            text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px;
             color: var(--dourado-fosco); background: rgba(255,255,255,0.02);
         }
 
         .setor-card:hover { border-color: var(--dourado-fosco); background: rgba(197, 160, 89, 0.1); }
 
+        /* HERO (RESTAURADO PARA IMPONÊNCIA ORIGINAL) */
         .hero { padding: 10px 10% 60px; text-align: center; }
-        .hero h1 { color: var(--dourado-fosco); font-size: 2.5em; margin-bottom: 15px; font-weight: 300; }
-        .hero p { max-width: 700px; font-size: 1.1em; margin: 0 auto; opacity: 0.8; }
+        .hero h1 { color: var(--dourado-fosco); font-size: 3em; margin-bottom: 15px; font-weight: 300; }
+        .hero p { max-width: 800px; font-size: 1.2em; margin: 0 auto; opacity: 0.8; }
 
         .footer { padding: 60px 10%; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; border-top: 1px solid rgba(197, 160, 89, 0.3); }
         .form-contato { flex: 1; min-width: 320px; }
@@ -129,11 +135,12 @@
 
         @media (max-width: 768px) {
             header { padding-top: 80px; }
-            .logo img { height: 160px; }
-            .hero h1 { font-size: 1.8em; }
+            .logo img { height: 180px; }
+            .hero h1 { font-size: 2.2em; }
             .setor-card { min-width: 45%; height: 50px; font-size: 0.65em; }
-            .barra-trindade { font-size: 0.55em; gap: 0; }
-            .item-trindade-container { padding: 15px 10px; }
+            .barra-trindade { font-size: 0.6em; gap: 0; }
+            .item-trindade-container { padding: 15px 12px; }
+            .cortina-info { width: 85vw; } /* Ajuste de largura para mobile */
         }
     </style>
 </head>
@@ -147,7 +154,7 @@
             </div>
         </div>
         
-        <span style="color: rgba(197, 160, 89, 0.3); padding-top: 12px;">|</span>
+        <span class="divisor-trindade">|</span>
 
         <div class="item-trindade-container" onclick="toggleCortina(this)">
             <span class="item-trindade">Financeira</span>
@@ -156,7 +163,7 @@
             </div>
         </div>
 
-        <span style="color: rgba(197, 160, 89, 0.3); padding-top: 12px;">|</span>
+        <span class="divisor-trindade">|</span>
 
         <div class="item-trindade-container" onclick="toggleCortina(this)">
             <span class="item-trindade">Governança</span>
@@ -208,22 +215,14 @@
     </div>
 
     <script>
-        // Lógica para Mobile: Clique abre, clique fora fecha
         function toggleCortina(elemento) {
             if (window.innerWidth <= 768) {
                 const cortina = elemento.querySelector('.cortina-info');
                 const estaAtiva = cortina.classList.contains('ativa');
-                
-                // Fecha todas antes de abrir a nova
                 document.querySelectorAll('.cortina-info').forEach(c => c.classList.remove('ativa'));
-                
-                if (!estaAtiva) {
-                    cortina.classList.add('ativa');
-                }
+                if (!estaAtiva) { cortina.classList.add('ativa'); }
             }
         }
-
-        // Fecha ao clicar fora (Mobile)
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.item-trindade-container')) {
                 document.querySelectorAll('.cortina-info').forEach(c => c.classList.remove('ativa'));
@@ -231,5 +230,5 @@
         });
     </script>
 </body>
-    </html>
-    
+                    </html>
+                    
