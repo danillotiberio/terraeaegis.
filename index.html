@@ -240,10 +240,14 @@
         &copy; 2026 Terrae Aegis
     </div>
 
-        <script>
-        function toggleCard(elemento) {
-            if (elemento.classList.contains('ativo')) return;
+            <script>
+        let bloqueioCliques = false;
 
+        function toggleCard(elemento) {
+            // Se estiver no processo de fechar ou já estiver ativo, ignora o clique de abertura
+            if (bloqueioCliques || elemento.classList.contains('ativo')) return;
+
+            // Fecha outros cards antes de abrir o novo
             document.querySelectorAll('.card').forEach(c => {
                 c.classList.remove('ativo');
             });
@@ -253,8 +257,19 @@
 
         function fecharCard(event, elemento) {
             event.stopPropagation(); 
+            
+            // Ativa a trava de segurança
+            bloqueioCliques = true;
+            
+            // Remove a classe para iniciar o "esmaecer" do CSS
             elemento.classList.remove('ativo');
+
+            // Libera para novos cliques apenas após o tempo do esmaecimento (0.3s)
+            setTimeout(() => {
+                bloqueioCliques = false;
+            }, 300); 
         }
     </script>
+
 </body>
 </html>
