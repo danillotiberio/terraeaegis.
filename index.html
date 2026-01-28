@@ -20,55 +20,76 @@
             overflow-x: hidden;
         }
 
-        /* BARRA DA TRINDADE FIXA */
+        /* 1. BARRA DA TRINDADE (Nova Estrutura de Cortina) */
         .barra-trindade {
             width: 100%;
-            padding: 12px 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
             background: rgba(10, 25, 47, 0.95);
             border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-            font-size: 0.7em;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--dourado-fosco);
             position: fixed;
             top: 0; z-index: 100;
             backdrop-filter: blur(10px);
         }
 
-        .item-trindade { cursor: pointer; transition: all 0.3s; position: relative; }
-        .item-trindade:hover { opacity: 0.7; }
+        .item-trindade-container {
+            position: relative;
+            padding: 15px 20px;
+        }
 
-        /* OVERLAYS DE TEXTO (RESTAURADOS) */
-        .overlay-trindade {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--azul-overlay);
-            display: none; /* Escondido por padrão */
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-            padding: 40px;
+        .item-trindade {
+            font-size: 0.7em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--dourado-fosco);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        /* A CORTINA (CASCATA INDIVIDUAL) */
+        .cortina-info {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 0;
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(15px);
+            overflow: hidden;
+            transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 0 solid rgba(197, 160, 89, 0.2);
+            z-index: 99;
+            pointer-events: none;
             box-sizing: border-box;
+        }
+
+        /* Desktop: Hover ativa a cortina */
+        @media (min-width: 769px) {
+            .item-trindade-container:hover .cortina-info {
+                height: auto;
+                min-height: 120px;
+                padding: 20px;
+                border-width: 1px;
+                pointer-events: auto;
+            }
+        }
+
+        /* Mobile: Classe ativa via JS */
+        .cortina-info.ativa {
+            height: auto;
+            min-height: 140px;
+            padding: 20px;
+            border-width: 1px;
+            pointer-events: auto;
+        }
+
+        .cortina-info p {
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: var(--branco-marfim);
+            margin: 0;
             text-align: center;
-        }
-
-        .overlay-conteudo {
-            max-width: 600px;
-            border-top: 1px solid var(--dourado-fosco);
-            padding-top: 20px;
-        }
-
-        .overlay-conteudo h2 { color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 2px; }
-        .overlay-conteudo p { line-height: 1.6; font-size: 1.1em; }
-
-        .btn-fechar-overlay {
-            margin-top: 30px;
-            background: none; border: 1px solid var(--dourado-fosco);
-            color: var(--dourado-fosco); padding: 10px 30px;
-            cursor: pointer; text-transform: uppercase; font-size: 0.8em;
         }
 
         header {
@@ -95,13 +116,15 @@
             color: var(--dourado-fosco); background: rgba(255,255,255,0.02);
         }
 
+        .setor-card:hover { border-color: var(--dourado-fosco); background: rgba(197, 160, 89, 0.1); }
+
         .hero { padding: 10px 10% 60px; text-align: center; }
         .hero h1 { color: var(--dourado-fosco); font-size: 2.5em; margin-bottom: 15px; font-weight: 300; }
         .hero p { max-width: 700px; font-size: 1.1em; margin: 0 auto; opacity: 0.8; }
 
         .footer { padding: 60px 10%; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; border-top: 1px solid rgba(197, 160, 89, 0.3); }
         .form-contato { flex: 1; min-width: 320px; }
-        .form-contato input, .form-contato textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; }
+        .form-contato input, .form-contato textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; }
         .qr-code { width: 150px; border: 3px solid var(--dourado-fosco); padding: 5px; background: white; margin-top: 15px; }
 
         @media (max-width: 768px) {
@@ -109,25 +132,39 @@
             .logo img { height: 160px; }
             .hero h1 { font-size: 1.8em; }
             .setor-card { min-width: 45%; height: 50px; font-size: 0.65em; }
-            .barra-trindade { font-size: 0.55em; gap: 10px; }
+            .barra-trindade { font-size: 0.55em; gap: 0; }
+            .item-trindade-container { padding: 15px 10px; }
         }
     </style>
 </head>
 <body>
 
     <nav class="barra-trindade">
-        <span class="item-trindade" onclick="abrirTrindade('seguranca')">Segurança</span> &nbsp;|&nbsp; 
-        <span class="item-trindade" onclick="abrirTrindade('financeira')">Financeira</span> &nbsp;|&nbsp; 
-        <span class="item-trindade" onclick="abrirTrindade('governanca')">Governança</span>
-    </nav>
-
-    <div id="overlay-trindade" class="overlay-trindade" onclick="fecharTrindade(event)">
-        <div class="overlay-conteudo" onclick="event.stopPropagation()">
-            <h2 id="trindade-titulo"></h2>
-            <p id="trindade-texto"></p>
-            <button class="btn-fechar-overlay" onclick="fecharTrindade(event)">Fechar</button>
+        <div class="item-trindade-container" onclick="toggleCortina(this)">
+            <span class="item-trindade">Segurança</span>
+            <div class="cortina-info">
+                <p>Inspirados pela Aegis, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades para que seu legado se perpetue.</p>
+            </div>
         </div>
-    </div>
+        
+        <span style="color: rgba(197, 160, 89, 0.3); padding-top: 12px;">|</span>
+
+        <div class="item-trindade-container" onclick="toggleCortina(this)">
+            <span class="item-trindade">Financeira</span>
+            <div class="cortina-info">
+                <p>Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.</p>
+            </div>
+        </div>
+
+        <span style="color: rgba(197, 160, 89, 0.3); padding-top: 12px;">|</span>
+
+        <div class="item-trindade-container" onclick="toggleCortina(this)">
+            <span class="item-trindade">Governança</span>
+            <div class="cortina-info">
+                <p>Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios.</p>
+            </div>
+        </div>
+    </nav>
 
     <header>
         <div class="logo">
@@ -166,31 +203,33 @@
         </div>
     </footer>
 
+    <div style="background: var(--azul-profundo); padding: 20px; font-size: 0.7em; opacity: 0.5; text-align: center;">
+        &copy; 2026 Terrae Aegis
+    </div>
+
     <script>
-        const conteudos = {
-            'seguranca': {
-                titulo: 'Segurança',
-                texto: 'Inspirados pela Aegis, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades jurídicas e governamentais para que seu legado se perpetue por gerações.'
-            },
-            'financeira': {
-                titulo: 'Financeira',
-                texto: 'Quebramos a dependência e as amarras do sistema financeiro nacional, proporcionando total independência para acelerar de forma exponencial seus projetos estratégicos.'
-            },
-            'governanca': {
-                titulo: 'Governança',
-                texto: 'Protocolos internacionais onde o investidor mantém o controle total e absoluto sobre seus bens e empresas, permanecendo sempre à frente dos negócios.'
+        // Lógica para Mobile: Clique abre, clique fora fecha
+        function toggleCortina(elemento) {
+            if (window.innerWidth <= 768) {
+                const cortina = elemento.querySelector('.cortina-info');
+                const estaAtiva = cortina.classList.contains('ativa');
+                
+                // Fecha todas antes de abrir a nova
+                document.querySelectorAll('.cortina-info').forEach(c => c.classList.remove('ativa'));
+                
+                if (!estaAtiva) {
+                    cortina.classList.add('ativa');
+                }
             }
-        };
-
-        function abrirTrindade(tipo) {
-            document.getElementById('trindade-titulo').innerText = conteudos[tipo].titulo;
-            document.getElementById('trindade-texto').innerText = conteudos[tipo].texto;
-            document.getElementById('overlay-trindade').style.display = 'flex';
         }
 
-        function fecharTrindade(event) {
-            document.getElementById('overlay-trindade').style.display = 'none';
-        }
+        // Fecha ao clicar fora (Mobile)
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.item-trindade-container')) {
+                document.querySelectorAll('.cortina-info').forEach(c => c.classList.remove('ativa'));
+            }
+        });
     </script>
 </body>
-</html>
+    </html>
+    
