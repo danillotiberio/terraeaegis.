@@ -241,35 +241,38 @@
     </div>
 
             <script>
-        let bloqueioCliques = false;
+    function toggleCard(elemento) {
+        // Se o card já está ativo, a função de abertura é ABORTADA aqui.
+        // Isso impede que o clique no X "reabra" a caixa instantaneamente.
+        if (elemento.classList.contains('ativo')) return;
 
-        function toggleCard(elemento) {
-            // Se estiver no processo de fechar ou já estiver ativo, ignora o clique de abertura
-            if (bloqueioCliques || elemento.classList.contains('ativo')) return;
+        // Fecha todos os outros cards abertos para manter a tela limpa
+        document.querySelectorAll('.card').forEach(c => {
+            c.classList.remove('ativo');
+        });
 
-            // Fecha outros cards antes de abrir o novo
+        // Abre o card clicado
+        elemento.classList.add('ativo');
+    }
+
+    function fecharCard(event, elemento) {
+        // Interrompe a propagação: o clique "morre" no X e não chega no Card
+        event.stopPropagation();
+        
+        // Remove a classe e o layout volta ao original
+        elemento.classList.remove('ativo');
+    }
+
+    // Fechamento inteligente: Clicar fora do card também recolhe a informação
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.card')) {
             document.querySelectorAll('.card').forEach(c => {
                 c.classList.remove('ativo');
             });
-            
-            elemento.classList.add('ativo');
         }
+    });
+</script>
 
-        function fecharCard(event, elemento) {
-            event.stopPropagation(); 
-            
-            // Ativa a trava de segurança
-            bloqueioCliques = true;
-            
-            // Remove a classe para iniciar o "esmaecer" do CSS
-            elemento.classList.remove('ativo');
-
-            // Libera para novos cliques apenas após o tempo do esmaecimento (0.3s)
-            setTimeout(() => {
-                bloqueioCliques = false;
-            }, 300); 
-        }
-    </script>
 
 </body>
 </html>
