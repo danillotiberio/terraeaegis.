@@ -240,16 +240,19 @@
         &copy; 2026 Terrae Aegis
     </div>
 
-    <script>
+        <script>
         function toggleCard(elemento) {
+            if (elemento.classList.contains('ativo')) return;
+
             document.querySelectorAll('.card').forEach(c => {
-                if (c !== elemento) c.classList.remove('ativo');
+                c.classList.remove('ativo');
             });
-            elemento.classList.toggle('ativo');
+            
+            elemento.classList.add('ativo');
         }
 
         function fecharCard(event, elemento) {
-            event.stopPropagation();
+            event.stopPropagation(); 
             elemento.classList.remove('ativo');
         }
     </script>
