@@ -9,7 +9,7 @@
             --azul-profundo: #0A192F;
             --dourado-fosco: #C5A059;
             --branco-marfim: #E6E6E6;
-            --azul-overlay: rgba(10, 25, 47, 0.95);
+            --azul-overlay: rgba(10, 25, 47, 0.98);
         }
 
         body {
@@ -20,8 +20,26 @@
             overflow-x: hidden;
         }
 
+        /* 1. BARRA DA TRINDADE (Nova Posição: Topo do Navegador) */
+        .barra-trindade {
+            width: 100%;
+            padding: 12px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(10, 25, 47, 0.9);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            font-size: 0.7em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--dourado-fosco);
+            position: fixed;
+            top: 0; z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
         header {
-            padding: 20px 5% 10px;
+            padding: 90px 5% 10px; /* Espaço para não bater na barra fixa */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -32,124 +50,70 @@
         }
 
         .logo img {
-            height: 280px;
+            height: 250px;
             width: auto;
             max-width: 95%;
             transition: all 0.3s ease;
+            margin-bottom: 20px;
         }
 
+        /* 2. SETORES OPERACIONAIS (Abaixo do Touro, Acima da Frase) */
+        .setores-operacionais {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px 5% 40px;
+            background: var(--azul-profundo);
+            flex-wrap: wrap;
+        }
+
+        .setor-card {
+            flex: 1;
+            min-width: 160px;
+            max-width: 220px;
+            height: 60px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            font-size: 0.75em;
+            letter-spacing: 2px;
+            color: var(--dourado-fosco);
+            text-align: center;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .setor-card:hover {
+            border-color: var(--dourado-fosco);
+            background: rgba(197, 160, 89, 0.1);
+            letter-spacing: 3px;
+        }
+
+        /* 3. HERO (Frase de Impacto) */
         .hero {
-            padding: 20px 10% 40px;
+            padding: 10px 10% 60px;
             text-align: center;
         }
 
         .hero h1 {
             color: var(--dourado-fosco);
-            font-size: 3em;
+            font-size: 2.5em;
             margin-bottom: 15px;
             font-weight: 300;
+            line-height: 1.1;
         }
 
         .hero p {
-            max-width: 800px;
-            font-size: 1.2em;
-            margin: 0 auto 30px;
+            max-width: 700px;
+            font-size: 1.1em;
+            margin: 0 auto;
+            opacity: 0.8;
         }
 
-        .btn-entenda {
-            background: var(--dourado-fosco);
-            color: var(--azul-profundo);
-            padding: 15px 40px;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 2px;
-            font-size: 0.9em;
-        }
-
-        .pilares {
-            display: flex;
-            justify-content: space-around;
-            padding: 50px 5%;
-            background: rgba(255,255,255,0.02);
-        }
-
-        .card {
-            width: 25%;
-            text-align: center;
-            padding: 30px 20px;
-            border-top: 1px solid var(--dourado-fosco);
-            position: relative;
-            cursor: pointer;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card h3 {
-            color: var(--dourado-fosco);
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .overlay-texto {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--azul-overlay);
-            color: white;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
-            box-sizing: border-box;
-            text-align: left;
-            font-size: 0.95em;
-            line-height: 1.5;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        .card:hover .overlay-texto, .card.ativo .overlay-texto {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* SEÇÃO DE ACESSO AOS SETORES */
-        .setores-operacionais {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 40px 5%;
-            background: var(--azul-profundo);
-        }
-
-        .setor-card {
-            flex: 1;
-            max-width: 250px;
-            height: 120px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 2px;
-            color: var(--dourado-fosco);
-            text-align: center;
-            padding: 10px;
-        }
-
-        .setor-card:hover {
-            border-color: var(--dourado-fosco);
-            background: rgba(197, 160, 89, 0.05);
-            transform: translateY(-5px);
-        }
-
+        /* MANUTENÇÃO DO FOOTER ORIGINAL */
         .footer {
             padding: 60px 10%;
             display: flex;
@@ -162,34 +126,31 @@
         }
 
         .form-contato { flex: 1; min-width: 320px; }
-
         .form-contato input, .form-contato textarea {
             width: 100%; padding: 12px; margin-bottom: 15px;
             background: rgba(255,255,255,0.05);
             border: 1px solid #333; color: white;
             box-sizing: border-box;
         }
-
         .info-final { flex: 1; min-width: 300px; text-align: center; }
-
-        .qr-code {
-            width: 150px; border: 3px solid var(--dourado-fosco);
-            padding: 5px; background: white; margin-top: 15px;
-        }
+        .qr-code { width: 150px; border: 3px solid var(--dourado-fosco); padding: 5px; background: white; margin-top: 15px; }
 
         @media (max-width: 768px) {
-            header { padding-top: 10px; }
-            .logo img { height: 180px; }
-            .hero h1 { font-size: 2.2em; }
-            .pilares { flex-direction: column; align-items: center; padding: 20px 5%; }
-            .card { width: 95%; margin-bottom: 20px; min-height: 250px; }
-            .setores-operacionais { flex-direction: column; align-items: center; gap: 15px; }
-            .setor-card { width: 90%; max-width: none; height: 100px; }
+            header { padding-top: 80px; }
+            .logo img { height: 160px; }
+            .hero h1 { font-size: 1.8em; }
+            .setores-operacionais { gap: 10px; }
+            .setor-card { min-width: 45%; height: 50px; font-size: 0.65em; }
+            .barra-trindade { font-size: 0.55em; gap: 10px; }
             .footer { flex-direction: column; align-items: center; text-align: center; }
         }
     </style>
 </head>
 <body>
+
+    <nav class="barra-trindade">
+        <span>Segurança</span> &nbsp;|&nbsp; <span>Financeira</span> &nbsp;|&nbsp; <span>Governança</span>
+    </nav>
 
     <header>
         <div class="logo">
@@ -197,43 +158,16 @@
         </div>
     </header>
 
-    <section class="hero">
-        <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
-        <p>Uma Holding projetada para a convergência entre a sua Segurança Patrimonial e Financeira com aceleração de crescimento.</p>
-        <a href="#pilares" class="btn-entenda">Entenda</a>
-    </section>
-
-    <section class="pilares" id="pilares">
-        <div class="card" onclick="toggleCard(this)">
-            <h3>Segurança</h3>
-            <p>A base sólida para a preservação do seu patrimônio.</p>
-            <div class="overlay-texto">
-                <span>Inspirados pela <strong>Aegis</strong>, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades jurídicas e governamentais para que seu legado se perpetue por gerações.</span>
-            </div>
-        </div>
-
-        <div class="card" onclick="toggleCard(this)">
-            <h3>Financeira</h3>
-            <p>Acesso aos principais bancos do mundo com taxas estratégicas.</p>
-            <div class="overlay-texto">
-                <span>Quebramos a dependência e as amarras do sistema financeiro nacional, proporcionando total independência para acelerar de forma <strong>exponencial</strong> seus projetos estratégicos.</span>
-            </div>
-        </div>
-
-        <div class="card" onclick="toggleCard(this)">
-            <h3>Governança</h3>
-            <p>A transparência e o rigor da gestão moderna.</p>
-            <div class="overlay-texto">
-                <span>Protocolos internacionais onde o investidor mantém o <strong>controle total e absoluto</strong> sobre seus bens e empresas, permanecendo sempre à frente dos negócios.</span>
-            </div>
-        </div>
-    </section>
-
     <section class="setores-operacionais">
         <div class="setor-card" onclick="window.location.href='terrae-aegis-agro.html'">Agro</div>
         <div class="setor-card" onclick="window.location.href='terrae-aegis-mineracao.html'">Mineração</div>
         <div class="setor-card" onclick="window.location.href='terrae-aegis-industria.html'">Indústria</div>
         <div class="setor-card" onclick="window.location.href='terrae-aegis-negocios.html'">Novos Negócios</div>
+    </section>
+
+    <section class="hero">
+        <h1>Onde a Estratégia<br>Esculpe o Patrimônio.</h1>
+        <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
     </section>
 
     <footer class="footer" id="solicite">
@@ -255,21 +189,9 @@
         </div>
     </footer>
 
-    <script>
-        function toggleCard(elemento) {
-            if (elemento.classList.contains('ativo')) {
-                elemento.classList.remove('ativo');
-                return;
-            }
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('ativo'));
-            elemento.classList.add('ativo');
-        }
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.card')) {
-                document.querySelectorAll('.card').forEach(c => c.classList.remove('ativo'));
-            }
-        });
-    </script>
+    <div style="background: var(--azul-profundo); padding: 20px; font-size: 0.7em; opacity: 0.5; text-align: center;">
+        &copy; 2026 Terrae Aegis
+    </div>
+
 </body>
-            </html>
-                    
+</html>
