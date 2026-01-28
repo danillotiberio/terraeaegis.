@@ -20,7 +20,6 @@
             overflow-x: hidden;
         }
 
-        /* 1. BARRA DA TRINDADE (Otimizada para Legibilidade) */
         .barra-trindade {
             width: 100%;
             display: flex;
@@ -38,7 +37,7 @@
         }
 
         .item-trindade {
-            font-size: 0.75em; /* Ligeiro aumento para legibilidade */
+            font-size: 0.75em;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--dourado-fosco);
@@ -49,33 +48,33 @@
         .divisor-trindade {
             color: var(--dourado-fosco);
             padding-top: 13px;
-            opacity: 0.6; /* Devolvendo o requinte visual da barra */
+            opacity: 0.6;
             font-weight: bold;
         }
 
-        /* A CORTINA (CASCATA INDIVIDUAL - GEOMETRIA CORRIGIDA) */
         .cortina-info {
             position: absolute;
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 300px; /* Largura fixa para evitar transbordamento lateral */
+            width: 320px;
             height: 0;
-            background: rgba(10, 25, 47, 0.95);
+            background: rgba(10, 25, 47, 0.98);
             backdrop-filter: blur(15px);
             overflow: hidden;
             transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 0 solid rgba(197, 160, 89, 0.3);
+            border: 0 solid rgba(197, 160, 89, 0.4);
             z-index: 99;
             pointer-events: none;
             box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         @media (min-width: 769px) {
             .item-trindade-container:hover .cortina-info {
                 height: auto;
-                min-height: 120px;
-                padding: 25px; /* Mais respiro para o texto */
+                min-height: 140px;
+                padding: 30px;
                 border-width: 1px;
                 pointer-events: auto;
             }
@@ -83,18 +82,19 @@
 
         .cortina-info.ativa {
             height: auto;
-            min-height: 140px;
-            padding: 25px;
+            min-height: 160px;
+            padding: 30px;
             border-width: 1px;
             pointer-events: auto;
         }
 
         .cortina-info p {
-            font-size: 0.95em; /* Fonte maior para leitura confortável */
+            font-size: 1.1em;
             line-height: 1.6;
             color: var(--branco-marfim);
             margin: 0;
             text-align: center;
+            font-weight: 300;
         }
 
         header {
@@ -123,7 +123,6 @@
 
         .setor-card:hover { border-color: var(--dourado-fosco); background: rgba(197, 160, 89, 0.1); }
 
-        /* HERO (RESTAURADO PARA IMPONÊNCIA ORIGINAL) */
         .hero { padding: 10px 10% 60px; text-align: center; }
         .hero h1 { color: var(--dourado-fosco); font-size: 3em; margin-bottom: 15px; font-weight: 300; }
         .hero p { max-width: 800px; font-size: 1.2em; margin: 0 auto; opacity: 0.8; }
@@ -139,8 +138,8 @@
             .hero h1 { font-size: 2.2em; }
             .setor-card { min-width: 45%; height: 50px; font-size: 0.65em; }
             .barra-trindade { font-size: 0.6em; gap: 0; }
-            .item-trindade-container { padding: 15px 12px; }
-            .cortina-info { width: 85vw; } /* Ajuste de largura para mobile */
+            .item-trindade-container { padding: 15px 10px; }
+            .cortina-info { width: 90vw; left: 50%; transform: translateX(-50%); }
         }
     </style>
 </head>
@@ -230,5 +229,4 @@
         });
     </script>
 </body>
-                    </html>
-                    
+</html>
