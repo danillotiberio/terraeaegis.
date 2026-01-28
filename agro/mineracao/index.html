@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrae Aegis | Mineração - Poder Geológico</title>
+    <style>
+        :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; --bg-overlay: rgba(0, 26, 51, 0.85); }
+        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        
+        header { 
+            height: 60vh; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('LINK_DA_IMAGEM_GERADA'); 
+            background-size: cover; background-position: center; border-bottom: 3px solid var(--dourado);
+        }
+
+        .logo-bull { width: 60px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--dourado)); }
+        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 2.2rem; margin: 0; }
+        .tagline { font-size: 1rem; opacity: 0.8; letter-spacing: 2px; margin-top: 10px; }
+
+        .container { padding: 40px 20px; max-width: 1000px; margin: auto; }
+        .intro-box { border-left: 4px solid var(--dourado); padding: 25px; background: rgba(255,255,255,0.03); margin-bottom: 40px; }
+        
+        .pilar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { border: 1px solid rgba(212, 175, 55, 0.2); padding: 30px; background: rgba(0,0,0,0.3); transition: 0.3s; }
+        .card:hover { border-color: var(--dourado); background: rgba(212, 175, 55, 0.05); }
+        .card h3 { color: var(--dourado); text-transform: uppercase; font-size: 1rem; margin-top: 0; letter-spacing: 1px; }
+        .card p { font-size: 0.95rem; line-height: 1.6; opacity: 0.8; margin-bottom: 0; }
+
+        .cta-button { 
+            display: block; width: 100%; padding: 25px; background: var(--dourado); color: var(--azul); 
+            text-align: center; text-decoration: none; font-weight: 900; margin-top: 60px; 
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.4s;
+        }
+        .cta-button:hover { background: var(--branco); letter-spacing: 4px; }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://www.terraeaegis.com.br/logo-bull.png" class="logo-bull" alt="Touro Terrae Aegis">
+        <h1>Mineração</h1>
+        <p class="tagline">Transformando Ativos Geológicos em Poder Financeiro</p>
+    </header>
+
+    <div class="container">
+        <div class="intro-box">
+            <p>Convertemos direitos minerários e jazidas em moeda de liquidez global. Nossa inteligência remove a burocracia e entrega o ativo diretamente para os maiores players do mercado.</p>
+        </div>
+
+        <div class="pilar-grid">
+            <div class="card">
+                <h3>Tokenização RWA</h3>
+                <p>O lastro mineral digitalizado. Liquidez imediata para modelos de tratativa em mercados de Dubai e Suíça.</p>
+            </div>
+            <div class="card">
+                <h3>Originação Segura</h3>
+                <p>Parceria direta com tradings globais (Sojitz). Garantia de escoamento e demanda para o seu ativo estruturado.</p>
+            </div>
+            <div class="card">
+                <h3>Gestão de Excedentes</h3>
+                <p>Capital ocioso redirecionado para oportunidades exponenciais no mercado imobiliário da Flórida (50/50).</p>
+            </div>
+            <div class="card">
+                <h3>Participação Estratégica</h3>
+                <p>Consórcio de elite para arremate de grandes jazidas operacionais com redução drástica de risco.</p>
+            </div>
+        </div>
+
+        <a href="../index.html#diagnostico" class="cta-button">Solicitar Diagnóstico de Viabilidade</a>
+    </div>
+</body>
+</html>
