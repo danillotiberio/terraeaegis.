@@ -9,7 +9,6 @@
             --azul-profundo: #0A192F;
             --dourado-fosco: #C5A059;
             --branco-marfim: #E6E6E6;
-            --azul-overlay: rgba(10, 25, 47, 0.98);
         }
 
         body {
@@ -20,6 +19,7 @@
             overflow-x: hidden;
         }
 
+        /* BARRA DA TRINDADE */
         .barra-trindade {
             width: 100%;
             display: flex;
@@ -32,7 +32,6 @@
         }
 
         .item-trindade-container {
-            position: relative;
             padding: 15px 20px;
         }
 
@@ -42,147 +41,116 @@
             text-transform: uppercase;
             color: var(--dourado-fosco);
             cursor: pointer;
-            transition: all 0.3s;
         }
 
         .divisor-trindade {
             color: var(--dourado-fosco);
             padding-top: 13px;
             opacity: 0.6;
-            font-weight: bold;
         }
 
-        .cortina-info {
-            position: absolute;
-            top: 100%;
+        /* CAIXA DE INFORMAÇÃO CENTRALIZADA (PADRÃO IMAGEM 2) */
+        .cortina-info-fixa {
+            position: fixed;
+            top: 60px; /* Logo abaixo da barra */
             left: 50%;
             transform: translateX(-50%);
-            width: 320px;
+            width: 90%;
+            max-width: 500px;
             height: 0;
             background: rgba(10, 25, 47, 0.98);
             backdrop-filter: blur(15px);
             overflow: hidden;
             transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 0 solid rgba(197, 160, 89, 0.4);
+            border: 0 solid var(--dourado-fosco);
             z-index: 99;
-            pointer-events: none;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        @media (min-width: 769px) {
-            .item-trindade-container:hover .cortina-info {
-                height: auto;
-                min-height: 140px;
-                padding: 30px;
-                border-width: 1px;
-                pointer-events: auto;
-            }
-        }
-
-        .cortina-info.ativa {
-            height: auto;
-            min-height: 160px;
-            padding: 30px;
-            border-width: 1px;
-            pointer-events: auto;
-        }
-
-        .cortina-info p {
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: var(--branco-marfim);
-            margin: 0;
-            text-align: center;
-            font-weight: 300;
-        }
-
-        header {
-            padding: 110px 5% 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: var(--azul-profundo);
+            justify-content: center;
+            text-align: center;
         }
 
+        .cortina-info-fixa.ativa {
+            height: auto;
+            min-height: 250px;
+            padding: 40px;
+            border-width: 1px;
+        }
+
+        .titulo-cortina {
+            color: var(--dourado-fosco);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            padding-bottom: 10px;
+            width: 80%;
+        }
+
+        .cortina-info-fixa p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        header { padding: 120px 5% 10px; display: flex; flex-direction: column; align-items: center; }
         .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
 
-        .setores-operacionais {
-            display: flex; justify-content: center; gap: 12px;
-            padding: 20px 5% 40px; background: var(--azul-profundo); flex-wrap: wrap;
-        }
+        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 40px; flex-wrap: wrap; }
+        .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); }
 
-        .setor-card {
-            flex: 1; min-width: 160px; max-width: 220px; height: 60px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.4s ease;
-            text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px;
-            color: var(--dourado-fosco); background: rgba(255,255,255,0.02);
-        }
-
-        .setor-card:hover { border-color: var(--dourado-fosco); background: rgba(197, 160, 89, 0.1); }
-
-        .hero { padding: 10px 10% 60px; text-align: center; }
-        .hero h1 { color: var(--dourado-fosco); font-size: 3em; margin-bottom: 15px; font-weight: 300; }
+        .hero { padding: 40px 10% 60px; text-align: center; }
+        .hero h1 { color: var(--dourado-fosco); font-size: 3em; font-weight: 300; margin-bottom: 15px; }
         .hero p { max-width: 800px; font-size: 1.2em; margin: 0 auto; opacity: 0.8; }
 
         .footer { padding: 60px 10%; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; border-top: 1px solid rgba(197, 160, 89, 0.3); }
         .form-contato { flex: 1; min-width: 320px; }
         .form-contato input, .form-contato textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; }
-        .qr-code { width: 150px; border: 3px solid var(--dourado-fosco); padding: 5px; background: white; margin-top: 15px; }
+        .qr-code { width: 150px; border: 3px solid var(--dourado-fosco); padding: 5px; background: white; }
 
         @media (max-width: 768px) {
-            header { padding-top: 80px; }
+            header { padding-top: 100px; }
             .logo img { height: 180px; }
             .hero h1 { font-size: 2.2em; }
-            .setor-card { min-width: 45%; height: 50px; font-size: 0.65em; }
-            .barra-trindade { font-size: 0.6em; gap: 0; }
-            .item-trindade-container { padding: 15px 10px; }
-            .cortina-info { width: 90vw; left: 50%; transform: translateX(-50%); }
+            .barra-trindade { font-size: 0.6em; }
         }
     </style>
 </head>
 <body>
 
     <nav class="barra-trindade">
-        <div class="item-trindade-container" onclick="toggleCortina(this)">
+        <div class="item-trindade-container" onmouseover="mostrarTrindade('seguranca')" onclick="mostrarTrindade('seguranca')">
             <span class="item-trindade">Segurança</span>
-            <div class="cortina-info">
-                <p>Inspirados pela Aegis, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades para que seu legado se perpetue.</p>
-            </div>
         </div>
-        
         <span class="divisor-trindade">|</span>
-
-        <div class="item-trindade-container" onclick="toggleCortina(this)">
+        <div class="item-trindade-container" onmouseover="mostrarTrindade('financeira')" onclick="mostrarTrindade('financeira')">
             <span class="item-trindade">Financeira</span>
-            <div class="cortina-info">
-                <p>Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.</p>
-            </div>
         </div>
-
         <span class="divisor-trindade">|</span>
-
-        <div class="item-trindade-container" onclick="toggleCortina(this)">
+        <div class="item-trindade-container" onmouseover="mostrarTrindade('governanca')" onclick="mostrarTrindade('governanca')">
             <span class="item-trindade">Governança</span>
-            <div class="cortina-info">
-                <p>Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios.</p>
-            </div>
         </div>
     </nav>
 
+    <div id="caixa-informativa" class="cortina-info-fixa" onmouseleave="esconderTrindade()">
+        <div id="titulo-dinamico" class="titulo-cortina"></div>
+        <p id="texto-dinamico"></p>
+    </div>
+
     <header>
-        <div class="logo">
-            <img src="logo-touro.png" alt="Terrae Aegis Logo">
-        </div>
+        <div class="logo"><img src="logo-touro.png" alt="Terrae Aegis"></div>
     </header>
 
     <section class="setores-operacionais">
-        <div class="setor-card" onclick="window.location.href='terrae-aegis-agro.html'">Agro</div>
-        <div class="setor-card" onclick="window.location.href='terrae-aegis-mineracao.html'">Mineração</div>
-        <div class="setor-card" onclick="window.location.href='terrae-aegis-industria.html'">Indústria</div>
-        <div class="setor-card" onclick="window.location.href='terrae-aegis-negocios.html'">Novos Negócios</div>
+        <div class="setor-card" onclick="location.href='terrae-aegis-agro.html'">Agro</div>
+        <div class="setor-card" onclick="location.href='terrae-aegis-mineracao.html'">Mineração</div>
+        <div class="setor-card" onclick="location.href='terrae-aegis-industria.html'">Indústria</div>
+        <div class="setor-card" onclick="location.href='terrae-aegis-negocios.html'">Novos Negócios</div>
     </section>
 
     <section class="hero">
@@ -190,41 +158,45 @@
         <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
     </section>
 
-    <footer class="footer" id="solicite">
+    <footer class="footer">
         <div class="form-contato">
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase;">Solicite Contato</h3>
             <form action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
                 <input type="text" name="nome" placeholder="Nome Completo" required>
                 <input type="email" name="email" placeholder="E-mail" required>
-                <textarea name="mensagem" rows="4" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
+                <textarea name="mensagem" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
                 <button type="submit" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR ESTRATÉGIA</button>
             </form>
         </div>
         <div class="info-final">
-            <p style="color: var(--dourado-fosco); font-weight: bold; text-transform: uppercase;">Atendimento Exclusivo Humanizado</p>
+            <p style="color: var(--dourado-fosco); font-weight: bold; text-transform: uppercase;">Atendimento Exclusivo</p>
             <a href="https://wa.me/5511961962833" target="_blank">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/5511961962833" alt="WhatsApp" class="qr-code">
             </a>
         </div>
     </footer>
 
-    <div style="background: var(--azul-profundo); padding: 20px; font-size: 0.7em; opacity: 0.5; text-align: center;">
-        &copy; 2026 Terrae Aegis
-    </div>
-
     <script>
-        function toggleCortina(elemento) {
-            if (window.innerWidth <= 768) {
-                const cortina = elemento.querySelector('.cortina-info');
-                const estaAtiva = cortina.classList.contains('ativa');
-                document.querySelectorAll('.cortina-info').forEach(c => c.classList.remove('ativa'));
-                if (!estaAtiva) { cortina.classList.add('ativa'); }
-            }
+        const info = {
+            'seguranca': { t: 'Segurança', p: 'Inspirados pela Aegis, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades para que seu legado se perpetue.' },
+            'financeira': { t: 'Financeira', p: 'Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.' },
+            'governanca': { t: 'Governança', p: 'Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios.' }
+        };
+
+        function mostrarTrindade(tipo) {
+            document.getElementById('titulo-dinamico').innerText = info[tipo].t;
+            document.getElementById('texto-dinamico').innerText = info[tipo].p;
+            document.getElementById('caixa-informativa').classList.add('ativa');
         }
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.item-trindade-container')) {
-                document.querySelectorAll('.cortina-info').forEach(c => c.classList.remove('ativa'));
+
+        function esconderTrindade() {
+            document.getElementById('caixa-informativa').classList.remove('ativa');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.item-trindade-container') && !e.target.closest('#caixa-informativa')) {
+                esconderTrindade();
             }
         });
     </script>
