@@ -3,66 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terrae Aegis | Indústria - Modernização e Expansão</title>
+    <title>Terrae Aegis | Novos Negócios - Expansão de Ativos</title>
     <style>
         :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
-        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
         header { 
-            padding: 60px 20px; text-align: center; border-bottom: 3px solid var(--dourado);
-            background: linear-gradient(rgba(0,26,51,0.9), rgba(0,26,51,0.9)), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover; background-position: center;
+            height: 60vh; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            /* O nome do arquivo abaixo deve ser EXATAMENTE o que você subir para a pasta */
+            background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('negocios-bg.jpg'); 
+            background-size: cover; background-position: center; border-bottom: 3px solid var(--dourado);
         }
 
-        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 1.8rem; margin: 0; }
-        .container { padding: 40px 20px; max-width: 900px; margin: auto; }
-        
-        .vision-box { border-left: 5px solid var(--dourado); padding: 25px; background: rgba(255,255,255,0.05); margin-bottom: 40px; }
-        h2 { color: var(--dourado); font-size: 1.3rem; text-transform: uppercase; margin-top: 0; }
+        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 2.2rem; margin: 0; }
+        .tagline { font-size: 1rem; opacity: 0.8; letter-spacing: 2px; margin-top: 10px; }
 
-        .pilar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card { border: 1px solid rgba(212, 175, 55, 0.3); padding: 25px; background: rgba(0,0,0,0.2); }
-        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 1rem; letter-spacing: 1px; }
-        .card p { font-size: 0.95rem; line-height: 1.6; opacity: 0.8; }
+        .container { padding: 40px 20px; max-width: 1000px; margin: auto; }
+        .vision-box { border-left: 4px solid var(--dourado); padding: 25px; background: rgba(255,255,255,0.03); margin-bottom: 40px; }
         
+        .pilar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { border: 1px solid rgba(212, 175, 55, 0.2); padding: 30px; background: rgba(0,0,0,0.3); transition: 0.3s; }
+        .card:hover { border-color: var(--dourado); background: rgba(212, 175, 55, 0.05); }
+        .card h3 { color: var(--dourado); text-transform: uppercase; font-size: 1rem; margin-top: 0; letter-spacing: 1px; }
+        .card p { font-size: 0.95rem; line-height: 1.6; opacity: 0.8; margin-bottom: 0; }
+
         .cta-button { 
-            display: block; width: 100%; padding: 22px; background: var(--dourado); color: var(--azul); 
-            text-align: center; text-decoration: none; font-weight: bold; margin-top: 50px; 
-            text-transform: uppercase; letter-spacing: 2px; box-sizing: border-box; transition: 0.3s;
+            display: block; width: 100%; padding: 25px; background: var(--dourado); color: var(--azul); 
+            text-align: center; text-decoration: none; font-weight: 900; margin-top: 60px; 
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.4s;
         }
-        .cta-button:hover { background: var(--branco); }
+        .cta-button:hover { background: var(--branco); letter-spacing: 4px; }
     </style>
 </head>
 <body>
     <header>
-        <h1>Indústria: Modernização e Expansão</h1>
-        <p>Aceleração Industrial com Engenharia Financeira de Precisão</p>
+        <h1>Novos Negócios</h1>
+        <p class="tagline">Verticalização, Escala e Liquidez Global</p>
     </header>
 
     <div class="container">
         <div class="vision-box">
-            <h2>Ponto de Impacto</h2>
-            [span_2](start_span)<p>"Sua indústria está preparada para romper as fronteiras do custo Brasil e competir em escala global? Imagine modernizar todo o seu parque fabril e expandir sua capacidade produtiva sem drenar o caixa da empresa."[span_2](end_span)</p>
+            <p>"Transformamos o potencial de ecossistemas inexplorados em ativos reais de alta performance. A Terrae Aegis não apenas identifica oportunidades; nós construímos a estrutura para que o capital circule e se multiplique fora das amarras do sistema financeiro tradicional."</p>
         </div>
 
         <div class="pilar-grid">
             <div class="card">
-                <h3>Integridade e Governança</h3>
-                [span_3](start_span)<p>Implementamos arquiteturas de governança que blindam o parque fabril e os ativos operacionais contra instabilidades sistêmicas e riscos externos.[span_3](end_span)</p>
+                <h3>Bolsa de Valores Privada</h3>
+                <p>Ambiente exclusivo de liquidez para troca de ativos reais entre parceiros de elite. Troque terra por minério, minério por crédito, crédito por expansão.</p>
             </div>
-            
             <div class="card">
-                <h3>Expansão e Modernização</h3>
-                [span_4](start_span)<p>Fomentamos a atualização tecnológica e a ampliação produtiva através do acesso a maquinários de última geração, garantindo vanguarda e redução de desperdício.[span_4](end_span)</p>
+                <h3>Célula USA (Miami/Orlando)</h3>
+                <p>Arbitragem imobiliária internacional em leilões de alta performance. Dolarização de patrimônio com lucratividade real e segurança jurídica total.</p>
             </div>
-
             <div class="card">
-                <h3>Emancipação Financeira</h3>
-                [span_5](start_span)<p>Conexão direta com o mercado financeiro internacional, transformando potencial de produção em capital de giro com custos operacionais globais.[span_5](end_span)</p>
+                <h3>Gestão de Excedentes (50/50)</h3>
+                <p>O capital ocioso não dorme. Aplicamos a regra de ouro: 50% de retorno para o parceiro, 50% para a Holding, gerando uma espiral de crescimento infinito.</p>
+            </div>
+            <div class="card">
+                <h3>Verticalização e Fomento</h3>
+                <p>Criação de novas unidades de negócio independentes, financiadas pelo próprio lastro da Holding, garantindo soberania total sobre o mercado.</p>
             </div>
         </div>
 
-        <a href="../index.html#diagnostico" class="cta-button">Solicitar Diagnóstico de Viabilidade</a>
+        <a href="../index.html#diagnostico" class="cta-button">Solicitar Diagnóstico de Expansão</a>
     </div>
 </body>
 </html>
