@@ -49,10 +49,10 @@
             opacity: 0.6;
         }
 
-        /* CAIXA DE INFORMAÇÃO CENTRALIZADA (PADRÃO IMAGEM 2) */
+        /* CAIXA DE INFORMAÇÃO CENTRALIZADA */
         .cortina-info-fixa {
             position: fixed;
-            top: 60px; /* Logo abaixo da barra */
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
@@ -101,23 +101,59 @@
         header { padding: 120px 5% 10px; display: flex; flex-direction: column; align-items: center; }
         .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
 
-        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 40px; flex-wrap: wrap; }
-        .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); }
+        .setores-operacionais { display: flex; justify: center; gap: 12px; padding: 20px 5% 40px; flex-wrap: wrap; justify-content: center; }
+        .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
+        .setor-card:hover { background: rgba(197, 160, 89, 0.1); }
+
+        /* NOVA SEÇÃO ACESSO RESTRITO */
+        .acesso-restrito-container {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 50px 10%;
+            text-align: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        .form-acesso {
+            display: flex;
+            gap: 15px;
+            max-width: 700px;
+            margin: 20px auto 0;
+            flex-wrap: wrap;
+        }
+        .form-acesso input {
+            background: transparent;
+            border: 1px solid var(--dourado-fosco);
+            padding: 15px;
+            color: var(--branco-marfim);
+            flex: 1;
+            min-width: 200px;
+            outline: none;
+        }
+        .form-acesso button {
+            background: var(--dourado-fosco);
+            color: var(--azul-profundo);
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         .hero { padding: 40px 10% 60px; text-align: center; }
         .hero h1 { color: var(--dourado-fosco); font-size: 3em; font-weight: 300; margin-bottom: 15px; }
         .hero p { max-width: 800px; font-size: 1.2em; margin: 0 auto; opacity: 0.8; }
 
         .footer { padding: 60px 10%; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; border-top: 1px solid rgba(197, 160, 89, 0.3); }
-        .form-contato { flex: 1; min-width: 320px; }
+        .form-contato { flex: 1; min-width: 320px; max-width: 600px; }
         .form-contato input, .form-contato textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; }
-        .qr-code { width: 150px; border: 3px solid var(--dourado-fosco); padding: 5px; background: white; }
 
         @media (max-width: 768px) {
             header { padding-top: 100px; }
             .logo img { height: 180px; }
             .hero h1 { font-size: 2.2em; }
             .barra-trindade { font-size: 0.6em; }
+            .form-acesso { flex-direction: column; }
         }
     </style>
 </head>
@@ -153,6 +189,15 @@
         <div class="setor-card" onclick="location.href='novos-negocios/index.html'">Novos Negócios</div>
     </section>
 
+    <section class="acesso-restrito-container">
+        <h3 style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9em; margin: 0;">Área Restrita do Grupo Econômico</h3>
+        <form action="validar_token.php" method="POST" class="form-acesso">
+            <input type="email" name="email" placeholder="DIGITE SEU E-MAIL" required>
+            <input type="text" name="token" placeholder="CHAVE TOKEN" required>
+            <button type="submit">VALIDAR ACESSO</button>
+        </form>
+    </section>
+
     <section class="hero">
         <h1>Onde a Estratégia<br>Esculpe o Patrimônio.</h1>
         <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
@@ -169,13 +214,7 @@
                 <button type="submit" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR ESTRATÉGIA</button>
             </form>
         </div>
-        <div class="info-final">
-            <p style="color: var(--dourado-fosco); font-weight: bold; text-transform: uppercase;">Atendimento Exclusivo</p>
-            <a href="https://wa.me/5511961962833" target="_blank">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/5511961962833" alt="WhatsApp" class="qr-code">
-            </a>
-        </div>
-    </footer>
+        </footer>
 
     <script>
         const info = {
@@ -200,12 +239,5 @@
             }
         });
     </script>
-    
-    <form action="/validar_token.php" method="POST">
-    <input type="email" name="email" required>
-    <input type="text" name="token" required>
-    <button type="submit">ACESSAR ÁREA RESTRITA</button>
-    </form>
-    
 </body>
 </html>
