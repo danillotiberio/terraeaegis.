@@ -1,3 +1,14 @@
+<?php
+session_start();
+if (!isset($_SESSION['autenticado_holding']) || $_SESSION['autenticado_holding'] !== true) {
+    // Se não tiver o "visto" da validação, exibe mensagem e para a execução
+    echo "<body style='background:#001220; color:#C5B358; font-family:sans-serif; text-align:center; padding-top:100px;'>";
+    echo "<h1>ACESSO NEGADO</h1>";
+    echo "<p>Esta é uma Área Restrita. Por favor, utilize o portal oficial para validar seu token.</p>";
+    echo "<a href='/index.html' style='color:#C5B358;'>Voltar ao Início</a>";
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
