@@ -8,6 +8,7 @@
         :root {
             --azul-profundo: #0A192F;
             --dourado-fosco: #C5A059;
+            --dourado-brilhante: #FFD700; /* Dourado Brilhante da Logomarca */
             --branco-marfim: #E6E6E6;
         }
 
@@ -25,7 +26,7 @@
             display: flex;
             justify-content: center;
             background: rgba(10, 25, 47, 0.95);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
             position: fixed;
             top: 0; z-index: 100;
             backdrop-filter: blur(10px);
@@ -39,14 +40,16 @@
             font-size: 0.75em;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--dourado-fosco);
+            color: var(--dourado-brilhante); /* Alterado para Dourado Brilhante */
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
             cursor: pointer;
         }
 
         .divisor-trindade {
-            color: var(--dourado-fosco);
+            color: var(--dourado-brilhante);
             padding-top: 13px;
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
         /* CAIXA DE INFORMAÇÃO CENTRALIZADA */
@@ -101,44 +104,14 @@
         header { padding: 120px 5% 10px; display: flex; flex-direction: column; align-items: center; }
         .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
 
-        .setores-operacionais { display: flex; justify: center; gap: 12px; padding: 20px 5% 40px; flex-wrap: wrap; justify-content: center; }
+        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 40px; flex-wrap: wrap; }
         .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
         .setor-card:hover { background: rgba(197, 160, 89, 0.1); }
 
-        /* NOVA SEÇÃO ACESSO RESTRITO */
-        .acesso-restrito-container {
-            background-color: rgba(0, 0, 0, 0.2);
-            padding: 50px 10%;
-            text-align: center;
-            border-top: 1px solid rgba(197, 160, 89, 0.1);
-            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-        }
-        .form-acesso {
-            display: flex;
-            gap: 15px;
-            max-width: 700px;
-            margin: 20px auto 0;
-            flex-wrap: wrap;
-        }
-        .form-acesso input {
-            background: transparent;
-            border: 1px solid var(--dourado-fosco);
-            padding: 15px;
-            color: var(--branco-marfim);
-            flex: 1;
-            min-width: 200px;
-            outline: none;
-        }
-        .form-acesso button {
-            background: var(--dourado-fosco);
-            color: var(--azul-profundo);
-            border: none;
-            padding: 15px 30px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .acesso-restrito-container { background-color: rgba(0, 0, 0, 0.2); padding: 50px 10%; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
+        .form-acesso { display: flex; gap: 15px; max-width: 700px; margin: 20px auto 0; flex-wrap: wrap; }
+        .form-acesso input { background: transparent; border: 1px solid var(--dourado-fosco); padding: 15px; color: var(--branco-marfim); flex: 1; min-width: 200px; outline: none; }
+        .form-acesso button { background: var(--dourado-fosco); color: var(--azul-profundo); border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
         .hero { padding: 40px 10% 60px; text-align: center; }
         .hero h1 { color: var(--dourado-fosco); font-size: 3em; font-weight: 300; margin-bottom: 15px; }
@@ -191,10 +164,10 @@
 
     <section class="acesso-restrito-container">
         <h3 style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9em; margin: 0;">Área Restrita do Grupo Econômico</h3>
-        <form action="validar_token.php" method="POST" class="form-acesso">
-            <input type="email" name="email" placeholder="DIGITE SEU E-MAIL" required>
-            <input type="text" name="token" placeholder="CHAVE TOKEN" required>
-            <button type="submit">VALIDAR ACESSO</button>
+        <form onsubmit="event.preventDefault(); enviarParaGoogle(this, true);" class="form-acesso">
+            <input type="email" id="email_restrito" placeholder="DIGITE SEU E-MAIL" required>
+            <input type="text" id="token_restrito" placeholder="CHAVE TOKEN" required>
+            <button type="submit" id="btn_restrito">VALIDAR ACESSO</button>
         </form>
     </section>
 
@@ -206,17 +179,48 @@
     <footer class="footer">
         <div class="form-contato">
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase;">Solicite Contato</h3>
-            <form action="https://api.web3forms.com/submit" method="POST">
-                <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
-                <input type="text" name="nome" placeholder="Nome Completo" required>
-                <input type="email" name="email" placeholder="E-mail" required>
-                <textarea name="mensagem" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
-                <button type="submit" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR ESTRATÉGIA</button>
+            <form id="form_contato_principal" onsubmit="event.preventDefault(); enviarParaGoogle(this, false);">
+                <input type="text" id="nome_contato" placeholder="Nome Completo" required>
+                <input type="email" id="email_contato" placeholder="E-mail" required>
+                <textarea id="mensagem_contato" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
+                <button type="submit" id="btn_contato" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR ESTRATÉGIA</button>
             </form>
         </div>
-        </footer>
+    </footer>
 
     <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYfLh2V0KWvXEJQOxVQJCXYCgaLCT3sIwwvbMOcuMSPuFI45-2sZkaPrv6H0ngb-MGag/exec';
+
+        async function enviarParaGoogle(form, isRestrito) {
+            const btn = form.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "PROCESSANDO...";
+            btn.disabled = true;
+
+            const dados = {
+                nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
+                email: isRestrito ? document.getElementById('email_restrito').value : document.getElementById('email_contato').value,
+                telefone: "Não informado",
+                capital: "Consultivo",
+                token: isRestrito ? document.getElementById('token_restrito').value : Math.floor(100000 + Math.random() * 900000).toString()
+            };
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(dados)
+                });
+                alert("Estratégia enviada. Verifique seu e-mail em instantes.");
+                form.reset();
+            } catch (e) {
+                alert("Erro na conexão. Tente novamente.");
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+
         const info = {
             'seguranca': { t: 'Segurança', p: 'Inspirados pela Aegis, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades para que seu legado se perpetue.' },
             'financeira': { t: 'Financeira', p: 'Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.' },
