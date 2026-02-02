@@ -8,7 +8,7 @@
         :root {
             --azul-profundo: #0A192F;
             --dourado-fosco: #C5A059;
-            --dourado-brilhante: #FFD700; /* Dourado Brilhante da Logomarca */
+            --dourado-brilhante: #FFD700;
             --branco-marfim: #E6E6E6;
         }
 
@@ -40,7 +40,7 @@
             font-size: 0.75em;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--dourado-brilhante); /* Alterado para Dourado Brilhante */
+            color: var(--dourado-brilhante);
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
             cursor: pointer;
@@ -110,7 +110,7 @@
 
         .acesso-restrito-container { background-color: rgba(0, 0, 0, 0.2); padding: 50px 10%; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
         .form-acesso { display: flex; gap: 15px; max-width: 700px; margin: 20px auto 0; flex-wrap: wrap; }
-        .form-acesso input { background: transparent; border: 1px solid var(--dourado-fosco); padding: 15px; color: var(--branco-marfim); flex: 1; min-width: 200px; outline: none; }
+        .form-acesso input { background: transparent; border: 1px solid var(--dourado-fosco); padding: 15px; color: var(--branco-marfum); flex: 1; min-width: 200px; outline: none; }
         .form-acesso button { background: var(--dourado-fosco); color: var(--azul-profundo); border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
         .hero { padding: 40px 10% 60px; text-align: center; }
@@ -188,37 +188,44 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
     <script>
-        // URL ATUALIZADA COM SEU ID DE IMPLANTAÇÃO
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_0ttCtdoSJpwJ2E1d8YM40QVv_M7i3_Ej1GOfPe7oah-oHvNotp_SpAVpmkx2zQGVMw/exec';
 
         async function enviarParaGoogle(form, isRestrito) {
             const btn = form.querySelector('button');
-            const originalText = btn.innerText;
-            btn.innerText = "PROCESSANDO...";
+            const emailInput = isRestrito ? document.getElementById('email_restrito') : document.getElementById('email_contato');
+            
+            btn.innerText = "AUTENTICANDO...";
             btn.disabled = true;
 
+            // Gera o Token localmente para garantir o salto imediato
+            const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
+            const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
+
             const dados = {
-                nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
-                email: isRestrito ? document.getElementById('email_restrito').value : document.getElementById('email_contato').value,
-                telefone: "Não informado",
-                capital: "Consultivo",
-                token: isRestrito ? document.getElementById('token_restrito').value : Math.floor(100000 + Math.random() * 900000).toString()
+                nome: isRestrito ? "Acesso Direto" : document.getElementById('nome_contato').value,
+                email: emailInput.value,
+                telefone: "Sistema Terrae Aegis",
+                capital: "A Definir",
+                mensagem: isRestrito ? "Acesso via Token" : document.getElementById('mensagem_contato').value,
+                token: isRestrito ? document.getElementById('token_restrito').value : tokenGerado
             };
 
             try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(dados)
-                });
-                alert("Mensagem enviada. Verifique seu e-mail em instantes.");
-                form.reset();
+                // Disparo silencioso
+                fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
+
+                if (!isRestrito) {
+                    document.getElementById('email_restrito').value = emailInput.value;
+                    document.getElementById('token_restrito').value = tokenGerado;
+                }
+
+                // SALTO DIRETO
+                window.location.href = "https://terraeaegis.com.br/enquadramento";
             } catch (e) {
-                alert("Erro na conexão. Tente novamente.");
-            } finally {
-                btn.innerText = originalText;
-                btn.disabled = false;
+                window.location.href = "https://terraeaegis.com.br/enquadramento";
             }
         }
 
@@ -245,5 +252,4 @@
         });
     </script>
 </body>
-    </html>
-    
+</html>
