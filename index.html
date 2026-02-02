@@ -110,7 +110,7 @@
 
         .acesso-restrito-container { background-color: rgba(0, 0, 0, 0.2); padding: 50px 10%; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
         .form-acesso { display: flex; gap: 15px; max-width: 700px; margin: 20px auto 0; flex-wrap: wrap; }
-        .form-acesso input { background: transparent; border: 1px solid var(--dourado-fosco); padding: 15px; color: var(--branco-marfum); flex: 1; min-width: 200px; outline: none; }
+        .form-acesso input { background: transparent; border: 1px solid var(--dourado-fosco); padding: 15px; color: var(--branco-marfim); flex: 1; min-width: 200px; outline: none; }
         .form-acesso button { background: var(--dourado-fosco); color: var(--azul-profundo); border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
         .hero { padding: 40px 10% 60px; text-align: center; }
@@ -197,10 +197,9 @@
             const btn = form.querySelector('button');
             const emailInput = isRestrito ? document.getElementById('email_restrito') : document.getElementById('email_contato');
             
-            btn.innerText = "AUTENTICANDO...";
+            btn.innerText = "PROCESSANDO...";
             btn.disabled = true;
 
-            // Gera o Token localmente para garantir o salto imediato
             const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
             const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
@@ -214,18 +213,25 @@
             };
 
             try {
-                // Disparo silencioso
-                fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
+                // O await força o sistema a completar o envio antes de seguir
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
 
                 if (!isRestrito) {
+                    // Preenchimento automático dos campos superiores
                     document.getElementById('email_restrito').value = emailInput.value;
                     document.getElementById('token_restrito').value = tokenGerado;
+                    
+                    alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO para entrar.");
+                    document.querySelector('.acesso-restrito-container').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Redirecionamento apenas no clique do botão superior
+                    window.location.href = "https://terraeaegis.com.br/enquadramento/";
                 }
-
-                // SALTO DIRETO
-                window.location.href = "https://terraeaegis.com.br/enquadramento";
             } catch (e) {
-                window.location.href = "https://terraeaegis.com.br/enquadramento";
+                alert("Erro na conexão. Tente novamente.");
+            } finally {
+                btn.innerText = isRestrito ? "VALIDAR ACESSO" : "ENVIAR ESTRATÉGIA";
+                btn.disabled = false;
             }
         }
 
