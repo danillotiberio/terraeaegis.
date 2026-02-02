@@ -193,7 +193,7 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_0ttCtdoSJpwJ2E1d8YM40QVv_M7i3_Ej1GOfPe7oah-oHvNotp_SpAVpmkx2zQGVMw/exec';
 
-        async function enviarParaGoogle(form, isRestrito) {
+                async function enviarParaGoogle(form, isRestrito) {
             const btn = form.querySelector('button');
             const emailInput = isRestrito ? document.getElementById('email_restrito') : document.getElementById('email_contato');
             
@@ -204,36 +204,38 @@
             const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
             const dados = {
-                nome: isRestrito ? "Acesso Direto" : document.getElementById('nome_contato').value,
+                nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
                 email: emailInput.value,
                 telefone: "Sistema Terrae Aegis",
-                capital: "A Definir",
-                mensagem: isRestrito ? "Acesso via Token" : document.getElementById('mensagem_contato').value,
+                capital: "Consultivo",
+                mensagem: isRestrito ? "Validação via Token" : document.getElementById('mensagem_contato').value,
                 token: isRestrito ? document.getElementById('token_restrito').value : tokenGerado
             };
 
             try {
-                // O await força o sistema a completar o envio antes de seguir
+                // O await garante que o envio para a planilha termine antes de qualquer salto
                 await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
 
                 if (!isRestrito) {
-                    // Preenchimento automático dos campos superiores
+                    // FORM DE BAIXO: Preenche em cima e gera o alerta. NÃO REDIRECIONA.
                     document.getElementById('email_restrito').value = emailInput.value;
                     document.getElementById('token_restrito').value = tokenGerado;
                     
-                    alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO para entrar.");
+                    alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO.");
                     document.querySelector('.acesso-restrito-container').scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    // Redirecionamento apenas no clique do botão superior
-                    window.location.href = "https://terraeaegis.com.br/enquadramento/index.php";
+                    // FORM DE CIMA: Carimba o acesso e pula para o enquadramento
+                    sessionStorage.setItem('token_validado', 'true');
+                    window.location.href = "https://terraeaegis.com.br/enquadramento/index.html";
                 }
             } catch (e) {
-                alert("Erro na conexão. Tente novamente.");
+                alert("Erro na sincronia. Tente novamente.");
             } finally {
                 btn.innerText = isRestrito ? "VALIDAR ACESSO" : "ENVIAR ESTRATÉGIA";
                 btn.disabled = false;
             }
         }
+
 
         const info = {
             'seguranca': { t: 'Segurança', p: 'Inspirados pela Aegis, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades para que seu legado se perpetue.' },
