@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Restrita | Terrae Aegis Holding Finance</title>
+    <style>
+        body {
+            background-color: #001220;
+            color: #C5B358;
+            font-family: 'Garamond', serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        /* Estilo do Acesso Negado */
+        #bloqueio {
+            display: none; /* Escondido por padrão */
+            text-align: center;
+            padding-top: 100px;
+            width: 100%;
+        }
+        #conteudo-restrito {
+            display: none; /* Só aparece se validado */
+            max-width: 800px;
+            width: 100%;
+            border: 1px solid #C5B358;
+            padding: 40px;
+            background-color: rgba(0, 18, 32, 0.95);
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header img { max-width: 150px; margin-bottom: 10px; }
+        .header h1 { font-size: 18px; letter-spacing: 4px; text-transform: uppercase; margin: 0; }
+        hr { border: 0; border-top: 1px solid #C5B358; margin: 20px 0 40px 0; }
+        .section-title { font-weight: bold; margin-top: 25px; margin-bottom: 10px; display: block; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
+        input, select, textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #C5B358; color: #C5B358; padding: 10px 5px; margin-bottom: 20px; font-size: 16px; outline: none; }
+        .row { display: flex; gap: 20px; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 250px; }
+        .btn-submit { background-color: #C5B358; color: #001220; border: none; padding: 15px 40px; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; margin-top: 30px; }
+        .btn-submit:hover { background-color: #e2d17b; }
+        ::placeholder { color: rgba(197, 179, 88, 0.4); }
+    </style>
+</head>
+<body>
+
+    <div id="bloqueio">
+        <h1>ACESSO NEGADO</h1>
+        <p>Esta é uma Área Restrita. Por favor, utilize o portal oficial para validar seu token.</p>
+        <a href="../index.html" style="color:#C5B358;">Voltar ao Início</a>
+    </div>
+
+    <div id="conteudo-restrito" class="container">
+        <div class="header">
+            <img src="../logo-touro.png" alt="Terrae Aegis">
+            <h1>Terrae Aegis Holding Finance</h1>
+        </div>
+        <hr>
+        <form id="form-enquadramento">
+            <label class="section-title">Identificação</label>
+            <div class="row">
+                <select name="tratamento" style="width: 120px;">
+                    <option value="Sr.">Sr.</option>
+                    <option value="Sra.">Sra.</option>
+                    <option value="Outros">Outros</option>
+                </select>
+                <input type="text" name="nome" placeholder="Nome Completo" required style="flex: 1;">
+            </div>
+
+            <label class="section-title">Setor de Atuação</label>
+            <select name="setor">
+                <option value="Agro">Agro</option>
+                <option value="Industrial">Industrial</option>
+                <option value="Mineração">Mineração</option>
+                <option value="Novos Negócios">Novos Negócios</option>
+            </select>
+            
+            <label class="section-title">Diagnóstico Financeiro</label>
+            <select name="valor_ativos">
+                <option value="1M-5M">De 1 a 5 Milhões</option>
+                <option value="5M-10M">De 5 a 10 Milhões</option>
+                <option value="10M-20M">De 10 a 20 Milhões</option>
+                <option value="50M+">Acima de 50 Milhões</option>
+            </select>
+
+            <button type="submit" class="btn-submit">Finalizar Protocolo</button>
+        </form>
+    </div>
+
+    <script>
+        // O PORTEIRO: Verifica se o usuário veio validado do index.html
+        window.onload = function() {
+            const autorizado = sessionStorage.getItem('token_validado');
+            
+            if (autorizado === 'true') {
+                document.getElementById('conteudo-restrito').style.display = 'block';
+            } else {
+                document.getElementById('bloqueio').style.display = 'block';
+            }
+        };
+
+        // Envio do Enquadramento (Opcional: Pode mandar para a mesma planilha)
+        document.getElementById('form-enquadramento').onsubmit = function(e) {
+            e.preventDefault();
+            alert("Protocolo Enviado com Sucesso. Nossa equipe entrará em contato.");
+        };
+    </script>
+</body>
+</html>
