@@ -193,56 +193,50 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_0ttCtdoSJpwJ2E1d8YM40QVv_M7i3_Ej1GOfPe7oah-oHvNotp_SpAVpmkx2zQGVMw/exec';
 
-                async function enviarParaGoogle(form, isRestrito) {
-    const btn = form.querySelector('button');
-    const emailInput = isRestrito ? document.getElementById('email_restrito') : document.getElementById('email_contato');
-    
-    btn.innerText = "PROCESSANDO...";
-    btn.disabled = true;
+        async function enviarParaGoogle(form, isRestrito) {
+            const btn = form.querySelector('button');
+            const emailInput = isRestrito ? document.getElementById('email_restrito') : document.getElementById('email_contato');
+            
+            btn.innerText = "PROCESSANDO...";
+            btn.disabled = true;
 
-    const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
-    const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
+            const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
+            const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
-    const dados = {
-        nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
-        email: emailInput.value,
-        telefone: "Sistema Terrae Aegis",
-        capital: "Consultivo",
-        mensagem: isRestrito ? "Validação via Token" : document.getElementById('mensagem_contato').value,
-        token: tokenGerado
-    };
+            const dados = {
+                nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
+                email: emailInput.value,
+                telefone: "Sistema Terrae Aegis",
+                capital: "Consultivo",
+                mensagem: isRestrito ? "Validação via Token" : document.getElementById('mensagem_contato').value,
+                token: tokenGerado
+            };
 
-    try {
-        // AQUI ESTÁ A CHAVE: O ENVIO REAL E SINCRONIZADO
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
-        });
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(dados)
+                });
 
-        if (!isRestrito) {
-            // FORM DE BAIXO: Preenche o campo de cima e gera o alerta
-            document.getElementById('email_restrito').value = emailInput.value;
-            document.getElementById('token_restrito').value = tokenGerado;
-            alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO.");
-            document.querySelector('.acesso-restrito-container').scrollIntoView({ behavior: 'smooth' });
-        } else {
-            // FORM DE CIMA: Carimba o acesso e pula para o enquadramento
-            sessionStorage.setItem('token_validado', 'true');
-            window.location.href = "enquadramento/index.html";
+                if (!isRestrito) {
+                    document.getElementById('email_restrito').value = emailInput.value;
+                    document.getElementById('token_restrito').value = tokenGerado;
+                    alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO.");
+                    document.querySelector('.acesso-restrito-container').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    sessionStorage.setItem('token_validado', 'true');
+                    window.location.href = "enquadramento/index.html";
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Erro na sincronia. Tente novamente.");
+            } finally {
+                btn.innerText = isRestrito ? "VALIDAR ACESSO" : "ENVIAR ESTRATÉGIA";
+                btn.disabled = false;
+            }
         }
-    } catch (e) {
-        console.error(e);
-        alert("Erro na sincronia. Tente novamente.");
-    } finally {
-        btn.innerText = isRestrito ? "VALIDAR ACESSO" : "ENVIAR ESTRATÉGIA";
-        btn.disabled = false;
-    }
-}
-
-        }
-
 
         const info = {
             'seguranca': { t: 'Segurança', p: 'Inspirados pela Aegis, o escudo mitológico da invencibilidade, protegemos o seu patrimônio contra instabilidades para que seu legado se perpetue.' },
