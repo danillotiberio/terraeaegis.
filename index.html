@@ -216,7 +216,7 @@
         // AQUI ESTÁ A CHAVE: O ENVIO REAL E SINCRONIZADO
         await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
         });
