@@ -194,46 +194,53 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_0ttCtdoSJpwJ2E1d8YM40QVv_M7i3_Ej1GOfPe7oah-oHvNotp_SpAVpmkx2zQGVMw/exec';
 
                 async function enviarParaGoogle(form, isRestrito) {
-            const btn = form.querySelector('button');
-            const emailInput = isRestrito ? document.getElementById('email_restrito') : document.getElementById('email_contato');
-            
-            btn.innerText = "PROCESSANDO...";
-            btn.disabled = true;
+    const btn = form.querySelector('button');
+    const emailInput = isRestrito ? document.getElementById('email_restrito') : document.getElementById('email_contato');
+    
+    btn.innerText = "PROCESSANDO...";
+    btn.disabled = true;
 
-            const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
-            const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
+    const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
+    const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
-            const dados = {
-                nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
-                email: emailInput.value,
-                telefone: "Sistema Terrae Aegis",
-                capital: "Consultivo",
-                mensagem: isRestrito ? "Validação via Token" : document.getElementById('mensagem_contato').value,
-                token: isRestrito ? document.getElementById('token_restrito').value : tokenGerado
-            };
+    const dados = {
+        nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
+        email: emailInput.value,
+        telefone: "Sistema Terrae Aegis",
+        capital: "Consultivo",
+        mensagem: isRestrito ? "Validação via Token" : document.getElementById('mensagem_contato').value,
+        token: tokenGerado
+    };
 
-            try {
-                // O await garante que o envio para a planilha termine antes de qualquer salto
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
+    try {
+        // AQUI ESTÁ A CHAVE: O ENVIO REAL E SINCRONIZADO
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        });
 
-                if (!isRestrito) {
-                    // FORM DE BAIXO: Preenche em cima e gera o alerta. NÃO REDIRECIONA.
-                    document.getElementById('email_restrito').value = emailInput.value;
-                    document.getElementById('token_restrito').value = tokenGerado;
-                    
-                    alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO.");
-                    document.querySelector('.acesso-restrito-container').scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    // FORM DE CIMA: Carimba o acesso e pula para o enquadramento
-                    sessionStorage.setItem('token_validado', 'true');
-                    window.location.href = "https://terraeaegis.com.br/enquadramento/index.html";
-                }
-            } catch (e) {
-                alert("Erro na sincronia. Tente novamente.");
-            } finally {
-                btn.innerText = isRestrito ? "VALIDAR ACESSO" : "ENVIAR ESTRATÉGIA";
-                btn.disabled = false;
-            }
+        if (!isRestrito) {
+            // FORM DE BAIXO: Preenche o campo de cima e gera o alerta
+            document.getElementById('email_restrito').value = emailInput.value;
+            document.getElementById('token_restrito').value = tokenGerado;
+            alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO.");
+            document.querySelector('.acesso-restrito-container').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            // FORM DE CIMA: Carimba o acesso e pula para o enquadramento
+            sessionStorage.setItem('token_validado', 'true');
+            window.location.href = "enquadramento/index.html";
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Erro na sincronia. Tente novamente.");
+    } finally {
+        btn.innerText = isRestrito ? "VALIDAR ACESSO" : "ENVIAR ESTRATÉGIA";
+        btn.disabled = false;
+    }
+}
+
         }
 
 
