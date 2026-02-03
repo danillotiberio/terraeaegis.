@@ -5,105 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área Restrita | Terrae Aegis Holding Finance</title>
     <style>
+        /* Bloqueio de seleção de texto */
         body {
-            background-color: #001220;
-            color: #C5B358;
-            font-family: 'Garamond', serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
         }
-        /* Estilo do Acesso Negado */
-        #bloqueio {
-            display: none; /* Escondido por padrão */
-            text-align: center;
-            padding-top: 100px;
-            width: 100%;
+
+        body, html {
+            margin: 0; padding: 0; min-height: 100%; font-family: 'Garamond', serif; overflow-x: hidden; color: #C5B358;
+            background-color: #001220; /* Cor de fundo base */
+            position: relative;
         }
-        #conteudo-restrito {
-            display: none; /* Só aparece se validado */
-            max-width: 800px;
-            width: 100%;
-            border: 1px solid #C5B358;
-            padding: 40px;
-            background-color: rgba(0, 18, 32, 0.95);
+
+        /* Marca D'água do Touro no Fundo */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('image_3.png'); /* Logo do Touro */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.25; /* Opacidade entre 25-30% conforme solicitado */
+            z-index: -1;
+            pointer-events: none;
         }
-        .header { text-align: center; margin-bottom: 30px; }
-        .header img { max-width: 150px; margin-bottom: 10px; }
-        .header h1 { font-size: 18px; letter-spacing: 4px; text-transform: uppercase; margin: 0; }
-        hr { border: 0; border-top: 1px solid #C5B358; margin: 20px 0 40px 0; }
-        .section-title { font-weight: bold; margin-top: 25px; margin-bottom: 10px; display: block; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
-        input, select, textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #C5B358; color: #C5B358; padding: 10px 5px; margin-bottom: 20px; font-size: 16px; outline: none; }
-        .row { display: flex; gap: 20px; flex-wrap: wrap; }
-        .col { flex: 1; min-width: 250px; }
-        .btn-submit { background-color: #C5B358; color: #001220; border: none; padding: 15px 40px; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; margin-top: 30px; }
-        .btn-submit:hover { background-color: #e2d17b; }
-        ::placeholder { color: rgba(197, 179, 88, 0.4); }
+
+        .container-hub {
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative; z-index: 1;
+            background: linear-gradient(rgba(0, 18, 32, 0.9), rgba(0, 18, 32, 0.8)); /* Gradiente sutil sobre a marca d'água para legibilidade */
+            min-height: 100vh;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+        .header img { max-width: 200px; margin-bottom: 20px; opacity: 1.0; /* Logo principal 100% visível */ }
+        .header h1 { font-size: 32px; letter-spacing: 8px; text-transform: uppercase; margin: 0; color: #C5B358; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        
+        .area-restrita-highlight {
+            font-size: 22px; text-transform: uppercase; letter-spacing: 4px; margin-top: 15px;
+            color: #C5B358; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            border-bottom: 2px solid #C5B358; display: inline-block; padding-bottom: 5px;
+        }
+
+        /* Estilo do Manifesto 3D */
+        .manifesto-container {
+            max-width: 900px; text-align: justify; margin-bottom: 50px; padding: 30px;
+            background: rgba(0, 18, 32, 0.4); border: 1px solid rgba(197, 179, 88, 0.3);
+        }
+        .manifesto-topic {
+            font-size: 19px; line-height: 1.6; margin-bottom: 25px; font-style: italic;
+            /* Efeito 3D Dourado: Sombra diagonal inferior direita */
+            text-shadow: 
+                2px 2px 3px rgba(0, 0, 0, 0.6), /* Sombra escura para profundidade */
+                1px 1px 1px rgba(197, 179, 88, 0.3); /* Brilho sutil na borda */
+            color: #e2d17b; /* Um dourado ligeiramente mais claro para o efeito metálico */
+        }
+        .manifesto-topic strong { color: #fff; text-shadow: none; font-style: normal; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; font-size: 20px;}
+
+        /* Grid de Botões Setoriais */
+        .grid-segmentos {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px; max-width: 1100px; width: 100%; margin-bottom: 60px;
+        }
+        .card {
+            position: relative; border: 1px solid #C5B358; padding: 40px 20px; text-align: center;
+            transition: 0.3s; text-decoration: none; color: #C5B358; overflow: hidden;
+            background-color: rgba(0, 18, 32, 0.8); /* Cor base do card */
+        }
+        /* Backgrounds individuais dos cards com baixa opacidade */
+        .card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            opacity: 0.15; /* Opacidade bem baixa (15%) para as imagens de fundo dos botões */
+            z-index: -1; transition: 0.3s;
+            filter: grayscale(100%) sepia(100%) hue-rotate(5deg) saturate(300%); /* Efeito dourado/azulado na imagem de fundo */
+        }
+        /* Aplicação das imagens corretas para cada card */
+        .card-agro::before { background-image: url('image_4.png'); } 
+        .card-mineracao::before { background-image: url('image_0.png'); }
+        .card-industria::before { background-image: url('image_1.png'); }
+        .card-novos::before { background-image: url('image_2.png'); }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(197, 179, 88, 0.2); border-color: #fff; color: #fff; }
+        .card:hover::before { opacity: 0.25; /* Aumenta ligeiramente a opacidade ao passar o mouse */ }
+        .card h2 { font-size: 20px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; position: relative; z-index: 2;}
+        .card p { font-size: 15px; opacity: 0.9; position: relative; z-index: 2; font-style: italic; }
+
+        /* Botão Master */
+        .cta-container { text-align: center; width: 100%; max-width: 800px; margin-top: 20px;}
+        .btn-master {
+            display: block; width: 100%; background-color: #C5B358; color: #001220;
+            padding: 25px; font-weight: bold; text-transform: uppercase; text-decoration: none;
+            font-size: 20px; letter-spacing: 2px; transition: 0.3s; border: 2px solid #C5B358;
+        }
+        .btn-master:hover { background-color: transparent; color: #C5B358; box-shadow: 0 0 30px rgba(197, 179, 88, 0.3); }
+
+        /* Rodapé Fantasma */
+        .ghost-footer {
+            position: absolute; bottom: 10px; right: 20px;
+            font-size: 12px; color: rgba(255, 255, 255, 0.3); /* Cinza/Branco bem opaco */
+            font-style: italic; letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
 
-    <div id="bloqueio">
-        <h1>ACESSO NEGADO</h1>
-        <p>Esta é uma Área Restrita. Por favor, utilize o portal oficial para validar seu token.</p>
-        <a href="../index.html" style="color:#C5B358;">Voltar ao Início</a>
-    </div>
-
-    <div id="conteudo-restrito" class="container">
+    <div class="container-hub">
         <div class="header">
-            <img src="../logo-touro.png" alt="Terrae Aegis">
-            <h1>Terrae Aegis Holding Finance</h1>
+            <img src="image_3.png" alt="Terrae Aegis Logo"> <h1>Terrae Aegis</h1>
+            <div class="area-restrita-highlight">Área Restrita</div>
         </div>
-        <hr>
-        <form id="form-enquadramento">
-            <label class="section-title">Identificação</label>
-            <div class="row">
-                <select name="tratamento" style="width: 120px;">
-                    <option value="Sr.">Sr.</option>
-                    <option value="Sra.">Sra.</option>
-                    <option value="Outros">Outros</option>
-                </select>
-                <input type="text" name="nome" placeholder="Nome Completo" required style="flex: 1;">
+
+        <div class="manifesto-container">
+            <div class="manifesto-topic">
+                <strong>A Alquimia da Liquidez</strong>
+                Você pega o que é "pesado" e "imóvel" (a terra do Agro, as jazidas da Mineração, o maquinário da Indústria) e transforma isso em Capital Global Fluido. Nós removemos as correntes que prendem o patrimônio ao risco de um único CEP, de uma única moeda ou de um único humor político.
             </div>
+            <div class="manifesto-topic">
+                <strong>A Blindagem do Legado</strong>
+                Nós construímos uma fortaleza onde o Estado não entra. Através da estruturação internacional (Holdings, Offshores, Trusts), nós garantimos que a transição geracional seja invisível e indolor. Enquanto o mercado se digladia em inventários que duram décadas, o cliente Terrae Aegis já está operando a próxima fase do negócio sem interrupções.
+            </div>
+            <div class="manifesto-topic">
+                <strong>A Desconexão do Risco-País</strong>
+                O objetivo final é fazer com que o empresário seja um Cidadão Global de Ativos. Se o cenário local colapsar, o patrimônio dele não colapsa junto. Ele está ancorado em jurisdições de elite, protegido por leis de proteção de ativos que são seculares.
+            </div>
+            <div class="manifesto-topic">
+                <strong>O Poder do Anonimato Estratégico</strong>
+                A Terrae Aegis provê o que o dinheiro raramente consegue comprar sozinho: Discrição e Segurança. Ao organizar os ativos de forma profissional e internacionalizada, o cliente deixa de ser um alvo fácil para penhoras, decisões judiciais arbitrárias ou "olhares" indesejados sobre sua riqueza.
+            </div>
+            <hr style="border-color: rgba(197, 179, 88, 0.3); margin: 30px 0;">
+            <div class="manifesto-topic" style="font-size: 21px;">
+                <strong>A Voz Bruta da Realidade</strong>
+                O que nós estamos fazendo aqui é dar ao Arquiteto e aos seus clientes o Botão de Saída. É a garantia de que, não importa o que aconteça no cenário macro, a família e o capital deles estarão em solo seguro, rendendo e protegidos. Nós não estamos apenas preenchendo uma planilha com "Média Fat Anual". Estamos medindo o tamanho da armadura que precisamos construir para cada um desses impérios.
+            </div>
+        </div>
 
-            <label class="section-title">Setor de Atuação</label>
-            <select name="setor">
-                <option value="Agro">Agro</option>
-                <option value="Industrial">Industrial</option>
-                <option value="Mineração">Mineração</option>
-                <option value="Novos Negócios">Novos Negócios</option>
-            </select>
-            
-            <label class="section-title">Diagnóstico Financeiro</label>
-            <select name="valor_ativos">
-                <option value="1M-5M">De 1 a 5 Milhões</option>
-                <option value="5M-10M">De 5 a 10 Milhões</option>
-                <option value="10M-20M">De 10 a 20 Milhões</option>
-                <option value="50M+">Acima de 50 Milhões</option>
-            </select>
+        <div class="grid-segmentos">
+            <a href="agro.html" class="card card-agro">
+                <h2>Agro</h2>
+                <p>Perpetuidade do legado fundiário e verticalização logística.</p>
+            </a>
+            <a href="mineracao.html" class="card card-mineracao">
+                <h2>Mineração</h2>
+                <p>Soberania do subsolo, direitos e liquidez mineral.</p>
+            </a>
+            <a href="industria.html" class="card card-industria">
+                <h2>Indústria</h2>
+                <p>Competitividade global e arbitragem de custo de capital.</p>
+            </a>
+            <a href="novos-negocios.html" class="card card-novos">
+                <h2>Novos Negócios</h2>
+                <p>Engenharia de escala, equity e monetização de inteligência.</p>
+            </a>
+        </div>
 
-            <button type="submit" class="btn-submit">Finalizar Protocolo</button>
-        </form>
+        <div class="cta-container">
+            <a href="enquadramento.html" class="btn-master">Solicitar Enquadramento Estratégico (D+1)</a>
+        </div>
+
+        <div class="ghost-footer">
+            Desenvolvido por Terrae Aegis
+        </div>
     </div>
 
-    <script>
-        // O PORTEIRO: Verifica se o usuário veio validado do index.html
-        window.onload = function() {
-            const autorizado = sessionStorage.getItem('token_validado');
-            
-            if (autorizado === 'true') {
-                document.getElementById('conteudo-restrito').style.display = 'block';
-            } else {
-                document.getElementById('bloqueio').style.display = 'block';
-            }
-        };
-
-        // Envio do Enquadramento (Opcional: Pode mandar para a mesma planilha)
-        document.getElementById('form-enquadramento').onsubmit = function(e) {
-            e.preventDefault();
-            alert("Protocolo Enviado com Sucesso. Nossa equipe entrará em contato.");
-        };
-    </script>
 </body>
-</html>
+    </html>
+    
