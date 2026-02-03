@@ -180,10 +180,15 @@
         <div class="form-contato">
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase;">Solicite Contato</h3>
             <form id="form_contato_principal" onsubmit="event.preventDefault(); enviarParaGoogle(this, false);">
-                <input type="text" id="nome_contato" placeholder="Nome Completo" required>
-                <input type="email" id="email_contato" placeholder="E-mail" required>
-                <textarea id="mensagem_contato" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
-                <button type="submit" id="btn_contato" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">ENVIAR ESTRATÉGIA</button>
+                <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
+                <input type="hidden" name="from_name" value="Terrae Aegis - Site">
+                <input type="hidden" name="subject" value="Novo Lead Estratégico">
+
+                <input type="text" id="nome_contato" name="name" placeholder="Nome Completo" required>
+                <input type="email" id="email_contato" name="email" placeholder="E-mail" required>
+                <textarea id="mensagem_contato" name="message" placeholder="Sua Mensagem" required style="width: 100%; box-sizing: border-box; resize: none;"></textarea>
+                
+                <button type="submit" id="btn_contato" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">OBTER CREDENCIAL</button>
             </form>
         </div>
     </footer>
@@ -203,7 +208,8 @@
             const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
             const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
-            const dados = {
+            // 1. Envio para Planilha e E-mail de Elite (Google Script)
+            const dadosGAS = {
                 nome: isRestrito ? "Acesso Restrito" : document.getElementById('nome_contato').value,
                 email: emailInput.value,
                 telefone: "Sistema Terrae Aegis",
@@ -212,18 +218,28 @@
                 token: tokenGerado
             };
 
+            // 2. Envio para Web3Forms (Apenas no formulário de contato)
+            if(!isRestrito) {
+                const formData = new FormData(form);
+                fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: formData
+                });
+            }
+
             try {
+                // Envio para o Google Apps Script
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'cors',
                     headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify(dados)
+                    body: JSON.stringify(dadosGAS)
                 });
 
                 if (!isRestrito) {
                     document.getElementById('email_restrito').value = emailInput.value;
                     document.getElementById('token_restrito').value = tokenGerado;
-                    alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em VALIDAR ACESSO.");
+                    alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido. Clique em SOLICITAR ACESSO.");
                     document.querySelector('.acesso-restrito-container').scrollIntoView({ behavior: 'smooth' });
                 } else {
                     sessionStorage.setItem('token_validado', 'true');
@@ -261,4 +277,4 @@
         });
     </script>
 </body>
-    </html>
+</html>
