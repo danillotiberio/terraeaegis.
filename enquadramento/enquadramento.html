@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquadramento Estratégico | Terrae Aegis</title>
+    <style>
+        :root { --azul-p: #001220; --dourado: #C5B358; }
+        body, html { margin: 0; padding: 0; min-height: 100%; font-family: 'Garamond', serif; color: var(--dourado); background-color: var(--azul-p); }
+        
+        /* Blindagem de Interface */
+        body { user-select: none; -webkit-user-select: none; transition: filter 0.3s ease; }
+        .blur-active { filter: blur(20px); }
+
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('logo-touro.png'); background-size: contain;
+            background-position: center; background-repeat: no-repeat;
+            opacity: 0.1; z-index: -1; pointer-events: none;
+        }
+
+        .container { max-width: 800px; margin: 40px auto; padding: 40px; background: rgba(0, 18, 32, 0.9); border: 1px solid var(--dourado); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        
+        h1 { text-align: center; letter-spacing: 5px; text-transform: uppercase; font-size: 24px; margin-bottom: 30px; }
+        p.intro { text-align: justify; font-style: italic; margin-bottom: 30px; color: #E6F1FF; }
+
+        form { display: grid; gap: 20px; }
+        .field { display: flex; flex-direction: column; }
+        label { text-transform: uppercase; font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; }
+        input, select, textarea { 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--dourado); 
+            padding: 15px; color: #fff; font-family: 'Garamond', serif; font-size: 16px;
+        }
+        input:focus { outline: none; background: rgba(197, 179, 88, 0.1); }
+
+        .btn-submit {
+            background: var(--dourado); color: var(--azul-p); border: none; padding: 20px;
+            font-weight: bold; text-transform: uppercase; cursor: pointer; letter-spacing: 2px;
+            transition: 0.3s; margin-top: 20px;
+        }
+        .btn-submit:hover { background: #e2d17b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <div class="bg-overlay"></div>
+    <div class="container">
+        <h1>Protocolo de Enquadramento</h1>
+        <p class="intro">
+            Iniciando a medição da armadura. Os dados abaixo são tratados sob sigilo absoluto para a desconexão do risco-país e blindagem do seu legado.
+        </p>
+
+        <form id="formEnquadramento">
+            <div class="field">
+                <label>Nome do Arquiteto / Responsável</label>
+                <input type="text" name="nome" required>
+            </div>
+            <div class="field">
+                <label>E-mail Corporativo</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="field">
+                <label>Setor de Atuação Principal</label>
+                <select name="setor" required>
+                    <option value="">Selecione...</option>
+                    <option value="Agro">Agro</option>
+                    <option value="Mineracao">Mineração</option>
+                    <option value="Industria">Indústria</option>
+                    <option value="Novos Negocios">Novos Negócios</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Faturamento Anual Estimado (Liquidez Alvo)</label>
+                <input type="text" name="faturamento" placeholder="Ex: R$ 10MM+">
+            </div>
+            <div class="field">
+                <label>Principais Gargalos de Risco</label>
+                <textarea name="gargalos" rows="4" placeholder="Ex: Sucessão, Risco Jurisdicional, Liquidez..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Gerar Diagnóstico Estratégico em D+1</button>
+        </form>
+    </div>
+
+    <script>
+        // Blindagem Ghost Mode
+        window.addEventListener('blur', () => document.body.classList.add('blur-active'));
+        window.addEventListener('focus', () => document.body.classList.remove('blur-active'));
+
+        // Bloqueio de Print e Atalhos
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 'u' || e.key === 's'))) {
+                e.preventDefault();
+                alert('Atenção: Protocolo de Segurança Ativo.');
+            }
+        });
+
+        // Preparação para o Script de 17h
+        document.getElementById('formEnquadramento').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Aguardando conexão com o Google Apps Script (Sessão 17h).');
+        });
+    </script>
+</body>
+</html>
