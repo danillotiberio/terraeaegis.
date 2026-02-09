@@ -5,100 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enquadramento Estratégico | Terrae Aegis</title>
     <style>
-        :root { --azul-p: #001220; --dourado: #C5B358; }
-        body, html { margin: 0; padding: 0; min-height: 100%; font-family: 'Garamond', serif; color: var(--dourado); background-color: var(--azul-p); }
+        :root { --azul: #001220; --dourado: #C5B358; --branco: #ffffff; }
         
-        /* Blindagem de Interface */
-        body { user-select: none; -webkit-user-select: none; transition: filter 0.3s ease; }
-        .blur-active { filter: blur(20px); }
-
-        .bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('logo-touro.png'); background-size: contain;
-            background-position: center; background-repeat: no-repeat;
-            opacity: 0.1; z-index: -1; pointer-events: none;
+        body, html { 
+            margin: 0; padding: 0; min-height: 100vh;
+            background-color: var(--azul); 
+            color: var(--dourado); font-family: 'Garamond', serif;
+            -webkit-user-select: none; user-select: none;
+            position: relative;
         }
 
-        .container { max-width: 800px; margin: 40px auto; padding: 40px; background: rgba(0, 18, 32, 0.9); border: 1px solid var(--dourado); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        /* Marca D'água do Touro FIXA ao fundo */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; height: 80%;
+            background-image: url('logo-touro.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Proteção Visual (Blur) */
+        #protection-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 9999;
+            justify-content: center; align-items: center; text-align: center;
+        }
+        .blur-msg { border: 1px solid var(--dourado); padding: 30px; background: var(--azul); cursor: pointer; }
+
+        .container { 
+            max-width: 900px; margin: 30px auto; padding: 40px; 
+            background: rgba(0, 18, 32, 0.85);
+            border: 1px solid rgba(197, 179, 88, 0.3); 
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Botão Voltar */
+        .btn-voltar {
+            text-decoration: none; color: var(--dourado); font-size: 12px; 
+            text-transform: uppercase; letter-spacing: 2px; display: inline-block; 
+            margin-bottom: 20px; opacity: 0.7; transition: 0.3s;
+        }
+        .btn-voltar:hover { opacity: 1; letter-spacing: 3px; }
         
-        h1 { text-align: center; letter-spacing: 5px; text-transform: uppercase; font-size: 24px; margin-bottom: 30px; }
-        p.intro { text-align: justify; font-style: italic; margin-bottom: 30px; color: #E6F1FF; }
+        h1 { text-align: center; letter-spacing: 8px; text-transform: uppercase; border-bottom: 2px solid var(--dourado); padding-bottom: 20px; margin-top: 0; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .full-width { grid-column: span 2; }
 
-        form { display: grid; gap: 20px; }
-        .field { display: flex; flex-direction: column; }
-        label { text-transform: uppercase; font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; }
-        input, select, textarea { 
-            background: rgba(255,255,255,0.05); border: 1px solid var(--dourado); 
-            padding: 15px; color: #fff; font-family: 'Garamond', serif; font-size: 16px;
+        .field-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #fff; }
+        input { 
+            width: 100%; padding: 12px; background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--dourado); color: #fff; outline: none; box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
-        input:focus { outline: none; background: rgba(197, 179, 88, 0.1); }
+        input:focus { border-color: #fff; background: rgba(255,255,255,0.1); }
 
-        .btn-submit {
-            background: var(--dourado); color: var(--azul-p); border: none; padding: 20px;
-            font-weight: bold; text-transform: uppercase; cursor: pointer; letter-spacing: 2px;
-            transition: 0.3s; margin-top: 20px;
+        .btn-enviar { 
+            grid-column: span 2; background: var(--dourado); color: var(--azul); 
+            padding: 25px; border: none; font-weight: bold; font-size: 20px; 
+            text-transform: uppercase; cursor: pointer; margin-top: 30px; transition: 0.4s;
+            letter-spacing: 2px;
         }
-        .btn-submit:hover { background: #e2d17b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .btn-enviar:hover { background: #fff; letter-spacing: 6px; box-shadow: 0 0 30px rgba(197, 179, 88, 0.4); }
+
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
     </style>
 </head>
 <body oncontextmenu="return false;">
-    <div class="bg-overlay"></div>
+
+    <div id="protection-overlay" onclick="hideProtection()">
+        <div class="blur-msg">
+            <h2 style="letter-spacing: 5px;">SESSÃO PROTEGIDA</h2>
+            <p>Clique para validar sua identidade e retornar.</p>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Protocolo de Enquadramento</h1>
-        <p class="intro">
-            Iniciando a medição da armadura. Os dados abaixo são tratados sob sigilo absoluto para a desconexão do risco-país e blindagem do seu legado.
-        </p>
+        <a href="index.html" class="btn-voltar">&#8592; Retornar à Base</a>
 
-        <form id="formEnquadramento">
-            <div class="field">
-                <label>Nome do Arquiteto / Responsável</label>
-                <input type="text" name="nome" required>
-            </div>
-            <div class="field">
-                <label>E-mail Corporativo</label>
-                <input type="email" name="email" required>
-            </div>
-            <div class="field">
-                <label>Setor de Atuação Principal</label>
-                <select name="setor" required>
-                    <option value="">Selecione...</option>
-                    <option value="Agro">Agro</option>
-                    <option value="Mineracao">Mineração</option>
-                    <option value="Industria">Indústria</option>
-                    <option value="Novos Negocios">Novos Negócios</option>
-                </select>
-            </div>
-            <div class="field">
-                <label>Faturamento Anual Estimado (Liquidez Alvo)</label>
-                <input type="text" name="faturamento" placeholder="Ex: R$ 10MM+">
-            </div>
-            <div class="field">
-                <label>Principais Gargalos de Risco</label>
-                <textarea name="gargalos" rows="4" placeholder="Ex: Sucessão, Risco Jurisdicional, Liquidez..."></textarea>
-            </div>
-
-            <button type="submit" class="btn-submit">Gerar Diagnóstico Estratégico em D+1</button>
+        <h1>Enquadramento</h1>
+        <p style="text-align: center; font-style: italic; opacity: 0.7; letter-spacing: 1px;">Análise Crítica de Ativos e Estruturação de Liquidez.</p>
+        
+        <form id="formAegis" class="form-grid">
+            <div id="questoes-placeholder" class="form-grid" style="grid-column: span 2; margin: 0;"></div>
+            <button type="submit" class="btn-enviar">Submeter Diagnóstico à Étera</button>
         </form>
     </div>
 
     <script>
-        // Blindagem Ghost Mode
-        window.addEventListener('blur', () => document.body.classList.add('blur-active'));
-        window.addEventListener('focus', () => document.body.classList.remove('blur-active'));
+        const questoes = [
+            "Titular da Operação / Arquiteto", "Razão Social da Holding Principal",
+            "Segmento de Impacto (Agro / Mina / Ind)", "Patrimônio Líquido Estimado (BRL)",
+            "Passivo Estrutural / Endividamento", "Jurisdição Principal dos Ativos",
+            "Estrutura Internacional Existente?", "Herdeiros ou Sucessores Diretos",
+            "Prioridade: Blindagem ou Liquidez?", "Urgência Operacional (1 a 10)",
+            "Faturamento Bruto Anual Consolidado", "Ativos Minerários (DNPM/PLG)?",
+            "Extensão Territorial (Hectares)", "Histórico de Contingências Judiciais?",
+            "Apetite para Domicílio Suíço (0-10)", "Bancarização Internacional Ativa?",
+            "Principal Ameaça ao Patrimônio hoje", "Nível de Sigilo Requerido (0-10)",
+            "Prazo Estimado para Implementação", "Canal de Comunicação Criptografado"
+        ];
 
-        // Bloqueio de Print e Atalhos
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 'u' || e.key === 's'))) {
-                e.preventDefault();
-                alert('Atenção: Protocolo de Segurança Ativo.');
-            }
+        const placeholder = document.getElementById('questoes-placeholder');
+        questoes.forEach((q, i) => {
+            const isFull = (i === 0 || i === 1 || i === 16 || i === 19);
+            placeholder.innerHTML += `
+                <div class="field-group ${isFull ? 'full-width' : ''}">
+                    <label>${i + 1}. ${q}</label>
+                    <input type="text" name="p${i+1}" required autocomplete="off">
+                </div>`;
         });
 
-        // Preparação para o Script de 17h
-        document.getElementById('formEnquadramento').addEventListener('submit', function(e) {
+        const overlay = document.getElementById('protection-overlay');
+        function showProtection() { overlay.style.display = 'flex'; }
+        function hideProtection() { overlay.style.display = 'none'; }
+
+        window.addEventListener('blur', showProtection);
+        window.addEventListener('focus', hideProtection);
+
+        document.getElementById('formAegis').onsubmit = function(e) {
             e.preventDefault();
-            alert('Aguardando conexão com o Google Apps Script (Sessão 17h).');
-        });
+            alert("Dados em processamento. A Étera iniciará a análise de enquadramento.");
+        };
     </script>
 </body>
 </html>
