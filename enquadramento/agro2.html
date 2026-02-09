@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agro | Terrae Aegis Holding Finance</title>
+    <style>
+        :root {
+            --azul-p: #001220;
+            --dourado: #C5B358;
+        }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Garamond', serif; overflow-x: hidden; background-color: var(--azul-p); }
+        
+        /* Proteção Visual */
+        body { user-select: none; -webkit-user-select: none; transition: filter 0.3s ease; }
+        .blur-active { filter: blur(20px); }
+
+        .bg-agro {
+            background-image: linear-gradient(rgba(0, 18, 32, 0.85), rgba(0, 18, 32, 0.85)), url('1000414886.png');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; color: var(--dourado); padding: 60px 20px;
+        }
+
+        /* Marca d'água Fixa */
+        .watermark {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 70%; opacity: 0.07; z-index: 0; pointer-events: none;
+        }
+
+        .container { 
+            max-width: 1000px; width: 100%; background-color: rgba(0, 18, 32, 0.75); 
+            padding: 50px; border: 1px solid var(--dourado); 
+            box-shadow: 0 0 40px rgba(0,0,0,0.8); position: relative; z-index: 1;
+        }
+        
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 28px; letter-spacing: 6px; text-transform: uppercase; margin: 0; }
+        
+        hr { border: 0; border-top: 1px solid var(--dourado); margin: 30px 0; opacity: 0.5; }
+        
+        h2 { font-size: 20px; text-transform: uppercase; letter-spacing: 2px; border-left: 3px solid var(--dourado); padding-left: 15px; margin-top: 40px; }
+        
+        .content { font-size: 18px; line-height: 1.8; text-align: justify; color: #E6F1FF; }
+        .highlight { color: var(--dourado); font-weight: bold; }
+        
+        .btn-enquadramento {
+            display: block; width: 100%; background-color: var(--dourado); color: var(--azul-p); 
+            text-align: center; padding: 25px; font-weight: bold; text-transform: uppercase; 
+            text-decoration: none; font-size: 18px; margin-top: 60px; transition: 0.3s; border-radius: 2px;
+        }
+        .btn-enquadramento:hover { background-color: #e2d17b; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <img src="enquadramento/logo-touro.png" class="watermark" alt="Terrae Aegis">
+
+    <div class="bg-agro">
+        <div class="container">
+            <div class="header">
+                <h1>Soberania e Inteligência no Agronegócio</h1>
+            </div>
+            
+            <hr>
+
+            <div class="content">
+                <p>O agronegócio de alta performance não se limita ao que acontece entre o plantio e a colheita. A verdadeira rentabilidade reside na <span class="highlight">Soberania Estrutural</span> e na capacidade de dominar a cadeia logística e financeira do seu próprio ativo.</p>
+
+                <h2>I. Verticalização de Infraestrutura e Logística</h2>
+                <p>A terra que produz grãos deve também produzir <span class="highlight">eficiência logística</span>. Estruturar unidades de silagem e câmaras frigoríficas dentro da propriedade não é apenas um custo operacional, mas uma estratégia de arbitragem.</p>
+                
+                <h2>II. Blindagem de Legado e Continuidade</h2>
+                <p>Implementamos estruturas de <span class="highlight">Holding Rural</span> que segregam o risco operacional da posse da terra, protegendo o patrimônio contra penhoras.</p>
+
+                <h2>III. Alavancagem e Capitalização Global</h2>
+                <p>Nossa arquitetura conecta o ativo real brasileiro à liquidez internacional, permitindo financiamento próprio com taxas globais.</p>
+            </div>
+
+            <a href="enquadramento/index.html" class="btn-enquadramento">Solicitar Enquadramento Estratégico</a>
+        </div>
+    </div>
+
+    <script>
+        // Ghost Mode - Blur ao perder o foco
+        window.addEventListener('blur', () => document.body.classList.add('blur-active'));
+        window.addEventListener('focus', () => document.body.classList.remove('blur-active'));
+
+        // Bloqueio de PrintScreen e Atalhos
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 'u' || e.key === 's'))) {
+                e.preventDefault();
+                alert('Protocolo de Segurança Ativo: Captura Proibida.');
+            }
+        });
+    </script>
+</body>
+</html>
