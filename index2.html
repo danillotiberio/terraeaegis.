@@ -20,7 +20,6 @@
             overflow-x: hidden;
         }
 
-        /* BARRA DA TRINDADE */
         .barra-trindade {
             width: 100%;
             display: flex;
@@ -52,11 +51,65 @@
             opacity: 0.8;
         }
 
-        /* MOLDURA DE TEXTO (Substituindo a Cortina) */
+        .login-topo-minimalista {
+            position: absolute;
+            top: 65px;
+            right: 5%;
+            width: 22%;
+            max-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 95;
+        }
+
+        .titulo-login {
+            color: var(--dourado-fosco);
+            font-size: 0.6em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+            border-left: 2px solid var(--dourado-fosco);
+            padding-left: 8px;
+        }
+
+        .login-topo-minimalista input {
+            background: rgba(255, 255, 255, 0.03);
+            border: none;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--branco-marfim);
+            font-size: 0.7em;
+            padding: 6px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .login-topo-minimalista input:focus {
+            border-bottom-color: var(--dourado-brilhante);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .login-topo-minimalista button {
+            background: var(--dourado-fosco);
+            color: var(--azul-profundo);
+            border: none;
+            padding: 8px;
+            font-size: 0.65em;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .login-topo-minimalista button:hover {
+            background: var(--dourado-brilhante);
+        }
+
         .moldura-texto {
             width: 90%;
             max-width: 600px;
-            margin: 80px auto 0;
+            margin: 120px auto 0;
             padding: 25px;
             border: 1px solid var(--dourado-fosco);
             display: none;
@@ -64,6 +117,7 @@
             text-align: center;
             min-height: 100px;
         }
+
         #escrita {
             font-style: italic;
             line-height: 1.6;
@@ -71,17 +125,12 @@
             font-size: 1.1em;
         }
 
-        header { padding: 120px 5% 10px; display: flex; flex-direction: column; align-items: center; }
+        header { padding: 100px 5% 10px; display: flex; flex-direction: column; align-items: center; }
         .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
 
         .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 40px; flex-wrap: wrap; }
         .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
         .setor-card:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--dourado-brilhante); }
-
-        .acesso-restrito-container { background-color: rgba(0, 0, 0, 0.2); padding: 50px 10%; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.1); border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
-        .form-acesso { display: flex; gap: 15px; max-width: 700px; margin: 20px auto 0; flex-wrap: wrap; }
-        .form-acesso input { background: transparent; border: 1px solid var(--dourado-fosco); padding: 15px; color: var(--branco-marfim); flex: 1; min-width: 200px; outline: none; }
-        .form-acesso button { background: var(--dourado-fosco); color: var(--azul-profundo); border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
         .hero { padding: 40px 10% 60px; text-align: center; }
         .hero h1 { color: var(--dourado-fosco); font-size: 3em; font-weight: 300; margin-bottom: 15px; }
@@ -92,11 +141,11 @@
         .form-contato input, .form-contato textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; outline: none; }
 
         @media (max-width: 768px) {
-            header { padding-top: 100px; }
+            header { padding-top: 140px; }
             .logo img { height: 180px; }
             .hero h1 { font-size: 2.2em; }
             .barra-trindade { font-size: 0.6em; }
-            .form-acesso { flex-direction: column; }
+            .login-topo-minimalista { position: relative; top: 80px; width: 90%; max-width: none; right: auto; margin: 0 auto 20px; }
         }
     </style>
 </head>
@@ -116,6 +165,13 @@
         </div>
     </nav>
 
+    <div class="login-topo-minimalista">
+        <div class="titulo-login">Área Restrita Login</div>
+        <input type="email" id="email_restrito" placeholder="E-MAIL">
+        <input type="text" id="token_restrito" placeholder="TOKEN">
+        <button onclick="validarTokenRestrito()">Acessar</button>
+    </div>
+
     <div id="moldura" class="moldura-texto">
         <div id="escrita"></div>
     </div>
@@ -129,15 +185,6 @@
         <div class="setor-card" onclick="location.href='Mineracao/index.html'">Mineração</div>
         <div class="setor-card" onclick="location.href='industria/index.html'">Indústria</div>
         <div class="setor-card" onclick="location.href='novos-negocios/index.html'">Novos Negócios</div>
-    </section>
-
-    <section class="acesso-restrito-container">
-        <h3 style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9em; margin: 0;">Área Restrita do Grupo Econômico</h3>
-        <form onsubmit="event.preventDefault(); validarTokenRestrito();" class="form-acesso">
-            <input type="email" id="email_restrito" placeholder="DIGITE SEU E-MAIL" required>
-            <input type="text" id="token_restrito" placeholder="CHAVE TOKEN" required>
-            <button type="submit" id="btn_restrito">VALIDAR ACESSO</button>
-        </form>
     </section>
 
     <section class="hero">
@@ -165,7 +212,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <script>
-        // BLOQUEIO DE SEGURANÇA
         document.onkeydown = function(e) {
             if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
         };
@@ -175,7 +221,6 @@
         async function enviarParaGoogle(form, isRestrito) {
             const btn = form.querySelector('button');
             const emailInput = document.getElementById('email_contato');
-            
             btn.innerText = "PROCESSANDO...";
             btn.disabled = true;
 
@@ -191,7 +236,6 @@
                 token: tokenGerado
             };
 
-            // Envio para Web3Forms (Redundância)
             const formData = new FormData(form);
             fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
 
@@ -201,24 +245,21 @@
                     mode: 'no-cors',
                     body: JSON.stringify(dadosGAS)
                 });
-
                 document.getElementById('email_restrito').value = emailInput.value;
                 document.getElementById('token_restrito').value = tokenGerado;
-                alert("Sucesso! Sua Credencial: " + tokenGerado + "\n\nO campo de acesso acima foi preenchido automaticamente.");
+                alert("Sucesso! Sua Credencial: " + tokenGerado);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (e) {
-                alert("Erro na sincronia. Tente novamente.");
+                alert("Erro na sincronia.");
             } finally {
                 btn.innerText = "OBTER CREDENCIAL";
                 btn.disabled = false;
             }
         }
 
-        // VALIDAÇÃO REAL DO TOKEN
         function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
-            
             const hash = CryptoJS.MD5(email).toString();
             const tokenCorreto = btoa(hash).substring(0, 6).toUpperCase();
 
@@ -226,11 +267,10 @@
                 sessionStorage.setItem('token_validado', 'true');
                 window.location.href = "enquadramento/index.html";
             } else {
-                alert("ACESSO NEGADO: Token inválido para este e-mail.");
+                alert("ACESSO NEGADO: Token inválido.");
             }
         }
 
-        // EFEITO ESCRITA TURBO
         const info = {
             'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
             'financeira': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
@@ -244,7 +284,7 @@
             box.innerHTML = "";
             let i = 0;
             const texto = info[tipo];
-            const speed = 2000 / texto.length; // 2 segundos total
+            const speed = 2000 / texto.length;
 
             function type() {
                 if (i < texto.length) {
