@@ -1,87 +1,136 @@
-<style>
-    /* BLOQUEIO DE CÓPIA E SELEÇÃO */
-    body {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        overflow-x: hidden;
-        touch-action: pan-y; /* Permite scroll, bloqueia gestos de zoom/navegação do browser */
-    }
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Terrae Aegis | Holding Financeira</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        :root { --azul: #0A192F; --dourado: #C5A059; --brilhante: #FFD700; --gelo: #E6E6E6; }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        body { background: var(--azul); color: var(--gelo); font-family: 'Segoe UI', sans-serif; user-select:none; -webkit-user-select:none; overflow-x:hidden; }
+        
+        /* TOPO E TRINDADE */
+        .nav-trindade { width:100%; position:fixed; top:0; z-index:1000; background:rgba(10,25,47,0.95); border-bottom:1px solid rgba(197,160,89,0.3); display:flex; justify-content:center; backdrop-filter:blur(8px); }
+        .item-t { padding:15px; font-size:0.7em; letter-spacing:2px; text-transform:uppercase; color:var(--brilhante); font-weight:bold; cursor:pointer; transition:0.3s; }
+        
+        /* LOGIN MINIMALISTA */
+        .login-box { position:fixed; top:55px; right:5%; z-index:999; display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
+        .login-box input { background:transparent; border:none; border-bottom:1px solid rgba(197,160,89,0.4); color:white; font-size:0.75em; padding:5px; width:170px; outline:none; }
+        .btn-v { border:1px solid var(--dourado); color:var(--dourado); font-size:0.65em; padding:3px 15px; cursor:pointer; background:transparent; text-transform:uppercase; transition:0.3s; }
+        .btn-v:hover { background:rgba(197,160,89,0.1); }
 
-    /* TOPO REESTRUTURADO */
-    header {
-        padding: 70px 5% 10px; /* Reduzido para aproximar Touro da Trindade */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transition: all 0.3s ease;
-    }
+        /* LOGO (REDUÇÃO 40%) */
+        .header { padding-top:80px; display:flex; justify-content:center; }
+        .logo img { height:200px; width:auto; }
 
-    /* LOGIN MINIMALISTA SUPERIOR DIREITO */
-    .login-top-right {
-        position: fixed;
-        top: 55px; /* Logo abaixo da Trindade */
-        right: 5%;
-        z-index: 101;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 5px;
-    }
+        /* MOLDURA DE TEXTO (EFEITO ESCRITA) */
+        .moldura-texto { width:90%; max-width:700px; margin:20px auto; min-height:80px; padding:20px; border:1px solid var(--dourado); display:none; background:rgba(255,255,255,0.02); }
+        #escrita { font-style:italic; line-height:1.6; color:var(--gelo); }
 
-    .login-top-right input {
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid rgba(197, 160, 89, 0.5);
-        color: var(--branco-marfim);
-        font-size: 0.75em;
-        padding: 5px;
-        width: 150px;
-        outline: none;
-        transition: border-bottom 0.3s;
-    }
+        /* FORMULÁRIO RODAPÉ */
+        .footer { padding:60px 10%; border-top:1px solid rgba(197,160,89,0.1); margin-top:50px; }
+        .f-cad { max-width:400px; margin:0 auto; display:flex; flex-direction:column; gap:15px; }
+        .f-cad input { background:rgba(255,255,255,0.05); border:1px solid #333; padding:12px; color:white; outline:none; }
+        .btn-g { background:var(--dourado); color:var(--azul); border:none; padding:15px; font-weight:bold; cursor:pointer; text-transform:uppercase; }
 
-    .login-top-right input:focus {
-        border-bottom: 1px solid var(--dourado-brilhante);
-    }
+        .dev { text-align:right; font-size:0.6em; opacity:0.3; padding:20px; letter-spacing:1px; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
 
-    .btn-validar-top {
-        background: transparent;
-        border: 1px solid var(--dourado-fosco);
-        color: var(--dourado-fosco);
-        font-size: 0.7em;
-        padding: 3px 10px;
-        cursor: pointer;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 5px;
-        transition: 0.3s;
-    }
+    <nav class="nav-trindade">
+        <div class="item-t" onclick="escrever('seguranca')">Segurança</div>
+        <div class="item-t" onclick="escrever('financeira')">Financeira</div>
+        <div class="item-t" onclick="escrever('governanca')">Governança</div>
+    </nav>
 
-    .btn-validar-top:hover {
-        background: rgba(197, 160, 89, 0.1);
-        color: var(--dourado-brilhante);
-    }
+    <div class="login-box">
+        <input type="email" id="l_email" placeholder="E-MAIL">
+        <input type="text" id="l_token" placeholder="TOKEN">
+        <button class="btn-v" onclick="validar()">Validar</button>
+    </div>
 
-    /* MOLDURA DOURADA (MODO APP) */
-    .painel-setorial {
-        width: 90%;
-        max-width: 800px;
-        margin: 20px auto;
-        border: 2px solid var(--dourado-fosco);
-        display: none; /* Ativado via JS */
-        position: relative;
-        background: rgba(10, 25, 47, 0.95);
-        box-shadow: 0 0 30px rgba(0,0,0,0.8);
-    }
+    <div class="header">
+        <div class="logo"><img src="logo-touro.png"></div>
+    </div>
 
-    .btn-fechar-painel {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        color: var(--dourado-fosco);
-        font-size: 1.5em;
-        cursor: pointer;
-    }
-</style>
+    <div id="moldura" class="moldura-texto">
+        <div id="escrita"></div>
+    </div>
+
+    <footer class="footer">
+        <div class="f-cad">
+            <h4 style="text-align:center; font-size:0.8em; color:var(--dourado); letter-spacing:2px;">SOLICITAR CREDENCIAL</h4>
+            <input type="text" id="c_nome" placeholder="Nome Completo">
+            <input type="email" id="c_email" placeholder="E-mail Corporativo">
+            <input type="text" id="c_tel" placeholder="Telefone (00) 00000-0000" maxlength="15">
+            <button class="btn-g" id="btn-envio" onclick="enviarDados()">Obter Credencial</button>
+        </div>
+    </footer>
+
+    <div class="dev">DEVELOP BY TERRAE AEGIS®</div>
+
+    <script>
+        const TEXTOS = {
+            seguranca: "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
+            financeira: "Desacoplamos ativos do sistema nacional para viabilizar independência absoluta. Arquitetura financeira desenhada para aceleração e mobilidade global.",
+            governanca: "Protocolos de comando onde o detentor mantém soberania total sobre os ativos. Estrutura de governança que assegura a posição de vanguarda nos negócios."
+        };
+
+        function escrever(chave) {
+            const moldura = document.getElementById('moldura');
+            const box = document.getElementById('escrita');
+            moldura.style.display = 'block';
+            box.innerHTML = "";
+            let i = 0;
+            const texto = TEXTOS[chave];
+            const speed = 2000 / texto.length; // Efeito Turbo (2 segundos total)
+
+            function type() {
+                if (i < texto.length) {
+                    box.innerHTML += texto.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        document.getElementById('c_tel').addEventListener('input', e => {
+            let v = e.target.value.replace(/\D/g,"");
+            v = v.replace(/^(\d{2})(\d)/g,"($1) $2");
+            v = v.replace(/(\d{5})(\d)/,"$1-$2");
+            e.target.value = v;
+        });
+
+        async function enviarDados() {
+            const btn = document.getElementById('btn-envio');
+            const payload = {
+                nome: document.getElementById('c_nome').value,
+                email: document.getElementById('c_email').value,
+                telefone: document.getElementById('c_tel').value,
+                token: btoa(CryptoJS.MD5(document.getElementById('c_email').value).toString()).substring(0, 6).toUpperCase()
+            };
+
+            if(!payload.nome || !payload.email) return alert("Preencha os campos.");
+            
+            btn.innerText = "PROCESSANDO...";
+            btn.disabled = true;
+
+            try {
+                await fetch('SUA_URL_DO_GOOGLE_SCRIPT_AQUI', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
+                });
+                alert("Credencial enviada para seu e-mail.");
+                window.scrollTo(0,0);
+            } catch(e) { alert("Erro ao conectar."); }
+            btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
+        }
+
+        function validar() { window.location.href = "enquadramento/index.html"; }
+    </script>
+</body>
+</html>
