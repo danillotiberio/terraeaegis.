@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terrae Aegis | Holding Financeira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <style>
         :root {
             --azul-profundo: #0A192F;
@@ -20,6 +22,7 @@
             overflow-x: hidden;
         }
 
+        /* BARRA DA TRINDADE */
         .barra-trindade {
             width: 100%;
             display: flex;
@@ -27,30 +30,56 @@
             background: rgba(10, 25, 47, 0.95);
             border-bottom: 1px solid rgba(255, 215, 0, 0.3);
             position: fixed;
-            top: 0; z-index: 1000;
+            top: 0; z-index: 2000;
             backdrop-filter: blur(10px);
         }
 
-        .item-trindade-container {
-            padding: 15px 20px;
-            cursor: pointer;
-        }
-
+        .item-trindade-container { padding: 15px 20px; cursor: pointer; }
         .item-trindade {
             font-size: 0.75em;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--dourado-brilhante);
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
         }
 
-        .divisor-trindade {
-            color: var(--dourado-brilhante);
-            padding-top: 13px;
-            opacity: 0.8;
-        }
+        .divisor-trindade { color: var(--dourado-brilhante); padding-top: 13px; opacity: 0.8; }
 
+        /* MOLDURA TRINDADE (VIDRO FUMÊ 75% - SEM BLUR - ABSOLUTE) */
+        .moldura-texto {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border: 1px solid var(--dourado-fosco);
+            display: none;
+            background: rgba(10, 25, 47, 0.75); /* FUMÊ 75% */
+            text-align: center;
+            z-index: 1500;
+        }
+        .fechar-moldura {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--dourado-fosco);
+            cursor: pointer;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+        .titulo-moldura {
+            color: var(--dourado-fosco);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
+
+        /* LOGIN MINIMALISTA VERTICAL */
         .login-topo-minimalista {
             position: absolute;
             top: 65px;
@@ -60,19 +89,16 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            z-index: 95;
+            z-index: 1000;
         }
-
         .titulo-login {
             color: var(--dourado-fosco);
             font-size: 0.6em;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 2px;
             border-left: 2px solid var(--dourado-fosco);
             padding-left: 8px;
         }
-
         .login-topo-minimalista input {
             background: rgba(255, 255, 255, 0.03);
             border: none;
@@ -81,14 +107,7 @@
             font-size: 0.7em;
             padding: 6px;
             outline: none;
-            transition: 0.3s;
         }
-
-        .login-topo-minimalista input:focus {
-            border-bottom-color: var(--dourado-brilhante);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
         .login-topo-minimalista button {
             background: var(--dourado-fosco);
             color: var(--azul-profundo);
@@ -98,71 +117,55 @@
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            letter-spacing: 2px;
-            transition: 0.3s;
-        }
-
-        .login-topo-minimalista button:hover {
-            background: var(--dourado-brilhante);
-        }
-
-        .moldura-texto {
-            width: 90%;
-            max-width: 600px;
-            margin: 120px auto 0;
-            padding: 25px;
-            border: 1px solid var(--dourado-fosco);
-            display: none;
-            background: rgba(255, 255, 255, 0.02);
-            text-align: center;
-            min-height: 100px;
-        }
-
-        #escrita {
-            font-style: italic;
-            line-height: 1.6;
-            color: var(--branco-marfim);
-            font-size: 1.1em;
         }
 
         header { padding: 100px 5% 10px; display: flex; flex-direction: column; align-items: center; }
         .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
 
-        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 40px; flex-wrap: wrap; }
+        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 20px; flex-wrap: wrap; }
         .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
-        .setor-card:hover { background: rgba(197, 160, 89, 0.1); border-color: var(--dourado-brilhante); }
 
-        .hero { padding: 40px 10% 60px; text-align: center; }
-        .hero h1 { color: var(--dourado-fosco); font-size: 3em; font-weight: 300; margin-bottom: 15px; }
-        .hero p { max-width: 800px; font-size: 1.2em; margin: 0 auto; opacity: 0.8; }
+        /* HERO COMPACTO EM LINHA ÚNICA */
+        .hero { padding: 20px 10% 40px; text-align: center; }
+        .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; white-space: nowrap; }
+        .hero p { max-width: 800px; font-size: 1.1em; margin: 0 auto; opacity: 0.8; }
 
-        .footer { padding: 60px 10%; display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; border-top: 1px solid rgba(197, 160, 89, 0.3); }
-        .form-contato { flex: 1; min-width: 320px; max-width: 600px; }
-        .form-contato input, .form-contato textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; outline: none; }
+        .footer { padding: 40px 10%; border-top: 1px solid rgba(197, 160, 89, 0.3); }
+        .form-contato { max-width: 600px; margin: 0 auto; }
+        .form-contato input { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; outline: none; }
+        
+        /* Ajuste Telefone */
+        .iti { width: 100%; margin-bottom: 15px; }
+        .iti__placeholder { color: rgba(255,255,255,0.3); }
+
+        /* ASSINATURA PRATEADA DISCRETA */
+        .assinatura-dev {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.6em;
+            color: #C0C0C0; /* Prata */
+            font-weight: 200;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
 
         @media (max-width: 768px) {
-            header { padding-top: 140px; }
-            .logo img { height: 180px; }
-            .hero h1 { font-size: 2.2em; }
-            .barra-trindade { font-size: 0.6em; }
-            .login-topo-minimalista { position: relative; top: 80px; width: 90%; max-width: none; right: auto; margin: 0 auto 20px; }
+            .hero h1 { font-size: 1.6em; white-space: normal; }
+            .login-topo-minimalista { position: relative; top: 80px; width: 90%; right: auto; margin: 0 auto; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <nav class="barra-trindade">
-        <div class="item-trindade-container" onclick="escrever('seguranca')">
-            <span class="item-trindade">Segurança</span>
-        </div>
+        <div class="item-trindade-container" onclick="escrever('seguranca', 'SEGURANÇA')"><span class="item-trindade">Segurança</span></div>
         <span class="divisor-trindade">|</span>
-        <div class="item-trindade-container" onclick="escrever('financeira')">
-            <span class="item-trindade">Financeira</span>
-        </div>
+        <div class="item-trindade-container" onclick="escrever('financeira', 'FINANCEIRA')"><span class="item-trindade">Financeira</span></div>
         <span class="divisor-trindade">|</span>
-        <div class="item-trindade-container" onclick="escrever('governanca')">
-            <span class="item-trindade">Governança</span>
-        </div>
+        <div class="item-trindade-container" onclick="escrever('governanca', 'GOVERNANÇA')"><span class="item-trindade">Governança</span></div>
     </nav>
 
     <div class="login-topo-minimalista">
@@ -173,6 +176,8 @@
     </div>
 
     <div id="moldura" class="moldura-texto">
+        <span class="fechar-moldura" onclick="fecharMoldura()">×</span>
+        <span id="titulo-moldura" class="titulo-moldura"></span>
         <div id="escrita"></div>
     </div>
 
@@ -188,87 +193,74 @@
     </section>
 
     <section class="hero">
-        <h1>Onde a Estratégia<br>Esculpe o Patrimônio.</h1>
+        <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
         <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
     </section>
 
     <footer class="footer">
         <div class="form-contato">
-            <h3 style="color: var(--dourado-fosco); text-transform: uppercase;">Solicite Contato</h3>
-            <form id="form_contato_principal" onsubmit="event.preventDefault(); enviarParaGoogle(this, false);">
+            <h3 style="color: var(--dourado-fosco); text-transform: uppercase; text-align: center; margin-bottom: 20px; font-weight: 300;">Cadastramento Área Restrita</h3>
+            <form id="form_contato_principal" onsubmit="event.preventDefault(); enviarParaGoogle(this);">
                 <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
-                <input type="hidden" name="from_name" value="Terrae Aegis - Site">
-                <input type="hidden" name="subject" value="Novo Lead Estratégico">
-
                 <input type="text" id="nome_contato" name="name" placeholder="Nome Completo" required>
                 <input type="email" id="email_contato" name="email" placeholder="E-mail" required>
-                <textarea id="mensagem_contato" name="message" placeholder="Sua Mensagem" required style="width: 100%; height: 100px; box-sizing: border-box; resize: none;"></textarea>
+                <input type="tel" id="telefone_contato" name="phone" required>
                 
-                <button type="submit" id="btn_contato" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer;">OBTER CREDENCIAL</button>
+                <button type="submit" id="btn_contato" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px;">OBTER CREDENCIAL</button>
             </form>
         </div>
     </footer>
 
+    <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <script>
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
-        };
+        // Inicialização Telefone Inteligente (IP/DDI automático)
+        const phoneInput = document.querySelector("#telefone_contato");
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "auto",
+            geoIpLookup: function(success, failure) {
+                fetch("https://ipapi.co/json").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("br"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBtYS4-ag2Q9MyDa0FUnlbdthFln_KZ8ePojXQHGbuyRucy2uaUJYahn5aeHmHhACkkQ/exec';
 
-        async function enviarParaGoogle(form, isRestrito) {
+        async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
-            const emailInput = document.getElementById('email_contato');
-            btn.innerText = "PROCESSANDO...";
-            btn.disabled = true;
+            const email = document.getElementById('email_contato').value;
+            btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
-            const hash = CryptoJS.MD5(emailInput.value.trim().toLowerCase()).toString();
+            const hash = CryptoJS.MD5(email.trim().toLowerCase()).toString();
             const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
             const dadosGAS = {
                 nome: document.getElementById('nome_contato').value,
-                email: emailInput.value,
-                telefone: "Sistema Terrae Aegis",
-                capital: "Consultivo",
-                mensagem: document.getElementById('mensagem_contato').value,
+                email: email,
+                telefone: iti.getNumber(), // Pega o número completo com DDI
+                mensagem: "Cadastramento Área Restrita",
                 token: tokenGerado
             };
 
-            const formData = new FormData(form);
-            fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+            fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) });
 
             try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(dadosGAS)
-                });
-                document.getElementById('email_restrito').value = emailInput.value;
-                document.getElementById('token_restrito').value = tokenGerado;
-                alert("Sucesso! Sua Credencial: " + tokenGerado);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (e) {
-                alert("Erro na sincronia.");
-            } finally {
-                btn.innerText = "OBTER CREDENCIAL";
-                btn.disabled = false;
-            }
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dadosGAS) });
+                alert("Cadastramento realizado! Sua Credencial: " + tokenGerado);
+            } catch (e) { alert("Erro na sincronia."); }
+            btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
         function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
+            if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
             const hash = CryptoJS.MD5(email).toString();
-            const tokenCorreto = btoa(hash).substring(0, 6).toUpperCase();
-
-            if (tokenDigitado === tokenCorreto) {
-                sessionStorage.setItem('token_validado', 'true');
+            if (tokenDigitado === btoa(hash).substring(0, 6).toUpperCase()) {
                 window.location.href = "enquadramento/index.html";
-            } else {
-                alert("ACESSO NEGADO: Token inválido.");
-            }
+            } else { alert("Token inválido."); }
         }
 
         const info = {
@@ -277,24 +269,26 @@
             'governanca': "Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios."
         };
 
-        function escrever(tipo) {
+        function escrever(tipo, titulo) {
             const moldura = document.getElementById('moldura');
             const box = document.getElementById('escrita');
+            document.getElementById('titulo-moldura').innerText = titulo;
             moldura.style.display = 'block';
             box.innerHTML = "";
-            let i = 0;
-            const texto = info[tipo];
-            const speed = 2000 / texto.length;
-
-            function type() {
-                if (i < texto.length) {
-                    box.innerHTML += texto.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
+            let i = 0; const texto = info[tipo];
+            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 2000 / texto.length); } }
             type();
         }
+
+        function fecharMoldura() { document.getElementById('moldura').style.display = 'none'; }
+
+        // Fechar ao clicar fora
+        document.addEventListener('mousedown', function(e) {
+            const m = document.getElementById('moldura');
+            if (m.style.display === 'block' && !m.contains(e.target) && !e.target.closest('.item-trindade-container')) {
+                fecharMoldura();
+            }
+        });
     </script>
 </body>
 </html>
