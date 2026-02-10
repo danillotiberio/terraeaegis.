@@ -18,15 +18,20 @@
         .login-box { position:fixed; top:55px; right:5%; z-index:999; display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
         .login-box input { background:transparent; border:none; border-bottom:1px solid rgba(197,160,89,0.4); color:white; font-size:0.75em; padding:5px; width:170px; outline:none; }
         .btn-v { border:1px solid var(--dourado); color:var(--dourado); font-size:0.65em; padding:3px 15px; cursor:pointer; background:transparent; text-transform:uppercase; transition:0.3s; }
-        .btn-v:hover { background:rgba(197,160,89,0.1); }
 
-        /* LOGO (REDUÇÃO 40%) */
+        /* LOGO */
         .header { padding-top:80px; display:flex; justify-content:center; }
-        .logo img { height:200px; width:auto; }
+        .logo img { height:180px; width:auto; }
 
-        /* MOLDURA DE TEXTO (EFEITO ESCRITA) */
+        /* MOLDURA DE TEXTO TRINDADE */
         .moldura-texto { width:90%; max-width:700px; margin:20px auto; min-height:80px; padding:20px; border:1px solid var(--dourado); display:none; background:rgba(255,255,255,0.02); }
-        #escrita { font-style:italic; line-height:1.6; color:var(--gelo); }
+        #escrita { font-style:italic; line-height:1.6; color:var(--gelo); text-align:center; }
+
+        /* SETORES OPERACIONAIS */
+        .container-setores { padding:40px 5%; display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:15px; max-width:1000px; margin:0 auto; }
+        .card-setor { border:1px solid rgba(197,160,89,0.2); padding:20px; text-align:center; cursor:pointer; transition:0.4s; }
+        .card-setor:hover { border-color: var(--brilhante); background:rgba(197,160,89,0.05); }
+        .card-setor h3 { font-size:0.7em; letter-spacing:2px; color:var(--dourado); text-transform:uppercase; }
 
         /* FORMULÁRIO RODAPÉ */
         .footer { padding:60px 10%; border-top:1px solid rgba(197,160,89,0.1); margin-top:50px; }
@@ -52,11 +57,19 @@
     </div>
 
     <div class="header">
-        <div class="logo"><img src="logo-touro.png"></div>
+        <div class="logo"><img src="logo-touro.png" alt="Terrae Aegis"></div>
     </div>
 
     <div id="moldura" class="moldura-texto">
         <div id="escrita"></div>
+    </div>
+
+    <div class="container-setores">
+        <div class="card-setor"><h3>Agro</h3></div>
+        <div class="card-setor"><h3>Mineração</h3></div>
+        <div class="card-setor"><h3>Imobiliário</h3></div>
+        <div class="card-setor"><h3>Energia</h3></div>
+        <div class="card-setor"><h3>Logística</h3></div>
     </div>
 
     <footer class="footer">
@@ -72,6 +85,11 @@
     <div class="dev">DEVELOP BY TERRAE AEGIS®</div>
 
     <script>
+        // SEGURANÇA MESTRE
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
+        };
+
         const TEXTOS = {
             seguranca: "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
             financeira: "Desacoplamos ativos do sistema nacional para viabilizar independência absoluta. Arquitetura financeira desenhada para aceleração e mobilidade global.",
@@ -85,8 +103,7 @@
             box.innerHTML = "";
             let i = 0;
             const texto = TEXTOS[chave];
-            const speed = 2000 / texto.length; // Efeito Turbo (2 segundos total)
-
+            const speed = 2000 / texto.length;
             function type() {
                 if (i < texto.length) {
                     box.innerHTML += texto.charAt(i);
@@ -106,27 +123,25 @@
 
         async function enviarDados() {
             const btn = document.getElementById('btn-envio');
+            const emailVal = document.getElementById('c_email').value;
             const payload = {
                 nome: document.getElementById('c_nome').value,
-                email: document.getElementById('c_email').value,
+                email: emailVal,
                 telefone: document.getElementById('c_tel').value,
-                token: btoa(CryptoJS.MD5(document.getElementById('c_email').value).toString()).substring(0, 6).toUpperCase()
+                token: btoa(CryptoJS.MD5(emailVal).toString()).substring(0, 6).toUpperCase()
             };
-
             if(!payload.nome || !payload.email) return alert("Preencha os campos.");
-            
             btn.innerText = "PROCESSANDO...";
             btn.disabled = true;
-
             try {
-                await fetch('SUA_URL_DO_GOOGLE_SCRIPT_AQUI', {
+                await fetch('https://script.google.com/macros/s/AKfycbxBtYS4-ag2Q9MyDa0FUnlbdthFln_KZ8ePojXQHGbuyRucy2uaUJYahn5aeHmHhACkkQ/exec', {
                     method: 'POST',
                     mode: 'no-cors',
                     body: JSON.stringify(payload)
                 });
-                alert("Credencial enviada para seu e-mail.");
+                alert("Protocolo iniciado. Verifique sua credencial no e-mail.");
                 window.scrollTo(0,0);
-            } catch(e) { alert("Erro ao conectar."); }
+            } catch(e) { alert("Erro na conexão segura."); }
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
