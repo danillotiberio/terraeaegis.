@@ -1,0 +1,87 @@
+<style>
+    /* BLOQUEIO DE CÓPIA E SELEÇÃO */
+    body {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        overflow-x: hidden;
+        touch-action: pan-y; /* Permite scroll, bloqueia gestos de zoom/navegação do browser */
+    }
+
+    /* TOPO REESTRUTURADO */
+    header {
+        padding: 70px 5% 10px; /* Reduzido para aproximar Touro da Trindade */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    /* LOGIN MINIMALISTA SUPERIOR DIREITO */
+    .login-top-right {
+        position: fixed;
+        top: 55px; /* Logo abaixo da Trindade */
+        right: 5%;
+        z-index: 101;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+    }
+
+    .login-top-right input {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(197, 160, 89, 0.5);
+        color: var(--branco-marfim);
+        font-size: 0.75em;
+        padding: 5px;
+        width: 150px;
+        outline: none;
+        transition: border-bottom 0.3s;
+    }
+
+    .login-top-right input:focus {
+        border-bottom: 1px solid var(--dourado-brilhante);
+    }
+
+    .btn-validar-top {
+        background: transparent;
+        border: 1px solid var(--dourado-fosco);
+        color: var(--dourado-fosco);
+        font-size: 0.7em;
+        padding: 3px 10px;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 5px;
+        transition: 0.3s;
+    }
+
+    .btn-validar-top:hover {
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--dourado-brilhante);
+    }
+
+    /* MOLDURA DOURADA (MODO APP) */
+    .painel-setorial {
+        width: 90%;
+        max-width: 800px;
+        margin: 20px auto;
+        border: 2px solid var(--dourado-fosco);
+        display: none; /* Ativado via JS */
+        position: relative;
+        background: rgba(10, 25, 47, 0.95);
+        box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    .btn-fechar-painel {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        color: var(--dourado-fosco);
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+</style>
