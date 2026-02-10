@@ -6,46 +6,19 @@
     <title>Terrae Aegis | Holding Financeira</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
-        :root {
-            --azul-profundo: #0A192F;
-            --dourado-fosco: #C5A059;
-            --dourado-brilhante: #FFD700;
-            --branco-marfim: #E6E6E6;
-        }
+        :root { --azul-profundo: #0A192F; --dourado-fosco: #C5A059; --dourado-brilhante: #FFD700; --branco-marfim: #E6E6E6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--azul-profundo); color: var(--branco-marfim); font-family: 'Segoe UI', sans-serif; user-select: none; -webkit-user-select: none; overflow-x: hidden; }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--azul-profundo);
-            color: var(--branco-marfim);
-            overflow-x: hidden;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        /* BARRA DA TRINDADE */
-        .barra-trindade {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(10, 25, 47, 0.95);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-            position: fixed;
-            top: 0; z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
+        /* TRINDADE TURBO */
+        .barra-trindade { width: 100%; display: flex; justify-content: center; background: rgba(10, 25, 47, 0.95); border-bottom: 1px solid rgba(255, 215, 0, 0.3); position: fixed; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
         .item-trindade-container { padding: 15px 20px; cursor: pointer; }
         .item-trindade { font-size: 0.75em; letter-spacing: 3px; text-transform: uppercase; color: var(--dourado-brilhante); font-weight: bold; }
         .divisor-trindade { color: var(--dourado-brilhante); padding-top: 13px; opacity: 0.5; }
 
-        /* MOLDURA DE TEXTO DINÂMICO */
-        .moldura-texto { 
-            width: 90%; max-width: 600px; margin: 80px auto 0; 
-            padding: 20px; border: 1px solid var(--dourado-fosco); 
-            display: none; background: rgba(255,255,255,0.02); text-align: center;
-        }
-        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); }
+        /* MOLDURA DINÂMICA */
+        .moldura-texto { width: 90%; max-width: 600px; margin: 80px auto 0; padding: 20px; border: 1px solid var(--dourado-fosco); display: none; background: rgba(255,255,255,0.02); text-align: center; }
+        #escrita { font-style: italic; line-height: 1.6; }
 
         header { padding: 40px 5% 10px; display: flex; flex-direction: column; align-items: center; }
         .logo img { height: 220px; width: auto; max-width: 95%; margin-bottom: 10px; }
@@ -67,12 +40,7 @@
         .form-contato { max-width: 600px; margin: 0 auto; }
         .form-contato input, .form-contato textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; outline: none; }
 
-        @media (max-width: 768px) {
-            header { padding-top: 100px; }
-            .logo img { height: 160px; }
-            .hero h1 { font-size: 2em; }
-            .form-acesso { flex-direction: column; }
-        }
+        @media (max-width: 768px) { header { padding-top: 100px; } .logo img { height: 160px; } .hero h1 { font-size: 2em; } .form-acesso { flex-direction: column; } }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -116,16 +84,21 @@
         <div class="form-contato">
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase; text-align: center; margin-bottom: 20px;">Solicite Credencial</h3>
             <form id="form_contato_principal" onsubmit="event.preventDefault(); enviarParaGoogle();">
-                <input type="text" id="nome_contato" placeholder="Nome Completo" required>
-                <input type="email" id="email_contato" placeholder="E-mail Corporativo" required>
-                <input type="text" id="tel_contato" placeholder="WhatsApp (00) 00000-0000" maxlength="15">
+                <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
+                <input type="hidden" name="from_name" value="Terrae Aegis - Site">
+                <input type="hidden" name="subject" value="Novo Lead Estratégico">
+
+                <input type="text" id="nome_contato" name="name" placeholder="Nome Completo" required>
+                <input type="email" id="email_contato" name="email" placeholder="E-mail" required>
+                <textarea id="mensagem_contato" name="message" placeholder="Sua Mensagem" required style="width: 100%; height: 100px; resize: none;"></textarea>
+                
                 <button type="submit" id="btn_contato" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase;">OBTER CREDENCIAL</button>
             </form>
         </div>
     </footer>
 
     <script>
-        // SEGURANÇA: BLOQUEIO DE INSPEÇÃO
+        // SEGURANÇA MESTRE
         document.onkeydown = function(e) {
             if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
         };
@@ -152,17 +125,34 @@
 
             const token = btoa(CryptoJS.MD5(email).toString()).substring(0, 6).toUpperCase();
 
+            // Envio Duplo (Brevo/Planilha + Web3Forms)
             try {
                 await fetch('https://script.google.com/macros/s/AKfycbxBtYS4-ag2Q9MyDa0FUnlbdthFln_KZ8ePojXQHGbuyRucy2uaUJYahn5aeHmHhACkkQ/exec', {
                     method: 'POST', mode: 'no-cors',
-                    body: JSON.stringify({ nome, email, telefone: document.getElementById('tel_contato').value, token })
+                    body: JSON.stringify({ nome, email, token, mensagem: document.getElementById('mensagem_contato').value })
                 });
-                alert("Sucesso! Credencial enviada para seu e-mail.");
+                // Trigger Web3Forms
+                const formData = new FormData(document.getElementById('form_contato_principal'));
+                fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+
+                alert("Sucesso! Credencial: " + token);
             } catch (e) { alert("Erro na sincronia."); }
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
-        function validarAcesso() { window.location.href = "enquadramento/index.html"; }
+        function validarAcesso() {
+            const email = document.getElementById('email_restrito').value.trim().toLowerCase();
+            const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
+            
+            const hash = CryptoJS.MD5(email).toString();
+            const tokenCorreto = btoa(hash).substring(0, 6).toUpperCase();
+
+            if (tokenDigitado === tokenCorreto) {
+                window.location.href = "enquadramento/index.html";
+            } else {
+                alert("ACESSO NEGADO: Token inválido para este e-mail.");
+            }
+        }
     </script>
 </body>
 </html>
