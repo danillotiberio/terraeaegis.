@@ -4,46 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terrae Aegis | Agro - Fomento Agroindustrial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
         :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
-        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        header { padding: 40px 20px; text-align: center; border-bottom: 2px solid var(--dourado); background: linear-gradient(rgba(0,26,51,0.8), rgba(0,26,51,0.8)), url('agro.png'); background-size: cover; }
-        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 3px; font-size: 1.8rem; margin: 0; }
-        .container { padding: 30px 20px; max-width: 800px; margin: auto; }
-        .vision-box { border-left: 5px solid var(--dourado); padding-left: 20px; margin-bottom: 40px; background: rgba(255,255,255,0.05); padding: 25px; }
-        h2 { color: var(--dourado); font-size: 1.4rem; margin-top: 0; text-transform: uppercase; }
-        p { line-height: 1.6; font-size: 1.1rem; opacity: 0.9; }
-        .pilar-grid { display: grid; gap: 20px; margin-top: 30px; }
-        .card { border: 1px solid rgba(212, 175, 55, 0.3); padding: 25px; border-radius: 4px; background: rgba(0,0,0,0.2); }
-        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; }
-        .cta-button { display: block; width: 100%; padding: 20px; background-color: var(--dourado); color: var(--azul); text-align: center; text-decoration: none; font-weight: bold; margin-top: 50px; border-radius: 4px; text-transform: uppercase; box-sizing: border-box; }
+        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; font-weight: 200; }
+        
+        header { 
+            padding: 80px 20px; 
+            text-align: center; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
+            background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('agro.png'); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .tag-impacto { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; margin: 0; font-weight: 300; }
+        header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
+
+        .container { padding: 60px 20px; max-width: 1000px; margin: auto; }
+
+        .chamariz { 
+            font-style: italic; 
+            font-size: 1.4rem; 
+            line-height: 1.8; 
+            text-align: center; 
+            margin-bottom: 60px; 
+            color: rgba(255,255,255,0.9);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 40px;
+        }
+
+        .pilar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 40px; 
+            margin-top: 30px; 
+        }
+
+        .card { padding: 20px; border-left: 1px solid rgba(212, 175, 55, 0.3); }
+        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
+        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; font-weight: 300; }
+
+        /* Moldura para o Vídeo */
+        .video-placeholder { 
+            border: 1px solid var(--dourado); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: rgba(0,0,0,0.3);
+            min-height: 200px;
+            position: relative;
+        }
+        .video-placeholder::after { content: 'Player de Vídeo'; color: var(--dourado); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        .cta-container { text-align: center; margin-top: 80px; }
+        .cta-button { 
+            display: inline-block; 
+            padding: 18px 40px; 
+            border: 1px solid var(--dourado);
+            color: var(--dourado); 
+            text-decoration: none; 
+            font-weight: 300; 
+            letter-spacing: 2px;
+            text-transform: uppercase; 
+            transition: 0.3s;
+        }
+        .cta-button:hover { background: var(--dourado); color: var(--azul); }
+
+        @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header>
+        <span class="tag-impacto">Ponto de Impacto</span>
         <h1>Agro: Solo Soberano</h1>
         <p>Engenharia de Capital e Liquidez para o Campo</p>
     </header>
+
     <div class="container">
-        <div class="vision-box">
-            <h2>Ponto de Impacto</h2>
-            <p>"Você já pensou em ter uma estrutura na sua propriedade onde não dependa mais dos preços de mercado? Imagine ser capaz de estocar sua produção para vender apenas na alta e, enquanto aguarda o melhor momento, ainda lucrar com a locação estratégica do espaço de armazenamento."</p>
+        <div class="chamariz">
+            "Você já pensou em não depender mais das oscilações de mercado? Poder lucrar não apenas com a sua produção, mas também com a logística e o armazenamento? Ou, ainda, transformar sua área de reserva ambiental em capital e lucratividade real?<br><br>
+            <strong>Tornamos essa possibilidade em realidade. Saiba mais na área restrita.</strong>"
         </div>
+
         <div class="pilar-grid">
             <div class="card">
-                <h3>Blindagem Patrimonial Perene</h3>
-                <p>Implementamos arquiteturas de governança e proteção jurídica de alta complexidade contra instabilidades sistêmicas e governamentais, garantindo que o lastro físico permaneça imune a oscilações.</p>
+                <h3>Segurança: Proteção real do seu patrimônio</h3>
+                <p>Blindamos sua terra e seus bens contra a instabilidade jurídica e as inseguranças que ameaçam o legado de quem realmente produz. O seu patrimônio fica intocável.</p>
             </div>
+            
             <div class="card">
-                <h3>Soberania Comercial</h3>
-                <p>Domínio sobre o tempo de produção. Elimine a dependência das janelas de venda impostas pelo mercado, decidindo o ápice do preço para colheita ou abate.</p>
+                <h3>Finanças: Dinheiro estratégico e direto</h3>
+                <p>Acesso à liquidez e crédito de verdade, rompendo com a voracidade das taxas bancárias que consomem o seu lucro antes mesmo da colheita. O ganho real fica no seu bolso.</p>
             </div>
+
             <div class="card">
-                <h3>Alavancagem de Receita</h3>
-                <p>Antecipamos o retorno da sua produção conectando sua operação ao mercado financeiro internacional, substituindo a burocracia doméstica por estruturas globais eficientes.</p>
+                <h3>Governança: Você no comando de tudo</h3>
+                <p>Soluções para você retomar as rédeas do seu negócio. Pare de ser conduzido por decisões de terceiros e passe a ditar as regras na sua própria porteira.</p>
             </div>
+
+            <div class="video-placeholder">
+                </div>
         </div>
-        <a href="../index.html#diagnostico" class="cta-button">Solicitar Diagnóstico de Viabilidade</a>
+
+        <div class="cta-container">
+            <a href="../index.html#area-restrita" class="cta-button">Acessar Área Restrita</a>
+        </div>
     </div>
 </body>
 </html>
