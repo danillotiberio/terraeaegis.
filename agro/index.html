@@ -46,7 +46,6 @@
         .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
         .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; font-weight: 300; }
 
-        /* Moldura para o Vídeo */
         .video-placeholder { 
             border: 1px solid var(--dourado); 
             display: flex; 
@@ -54,38 +53,33 @@
             justify-content: center; 
             background: rgba(0,0,0,0.3);
             min-height: 200px;
-            position: relative;
         }
-        .video-placeholder::after { content: 'Player de Vídeo'; color: var(--dourado); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        .video-placeholder::after { content: 'Player de Vídeo'; color: var(--dourado); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
 
         .cta-container { text-align: center; margin-top: 80px; }
-        .cta-button { 
-            display: inline-block; 
-            padding: 18px 40px; 
-            border: 1px solid var(--dourado);
+        .cta-frase { color: var(--branco); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
+        .link-restrito { 
             color: var(--dourado); 
-            text-decoration: none; 
-            font-weight: 300; 
-            letter-spacing: 2px;
-            text-transform: uppercase; 
+            text-decoration: underline; 
+            cursor: pointer; 
+            font-weight: 400;
             transition: 0.3s;
         }
-        .cta-button:hover { background: var(--dourado); color: var(--azul); }
+        .link-restrito:hover { opacity: 0.7; }
 
         @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header>
-        <span class="tag-impacto">Ponto de Impacto</span>
+        <span class="tag-impacto">Fomento Agroindustrial</span>
         <h1>Agro: Solo Soberano</h1>
         <p>Engenharia de Capital e Liquidez para o Campo</p>
     </header>
 
     <div class="container">
         <div class="chamariz">
-            "Você já pensou em não depender mais das oscilações de mercado? Poder lucrar não apenas com a sua produção, mas também com a logística e o armazenamento? Ou, ainda, transformar sua área de reserva ambiental em capital e lucratividade real?<br><br>
-            <strong>Tornamos essa possibilidade em realidade. Saiba mais na área restrita.</strong>"
+            "Você já pensou em não depender mais das oscilações de mercado? Poder lucrar não apenas com a sua produção, mas também com a logística e o armazenamento? Ou, ainda, transformar sua área de reserva ambiental em capital e lucratividade real?"
         </div>
 
         <div class="pilar-grid">
@@ -104,13 +98,32 @@
                 <p>Soluções para você retomar as rédeas do seu negócio. Pare de ser conduzido por decisões de terceiros e passe a ditar as regras na sua própria porteira.</p>
             </div>
 
-            <div class="video-placeholder">
-                </div>
+            <div class="video-placeholder"></div>
         </div>
 
         <div class="cta-container">
-            <a href="../index.html#area-restrita" class="cta-button">Acessar Área Restrita</a>
+            <p class="cta-frase">
+                Tornamos essa possibilidade em realidade. 
+                Saiba mais na <span class="link-restrito" onclick="fecharIrParaToken()">área restrita</span>.
+            </p>
         </div>
     </div>
+
+    <script>
+        function fecharIrParaToken() {
+            // Tenta encontrar o elemento pai (overlay) para fechar
+            // O nome 'setor-agro' deve ser o ID que você deu à janela na Index
+            const overlay = window.parent.document.getElementById('setor-agro') || 
+                            window.parent.document.getElementById('agro-overlay') ||
+                            window.parent.document.querySelector('[style*="display: block"]');
+            
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+            
+            // Faz o scroll na página principal até a seção do Token/Diagnóstico
+            window.parent.location.hash = 'diagnostico';
+        }
+    </script>
 </body>
 </html>
