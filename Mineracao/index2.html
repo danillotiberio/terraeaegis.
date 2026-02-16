@@ -6,9 +6,9 @@
     <title>Terrae Aegis | Mineração - Ativos de Valor Real</title>
     <style>
         :root { 
-            --azul-profundo: #0A192F; 
-            --dourado-fosco: #C5A059; 
-            --branco-marfim: #E6E6E6; 
+            --azul: #0A192F; 
+            --dourado: #C5A059; 
+            --branco: #E6E6E6; 
         }
 
         /* PROTEÇÃO ANTI-PLÁGIO DE ELITE */
@@ -21,8 +21,8 @@
         }
 
         body { 
-            background-color: var(--azul-profundo); 
-            color: var(--branco-marfim); 
+            background-color: var(--azul); 
+            color: var(--branco); 
             font-family: 'Segoe UI', Roboto, sans-serif; 
             margin: 0; 
             padding: 0; 
@@ -33,23 +33,14 @@
         header { 
             padding: 100px 5%; 
             text-align: center; 
-            border-bottom: 3px solid var(--dourado-fosco);
-            background: linear-gradient(rgba(10, 25, 47, 0.90), rgba(10, 25, 47, 0.90)), url('mineracao.png'); 
+            border-bottom: 3px solid var(--dourado);
+            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), url('mineracao.png'); 
             background-size: cover; 
             background-position: center;
         }
 
-        .tag-impacto { 
-            color: var(--dourado-fosco); 
-            text-transform: uppercase; 
-            letter-spacing: 5px; 
-            font-size: 0.8rem; 
-            margin-bottom: 15px; 
-            display: block; 
-        }
-
         h1 { 
-            color: var(--dourado-fosco); 
+            color: var(--dourado); 
             text-transform: uppercase; 
             letter-spacing: 4px; 
             font-size: 2.2rem; 
@@ -71,7 +62,7 @@
         }
         
         .vision-box { 
-            border-left: 5px solid var(--dourado-fosco); 
+            border-left: 5px solid var(--dourado); 
             padding: 30px; 
             background: rgba(255,255,255,0.03); 
             margin-bottom: 60px;
@@ -81,7 +72,13 @@
             color: rgba(230, 230, 230, 0.9);
         }
 
-        h2 { color: var(--dourado-fosco); font-size: 1.4rem; text-transform: uppercase; margin-top: 0; letter-spacing: 2px; }
+        h2 { 
+            color: var(--dourado); 
+            font-size: 1.4rem; 
+            text-transform: uppercase; 
+            margin-top: 0; 
+            letter-spacing: 2px; 
+        }
 
         .pilar-grid { 
             display: grid; 
@@ -96,10 +93,13 @@
             transition: 0.4s;
         }
 
-        .card:hover { border-color: var(--dourado-fosco); background: rgba(197, 160, 89, 0.05); }
+        .card:hover { 
+            border-color: var(--dourado); 
+            background: rgba(197, 160, 89, 0.05); 
+        }
 
         .card h3 { 
-            color: var(--dourado-fosco); 
+            color: var(--dourado); 
             margin-top: 0; 
             text-transform: uppercase; 
             font-size: 1rem; 
@@ -113,26 +113,14 @@
             margin-bottom: 0;
         }
         
-        .video-container {
-            margin-top: 60px;
-            border: 1px solid var(--dourado-fosco);
-            height: 350px;
-            background: rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        .video-container::before { content: 'ÁREA DE VÍDEO ESTRATÉGICO'; color: var(--dourado-fosco); font-size: 0.8rem; letter-spacing: 3px; }
-
         .cta-button { 
             display: block; 
             width: 100%; 
             max-width: 500px;
             margin: 80px auto 0;
             padding: 25px; 
-            background: var(--dourado-fosco); 
-            color: var(--azul-profundo); 
+            background: var(--dourado); 
+            color: var(--azul); 
             text-align: center; 
             text-decoration: none; 
             font-weight: bold; 
@@ -142,9 +130,12 @@
             transition: 0.5s;
             cursor: pointer;
         }
-        .cta-button:hover { background: var(--branco-marfim); letter-spacing: 5px; }
 
-        /* FOOTER DISCRETO */
+        .cta-button:hover { 
+            background: var(--branco); 
+            letter-spacing: 5px; 
+        }
+
         .footer-setor {
             margin-top: 100px;
             padding: 40px;
@@ -152,8 +143,8 @@
             border-top: 1px solid rgba(197, 160, 89, 0.1);
             font-size: 0.7rem;
             letter-spacing: 2px;
-            color: var(--dourado-fosco);
-            opacity: 0.5;
+            color: var(--dourado);
+            opacity: 0.4;
         }
 
         @media (max-width: 768px) {
@@ -166,14 +157,14 @@
 <body oncontextmenu="return false;">
 
     <header>
-        <span class="tag-impacto">Engenharia de Ativos Minerais</span>
         <h1>Mineração: Ativos de Valor Real</h1>
-        <p>Potencialização de Liquidez e Soberania Extrativista</p>
+        <p>Engenharia de Liquidez para Extração e Beneficiamento</p>
     </header>
 
     <div class="container">
         <div class="vision-box">
-            "A verdadeira riqueza da extração não reside apenas no minério retirado, mas na capacidade de transformar suas reservas e plantas industriais em fomento direto para sua operação. Por que submeter seu fluxo de caixa a ciclos de financiamento externo se o lastro de sua produção pode gerar a própria liquidez? Criamos a estrutura necessária para que sua mineradora alcance a autossuficiência financeira através do valor real dos seus ativos."
+            <h2>Ponto de Impacto</h2>
+            <p>"A verdadeira riqueza da extração não reside apenas no minério retirado, mas na capacidade de transformar suas reservas e plantas industriais em fomento direto para sua operação. Por que submeter seu fluxo de caixa a ciclos de financiamento externo se o lastro de sua produção pode gerar a própria liquidez? Criamos a ponte para que você expanda sua atuação através do valor real dos seus ativos."</p>
         </div>
 
         <div class="pilar-grid">
@@ -193,15 +184,14 @@
             </div>
         </div>
 
-        <div class="video-container"></div>
-
-        <div onclick="irParaDiagnostico()" class="cta-button">Solicitar Diagnóstico de Viabilidade</div>
+        <div onclick="window.parent.fecharSetor ? (window.parent.fecharSetor(), window.parent.location.hash='diagnostico') : window.location.href='../index.html#diagnostico'" class="cta-button">
+            Solicitar Diagnóstico de Viabilidade
+        </div>
     </div>
 
     <div class="footer-setor">TERRAE AEGIS | PROTOCOLO DE SEGURANÇA ATIVO</div>
 
     <script>
-        // BLOQUEIO DE TECLAS DE INSPEÇÃO (F12, CTRL+SHIFT+I, ETC)
         document.onkeydown = function(e) {
             if (e.keyCode == 123 || 
                 (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) || 
@@ -209,16 +199,6 @@
                 return false;
             }
         };
-
-        function irParaDiagnostico() {
-            // Fecha a moldura no parent (Index) e move para a âncora de diagnóstico
-            if(window.parent && window.parent.fecharSetor) {
-                window.parent.fecharSetor();
-                window.parent.location.hash = 'diagnostico';
-            } else {
-                window.location.href = '../index.html#diagnostico';
-            }
-        }
     </script>
 </body>
 </html>
