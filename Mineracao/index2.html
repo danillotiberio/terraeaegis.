@@ -3,26 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terrae Aegis | Mineração - Ativos de Valor Real</title>
+    <title>Terrae Aegis | Mineração</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
-        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; font-weight: 200; }
+        :root { 
+            --azul: #001a33; 
+            --dourado: #d4af37; 
+            --branco: #ffffff; 
+        }
+        
+        body { 
+            background-color: var(--azul); 
+            color: var(--branco); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            font-weight: 200;
+            overflow-x: hidden;
+        }
         
         header { 
             padding: 80px 20px; 
             text-align: center; 
             border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
+            /* Trava de isolamento do Header */
             background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('mineracao.png'); 
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
+            display: block;
         }
 
         .tag-impacto { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
         h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; margin: 0; font-weight: 300; }
         header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
 
-        .container { padding: 60px 20px; max-width: 1000px; margin: auto; }
+        .container { 
+            padding: 60px 20px; 
+            max-width: 1000px; 
+            margin: auto;
+            background-color: var(--azul); /* Garante o fundo limpo abaixo do header */
+        }
 
         .chamariz { 
             font-style: italic; 
@@ -35,12 +56,7 @@
             padding-bottom: 40px;
         }
 
-        .pilar-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 40px; 
-            margin-top: 30px; 
-        }
+        .pilar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 30px; }
 
         .card { padding: 20px; border-left: 1px solid rgba(212, 175, 55, 0.3); }
         .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
@@ -58,44 +74,37 @@
 
         .cta-container { text-align: center; margin-top: 80px; }
         .cta-frase { color: var(--branco); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
-        .link-restrito { 
-            color: var(--dourado); 
-            text-decoration: underline; 
-            cursor: pointer; 
-            font-weight: 400;
-            transition: 0.3s;
-        }
-        .link-restrito:hover { opacity: 0.7; }
+        .link-restrito { color: var(--dourado); text-decoration: underline; cursor: pointer; font-weight: 400; transition: 0.3s; }
 
         @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header>
-        <span class="tag-impacto">Engenharia de Liquidez para Extração</span>
-        <h1>Mineração: Ativos de Valor Real</h1>
-        <p>Transformando Reservas em Capital Estratégico</p>
+        <span class="tag-impacto">Ativos de Valor Real</span>
+        <h1>Mineração: Soberania Mineral</h1>
+        <p>Engenharia de Liquidez para Extração e Beneficiamento</p>
     </header>
 
     <div class="container">
         <div class="chamariz">
-            "A verdadeira riqueza da extração não reside apenas no minério retirado, mas na capacidade de transformar suas reservas e plantas industriais em fomento direto para sua operação. Por que submeter seu fluxo de caixa a ciclos de financiamento externo se o lastro de sua produção pode gerar a própria liquidez?"
+            "A verdadeira riqueza da extração não reside apenas no minério retirado, mas na capacidade de transformar suas reservas e plantas industriais em fomento direto para sua operação."
         </div>
 
         <div class="pilar-grid">
             <div class="card">
-                <h3>Estruturação: Blindagem de Ativos</h3>
-                <p>Protegemos o seu direito minerário e sua infraestrutura contra instabilidades jurídicas. Garantimos que o controle da sua operação permaneça sob sua égide direta, blindado contra ingerências externas.</p>
+                <h3>Estruturação e Blindagem</h3>
+                <p>Protegemos o seu direito minerário e sua infraestrutura contra instabilidades jurídicas. O controle da sua operação permanece sob sua égide direta.</p>
             </div>
             
             <div class="card">
-                <h3>Finanças: Liquidez Sustentável</h3>
-                <p>Convertemos o valor de suas reservas em capital de giro dinâmico. Financie a modernização de maquinário e expansão de lavras sem depender de crédito bancário tradicional, usando a força do próprio ativo.</p>
+                <h3>Finanças e Liquidez</h3>
+                <p>Convertemos o valor de suas reservas em capital de giro dinâmico. Financie a expansão de frentes de lavra sem depender de ciclos bancários predatórios.</p>
             </div>
 
             <div class="card">
-                <h3>Governança: Alta Performance</h3>
-                <p>Elevamos a gestão do seu parque minerador ao nível de elite global. Estruturamos a sucessão e o comando estratégico, assegurando que a autoridade da sua marca seja inabalável diante do tempo.</p>
+                <h3>Governança de Elite</h3>
+                <p>Estruturamos a sucessão e o comando estratégico, assegurando que a autoridade da sua marca seja respeitada e inabalável diante do mercado.</p>
             </div>
 
             <div class="video-placeholder"></div>
@@ -103,7 +112,7 @@
 
         <div class="cta-container">
             <p class="cta-frase">
-                Criamos a ponte para a sua expansão. 
+                Criamos a ponte para sua expansão. 
                 Saiba mais na <span class="link-restrito" onclick="fecharIrParaToken()">área restrita</span>.
             </p>
         </div>
@@ -112,9 +121,7 @@
     <script>
         function fecharIrParaToken() {
             const overlay = window.parent.document.getElementById('setor-mineracao') || 
-                            window.parent.document.getElementById('mineracao-overlay') ||
                             window.parent.document.querySelector('[style*="display: block"]');
-            
             if (overlay) { overlay.style.display = 'none'; }
             window.parent.location.hash = 'diagnostico';
         }
