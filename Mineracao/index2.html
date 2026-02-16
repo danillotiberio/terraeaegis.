@@ -6,44 +6,31 @@
     <title>Terrae Aegis | Mineração</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --azul: #001a33; 
-            --dourado: #d4af37; 
-            --branco: #ffffff; 
-        }
+        :root { --azul: #0A192F; --dourado: #d4af37; --branco: #ffffff; }
         
-        body { 
-            background-color: var(--azul); 
-            color: var(--branco); 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            font-weight: 200;
-            overflow-x: hidden;
-        }
+        * { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; font-weight: 200; }
         
         header { 
-            padding: 80px 20px; 
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center; 
             border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
-            /* Trava de isolamento do Header */
-            background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('mineracao.png'); 
+            background-image: url('mineracao.png'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            display: block;
         }
 
         .tag-impacto { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
         h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; margin: 0; font-weight: 300; }
-        header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
+        header p { opacity: 0.9; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
 
-        .container { 
-            padding: 60px 20px; 
-            max-width: 1000px; 
-            margin: auto;
-            background-color: var(--azul); /* Garante o fundo limpo abaixo do header */
-        }
+        .container { padding: 60px 20px; max-width: 1000px; margin: auto; background-color: var(--azul); }
 
         .chamariz { 
             font-style: italic; 
@@ -51,7 +38,6 @@
             line-height: 1.8; 
             text-align: center; 
             margin-bottom: 60px; 
-            color: rgba(255,255,255,0.9);
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             padding-bottom: 40px;
         }
@@ -59,72 +45,58 @@
         .pilar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 30px; }
 
         .card { padding: 20px; border-left: 1px solid rgba(212, 175, 55, 0.3); }
-        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
-        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; font-weight: 300; }
+        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; }
+        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; }
 
         .video-placeholder { 
             border: 1px solid var(--dourado); 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.2);
             min-height: 200px;
         }
-        .video-placeholder::after { content: 'Player de Vídeo'; color: var(--dourado); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
 
         .cta-container { text-align: center; margin-top: 80px; }
-        .cta-frase { color: var(--branco); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
-        .link-restrito { color: var(--dourado); text-decoration: underline; cursor: pointer; font-weight: 400; transition: 0.3s; }
+        .link-restrito { color: var(--dourado); text-decoration: underline; cursor: pointer; }
 
         @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
     <header>
         <span class="tag-impacto">Ativos de Valor Real</span>
         <h1>Mineração: Soberania Mineral</h1>
-        <p>Engenharia de Liquidez para Extração e Beneficiamento</p>
+        <p>Engenharia de Capital para Extração</p>
     </header>
 
     <div class="container">
         <div class="chamariz">
-            "A verdadeira riqueza da extração não reside apenas no minério retirado, mas na capacidade de transformar suas reservas e plantas industriais em fomento direto para sua operação."
+            "A riqueza da extração não reside apenas no minério, mas na capacidade de transformar suas reservas em fomento direto para sua operação."
         </div>
 
         <div class="pilar-grid">
             <div class="card">
                 <h3>Estruturação e Blindagem</h3>
-                <p>Protegemos o seu direito minerário e sua infraestrutura contra instabilidades jurídicas. O controle da sua operação permanece sob sua égide direta.</p>
+                <p>Protegemos o seu direito minerário contra instabilidades jurídicas. O controle permanece sob sua égide direta.</p>
             </div>
             
             <div class="card">
                 <h3>Finanças e Liquidez</h3>
-                <p>Convertemos o valor de suas reservas em capital de giro dinâmico. Financie a expansão de frentes de lavra sem depender de ciclos bancários predatórios.</p>
+                <p>Acesso à liquidez estratégica, rompendo com as taxas bancárias que consomem o seu lucro.</p>
             </div>
 
             <div class="card">
                 <h3>Governança de Elite</h3>
-                <p>Estruturamos a sucessão e o comando estratégico, assegurando que a autoridade da sua marca seja respeitada e inabalável diante do mercado.</p>
+                <p>Protocolos de comando absoluto sobre seus ativos, permanecendo sempre à frente do seu negócio.</p>
             </div>
 
             <div class="video-placeholder"></div>
         </div>
 
         <div class="cta-container">
-            <p class="cta-frase">
-                Criamos a ponte para sua expansão. 
-                Saiba mais na <span class="link-restrito" onclick="fecharIrParaToken()">área restrita</span>.
-            </p>
+            <p>Saiba mais na <span class="link-restrito" onclick="window.parent.fecharSetor()">área restrita</span>.</p>
         </div>
     </div>
-
-    <script>
-        function fecharIrParaToken() {
-            const overlay = window.parent.document.getElementById('setor-mineracao') || 
-                            window.parent.document.querySelector('[style*="display: block"]');
-            if (overlay) { overlay.style.display = 'none'; }
-            window.parent.location.hash = 'diagnostico';
-        }
-    </script>
 </body>
 </html>
