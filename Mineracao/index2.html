@@ -4,201 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terrae Aegis | Mineração - Ativos de Valor Real</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --azul: #0A192F; 
-            --dourado: #C5A059; 
-            --branco: #E6E6E6; 
-        }
-
-        /* PROTEÇÃO ANTI-PLÁGIO DE ELITE */
-        * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-        }
-
-        body { 
-            background-color: var(--azul); 
-            color: var(--branco); 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            font-weight: 300;
-            overflow-x: hidden;
-        }
+        :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
+        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; font-weight: 200; }
         
         header { 
-            padding: 100px 5%; 
+            padding: 80px 20px; 
             text-align: center; 
-            border-bottom: 3px solid var(--dourado);
-            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), url('mineracao.png'); 
-            background-size: cover; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
+            background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('mineracao.png'); 
+            background-size: cover;
             background-position: center;
         }
 
-        h1 { 
-            color: var(--dourado); 
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            font-size: 2.2rem; 
-            margin: 0; 
-            font-weight: 300; 
-        }
+        .tag-impacto { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; margin: 0; font-weight: 300; }
+        header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
 
-        header p { 
-            opacity: 0.7; 
-            font-size: 1.1rem; 
-            letter-spacing: 2px; 
-            margin-top: 15px; 
-        }
+        .container { padding: 60px 20px; max-width: 1000px; margin: auto; }
 
-        .container { 
-            padding: 60px 10%; 
-            max-width: 1100px; 
-            margin: auto; 
-        }
-        
-        .vision-box { 
-            border-left: 5px solid var(--dourado); 
-            padding: 30px; 
-            background: rgba(255,255,255,0.03); 
-            margin-bottom: 60px;
-            font-style: italic;
-            font-size: 1.3rem;
-            line-height: 1.8;
-            color: rgba(230, 230, 230, 0.9);
-        }
-
-        h2 { 
-            color: var(--dourado); 
+        .chamariz { 
+            font-style: italic; 
             font-size: 1.4rem; 
-            text-transform: uppercase; 
-            margin-top: 0; 
-            letter-spacing: 2px; 
+            line-height: 1.8; 
+            text-align: center; 
+            margin-bottom: 60px; 
+            color: rgba(255,255,255,0.9);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 40px;
         }
 
         .pilar-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            grid-template-columns: repeat(2, 1fr); 
             gap: 40px; 
+            margin-top: 30px; 
         }
 
-        .card { 
-            border: 1px solid rgba(197, 160, 89, 0.2); 
-            padding: 30px; 
-            background: rgba(0,0,0,0.2);
-            transition: 0.4s;
-        }
+        .card { padding: 20px; border-left: 1px solid rgba(212, 175, 55, 0.3); }
+        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
+        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; font-weight: 300; }
 
-        .card:hover { 
-            border-color: var(--dourado); 
-            background: rgba(197, 160, 89, 0.05); 
+        .video-placeholder { 
+            border: 1px solid var(--dourado); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: rgba(0,0,0,0.3);
+            min-height: 200px;
         }
+        .video-placeholder::after { content: 'Player de Vídeo'; color: var(--dourado); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
 
-        .card h3 { 
+        .cta-container { text-align: center; margin-top: 80px; }
+        .cta-frase { color: var(--branco); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
+        .link-restrito { 
             color: var(--dourado); 
-            margin-top: 0; 
-            text-transform: uppercase; 
-            font-size: 1rem; 
-            letter-spacing: 2px; 
+            text-decoration: underline; 
+            cursor: pointer; 
+            font-weight: 400;
+            transition: 0.3s;
         }
+        .link-restrito:hover { opacity: 0.7; }
 
-        .card p { 
-            font-size: 1rem; 
-            line-height: 1.7; 
-            opacity: 0.75; 
-            margin-bottom: 0;
-        }
-        
-        .cta-button { 
-            display: block; 
-            width: 100%; 
-            max-width: 500px;
-            margin: 80px auto 0;
-            padding: 25px; 
-            background: var(--dourado); 
-            color: var(--azul); 
-            text-align: center; 
-            text-decoration: none; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            letter-spacing: 3px; 
-            box-sizing: border-box; 
-            transition: 0.5s;
-            cursor: pointer;
-        }
-
-        .cta-button:hover { 
-            background: var(--branco); 
-            letter-spacing: 5px; 
-        }
-
-        .footer-setor {
-            margin-top: 100px;
-            padding: 40px;
-            text-align: center;
-            border-top: 1px solid rgba(197, 160, 89, 0.1);
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: var(--dourado);
-            opacity: 0.4;
-        }
-
-        @media (max-width: 768px) {
-            header { padding: 80px 5%; }
-            h1 { font-size: 1.6rem; }
-            .vision-box { font-size: 1.1rem; }
-        }
+        @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body oncontextmenu="return false;">
-
+<body>
     <header>
+        <span class="tag-impacto">Engenharia de Liquidez para Extração</span>
         <h1>Mineração: Ativos de Valor Real</h1>
-        <p>Engenharia de Liquidez para Extração e Beneficiamento</p>
+        <p>Transformando Reservas em Capital Estratégico</p>
     </header>
 
     <div class="container">
-        <div class="vision-box">
-            <h2>Ponto de Impacto</h2>
-            <p>"A verdadeira riqueza da extração não reside apenas no minério retirado, mas na capacidade de transformar suas reservas e plantas industriais em fomento direto para sua operação. Por que submeter seu fluxo de caixa a ciclos de financiamento externo se o lastro de sua produção pode gerar a própria liquidez? Criamos a ponte para que você expanda sua atuação através do valor real dos seus ativos."</p>
+        <div class="chamariz">
+            "A verdadeira riqueza da extração não reside apenas no minério retirado, mas na capacidade de transformar suas reservas e plantas industriais em fomento direto para sua operação. Por que submeter seu fluxo de caixa a ciclos de financiamento externo se o lastro de sua produção pode gerar a própria liquidez?"
         </div>
 
         <div class="pilar-grid">
             <div class="card">
-                <h3>Segurança e Blindagem de Ativos</h3>
-                <p>Protegemos o seu direito minerário e sua infraestrutura contra instabilidades jurídicas. Através de protocolos de inteligência patrimonial, garantimos que o controle do seu império extrativista permaneça sob sua égide direta, blindado contra ingerências externas.</p>
+                <h3>Estruturação: Blindagem de Ativos</h3>
+                <p>Protegemos o seu direito minerário e sua infraestrutura contra instabilidades jurídicas. Garantimos que o controle da sua operação permaneça sob sua égide direta, blindado contra ingerências externas.</p>
             </div>
             
             <div class="card">
                 <h3>Finanças: Liquidez Sustentável</h3>
-                <p>Convertemos o valor de suas reservas e parques fabris em capital de giro dinâmico. Nossa engenharia permite financiar a modernização e expansão de frentes de lavra sem depender das amarras do crédito convencional, utilizando a força do próprio ativo.</p>
+                <p>Convertemos o valor de suas reservas em capital de giro dinâmico. Financie a modernização de maquinário e expansão de lavras sem depender de crédito bancário tradicional, usando a força do próprio ativo.</p>
             </div>
 
             <div class="card">
-                <h3>Governança de Alta Performance</h3>
-                <p>Elevamos a gestão do seu parque minerador ao nível de elite global. Estruturamos a sucessão e o comando estratégico, assegurando que a autoridade da sua marca seja respeitada e que a governança seja inabalável diante do tempo.</p>
+                <h3>Governança: Alta Performance</h3>
+                <p>Elevamos a gestão do seu parque minerador ao nível de elite global. Estruturamos a sucessão e o comando estratégico, assegurando que a autoridade da sua marca seja inabalável diante do tempo.</p>
             </div>
+
+            <div class="video-placeholder"></div>
         </div>
 
-        <div onclick="window.parent.fecharSetor ? (window.parent.fecharSetor(), window.parent.location.hash='diagnostico') : window.location.href='../index.html#diagnostico'" class="cta-button">
-            Solicitar Diagnóstico de Viabilidade
+        <div class="cta-container">
+            <p class="cta-frase">
+                Criamos a ponte para a sua expansão. 
+                Saiba mais na <span class="link-restrito" onclick="fecharIrParaToken()">área restrita</span>.
+            </p>
         </div>
     </div>
 
-    <div class="footer-setor">TERRAE AEGIS | PROTOCOLO DE SEGURANÇA ATIVO</div>
-
     <script>
-        document.onkeydown = function(e) {
-            if (e.keyCode == 123 || 
-                (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) || 
-                (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
-                return false;
-            }
-        };
+        function fecharIrParaToken() {
+            const overlay = window.parent.document.getElementById('setor-mineracao') || 
+                            window.parent.document.getElementById('mineracao-overlay') ||
+                            window.parent.document.querySelector('[style*="display: block"]');
+            
+            if (overlay) { overlay.style.display = 'none'; }
+            window.parent.location.hash = 'diagnostico';
+        }
     </script>
 </body>
 </html>
