@@ -3,44 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terrae Aegis | Indústria - Modernização e Expansão</title>
+    <title>Terrae Aegis | Indústria - Potência Estrutural</title>
     <style>
-        :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
-        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        header { padding: 40px 20px; text-align: center; border-bottom: 3px solid var(--dourado); background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('industria.png'); background-size: cover; background-position: center; }
-        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 1.8rem; margin: 0; }
-        .container { padding: 40px 20px; max-width: 900px; margin: auto; }
-        .vision-box { border-left: 5px solid var(--dourado); padding: 25px; background: rgba(255,255,255,0.05); margin-bottom: 40px; }
-        .pilar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card { border: 1px solid rgba(212, 175, 55, 0.3); padding: 25px; background: rgba(0,0,0,0.2); }
-        .card h3 { color: var(--dourado); text-transform: uppercase; font-size: 1.1rem; margin-top: 0; }
-        .cta-button { display: block; width: 100%; padding: 22px; background: var(--dourado); color: var(--azul); text-align: center; text-decoration: none; font-weight: bold; margin-top: 50px; text-transform: uppercase; letter-spacing: 2px; }
+        :root { 
+            --azul-profundo: #0A192F; 
+            --dourado-fosco: #C5A059; 
+            --branco-marfim: #E6E6E6; 
+        }
+
+        /* PROTEÇÃO ANTI-PLÁGIO DE ELITE */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        body { 
+            background-color: var(--azul-profundo); 
+            color: var(--branco-marfim); 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; padding: 0; 
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+        
+        header { 
+            padding: 100px 5%; 
+            text-align: center; 
+            border-bottom: 3px solid var(--dourado-fosco);
+            background: linear-gradient(rgba(10, 25, 47, 0.90), rgba(10, 25, 47, 0.90)), url('industria.png'); 
+            background-size: cover; background-position: center;
+        }
+
+        .tag-impacto { 
+            color: var(--dourado-fosco); 
+            text-transform: uppercase; 
+            letter-spacing: 5px; font-size: 0.8rem; 
+            margin-bottom: 15px; display: block; 
+        }
+
+        h1 { 
+            color: var(--dourado-fosco); 
+            text-transform: uppercase; 
+            letter-spacing: 4px; font-size: 2.2rem; 
+            margin: 0; font-weight: 300; 
+        }
+
+        header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 15px; }
+
+        .container { padding: 60px 10%; max-width: 1100px; margin: auto; }
+        
+        .vision-box { 
+            border-left: 5px solid var(--dourado-fosco); 
+            padding: 30px; background: rgba(255,255,255,0.03); 
+            margin-bottom: 60px;
+            font-style: italic; font-size: 1.3rem;
+            line-height: 1.8; color: rgba(230, 230, 230, 0.9);
+        }
+
+        .pilar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 40px; 
+        }
+
+        .card { 
+            border: 1px solid rgba(197, 160, 89, 0.2); 
+            padding: 30px; background: rgba(0,0,0,0.2);
+            transition: 0.4s;
+        }
+        .card:hover { border-color: var(--dourado-fosco); background: rgba(197, 160, 89, 0.05); }
+
+        .card h3 { 
+            color: var(--dourado-fosco); 
+            text-transform: uppercase; 
+            font-size: 1rem; letter-spacing: 2px; 
+        }
+
+        .card p { font-size: 1rem; line-height: 1.7; opacity: 0.75; }
+        
+        .video-container {
+            margin-top: 60px; border: 1px solid var(--dourado-fosco);
+            height: 350px; background: rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .video-container::before { content: 'VISUALIZAÇÃO ESTRUTURAL'; color: var(--dourado-fosco); font-size: 0.8rem; letter-spacing: 3px; }
+
+        .cta-button { 
+            display: block; width: 100%; max-width: 500px;
+            margin: 80px auto 0; padding: 25px; 
+            background: var(--dourado-fosco); color: var(--azul-profundo); 
+            text-align: center; text-decoration: none; font-weight: bold; 
+            text-transform: uppercase; letter-spacing: 3px; 
+            transition: 0.5s; cursor: pointer;
+        }
+        .cta-button:hover { background: var(--branco-marfim); letter-spacing: 5px; }
+
+        .footer-setor {
+            margin-top: 100px; padding: 40px; text-align: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            font-size: 0.7rem; color: var(--dourado-fosco); opacity: 0.5;
+        }
+
+        @media (max-width: 768px) { h1 { font-size: 1.6rem; } .vision-box { font-size: 1.1rem; } }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
+
     <header>
-        <h1>Indústria: Modernização e Expansão</h1>
-        <p>Aceleração Industrial com Engenharia Financeira de Precisão</p>
+        <span class="tag-impacto">Fomento Industrial Estratégico</span>
+        <h1>Indústria: Potência Estrutural</h1>
+        <p>Engenharia de Capital para Autossustentabilidade Fabril</p>
     </header>
+
     <div class="container">
         <div class="vision-box">
-            <p>"Sua indústria está preparada para romper as fronteiras do custo Brasil e competir em escala global? Imagine modernizar todo o seu parque fabril e expandir sua capacidade produtiva sem drenar o caixa da empresa."</p>
+            "Sua planta industrial detém a chave para a própria evolução tecnológica. A verdadeira soberania industrial reside na capacidade de transformar sua estrutura em uma fonte inesgotável de fomento próprio, permitindo que sua expansão seja guiada pela autossuficiência financeira, livre do peso e das amarras das instituições tradicionais."
         </div>
+
         <div class="pilar-grid">
             <div class="card">
-                <h3>Integridade e Governança Patrimonial</h3>
-                <p>Implementamos arquiteturas de governança que blindam o parque fabril e os ativos operacionais contra instabilidades sistêmicas e riscos externos.</p>
+                <h3>Segurança e Blindagem Industrial</h3>
+                <p>Imagine a tranquilidade de operar onde seu parque fabril e sua propriedade intelectual são soberanos. Protegemos sua continuidade operacional contra instabilidades legais, tornando o seu legado imune a intervenções e arbitrariedades externas.</p>
             </div>
+            
             <div class="card">
-                <h3>Modernização Tecnológica e Expansão</h3>
-                <p>Fomentamos a atualização tecnológica e a ampliação produtiva através do acesso a maquinários de última geração, garantindo vanguarda e redução de desperdício.</p>
+                <h3>Finanças: Horizonte de Autossuficiência</h3>
+                <p>Visualize a liberdade de expansão através de liquidez autogerada. Transformamos seu valor imobilizado no combustível para a modernização tecnológica, eliminando definitivamente a dependência de ciclos de crédito e as asfixias bancárias.</p>
             </div>
+
             <div class="card">
-                <h3>Emancipação Financeira e Escala</h3>
-                <p>Conexão direta com o mercado financeiro internacional, transformando potencial de produção em capital de giro com custos operacionais globais.</p>
+                <h3>Governança: Maestria do Comando</h3>
+                <p>Assuma o patamar onde a sucessão, a organização patrimonial e a autoridade da sua marca fluem com absoluta distinção. Garantimos que o comando do seu império fabril permaneça sob sua égide direta, estruturado para resistir ao tempo.</p>
             </div>
         </div>
-        <a href="../index.html#diagnostico" class="cta-button">Solicitar Diagnóstico de Viabilidade</a>
+
+        <div class="video-container"></div>
+        <div onclick="irParaDiagnostico()" class="cta-button">Solicitar Diagnóstico de Viabilidade</div>
     </div>
+
+    <div class="footer-setor">TERRAE AEGIS | PROTOCOLO DE SEGURANÇA ATIVO</div>
+
+    <script>
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) return false;
+        };
+
+        function irParaDiagnostico() {
+            if(window.parent && window.parent.fecharSetor) {
+                window.parent.fecharSetor();
+                window.parent.location.hash = 'diagnostico';
+            } else { window.location.href = '../index.html#diagnostico'; }
+        }
+    </script>
 </body>
 </html>
