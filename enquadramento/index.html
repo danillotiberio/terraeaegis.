@@ -65,13 +65,14 @@
             letter-spacing: 2px; font-size: 0.7em; text-decoration: none; z-index: 1000;
         }
 
-        /* HEADER: LOGO MATERIALIZADO NO CANTO SUPERIOR ESQUERDO */
+        /* HEADER: LOGO CENTRALIZADO SOBRE A COLUNA ESQUERDA */
         header { 
             position: absolute;
             top: 85px; 
             left: 5%; 
-            padding: 0;
-            display: block;
+            width: 195px; /* Mesma largura da coluna setores-operacionais */
+            display: flex;
+            justify-content: center;
             z-index: 1001;
         }
         .logo img { height: 110px; width: auto; }
@@ -91,7 +92,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            width: 195px; /* Alinhado horizontalmente com a palavra APROFUNDAMENTO */
+            width: 195px; 
             align-items: flex-start;
             border-right: 1px solid rgba(197, 160, 89, 0.2); 
             padding-right: 20px;
@@ -99,23 +100,24 @@
         }
 
         .setor-card {
-            width: 100%; height: 35px; /* Corte Vertical Slim */
+            width: 100%; height: 35px; 
             border: 1px solid rgba(197, 160, 89, 0.3);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; text-transform: uppercase; font-size: 0.65em;
             letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
-            white-space: nowrap; /* Impede quebra de linha */
+            white-space: nowrap;
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
+        /* BOTÃO CONTATO: SUAVIZADO PARA DOURADO FOSCO SEM GROTESCOS */
         .btn-contato-trigger {
-            margin-top: 15px; /* Respiro vertical */
-            border-color: var(--dourado-brilhante);
-            color: var(--dourado-brilhante);
-            font-weight: bold;
+            margin-top: 15px;
+            border-color: var(--dourado-fosco);
+            color: var(--dourado-fosco);
+            font-weight: normal;
         }
 
-        /* CENTRO LIMPO PARA AS FRASES */
+        /* HERO: PALCO CENTRAL */
         .hero { 
             flex: 1; 
             display: flex;
@@ -125,10 +127,10 @@
             height: 100%;
         }
 
-        /* POSICIONAMENTO DO BOTÃO ANCORADO (BEIJO NA MARCA D'ÁGUA) */
+        /* POSICIONAMENTO REBAIXADO (MEIA ALTURA ABAIXO) */
         .btn-enquadramento {
             position: fixed;
-            bottom: 22%; /* Coordenada para tablet 16:9 ancorar na logo de fundo */
+            bottom: 18%; /* Rebaixado para assentar sobre a marca d'água */
             left: 50%;
             transform: translateX(-50%);
             padding: 18px 45px; background: transparent;
