@@ -24,6 +24,18 @@
             overflow: hidden;
         }
 
+        /* --- MARCA D'ÁGUA (8-10% OPACIDADE) --- */
+        .marca-dagua-fundo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         /* --- GATEKEEPER RITUAL (4 SEGUNDOS) --- */
         #gatekeeper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -53,17 +65,26 @@
             letter-spacing: 2px; font-size: 0.7em; text-decoration: none; z-index: 1000;
         }
 
-        header { padding: 100px 5% 10px; display: flex; flex-direction: column; align-items: center; }
-        /* LOGO ALINHADO À INDEX PADRÃO (280px) */
-        .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
+        /* HEADER: LOGO MATERIALIZADO NO CANTO SUPERIOR ESQUERDO */
+        header { 
+            position: absolute;
+            top: 85px; 
+            left: 5%; 
+            padding: 0;
+            display: block;
+            z-index: 1001;
+        }
+        .logo img { height: 120px; width: auto; }
 
-        /* --- CONTAINER PRINCIPAL (BOTÕES À ESQUERDA) --- */
+        /* --- CONTAINER PRINCIPAL --- */
         .container-principal {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center; /* Centralização vertical total para o Hero */
             padding: 0 5%;
-            margin-top: -30px;
+            height: 100vh;
+            position: relative;
+            z-index: 10;
         }
 
         .setores-operacionais {
@@ -72,8 +93,9 @@
             gap: 12px;
             width: 250px;
             align-items: flex-start;
-            border-right: 1px solid rgba(197, 160, 89, 0.2); /* Linha delicada lateral */
+            border-right: 1px solid rgba(197, 160, 89, 0.2); 
             padding-right: 20px;
+            margin-top: 80px; /* Alinhamento abaixo do logo materializado */
         }
 
         .setor-card {
@@ -85,9 +107,17 @@
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        .hero { flex: 1; text-align: right; padding-left: 50px; }
+        /* CENTRO LIMPO E RECENTRALIZADO */
+        .hero { 
+            flex: 1; 
+            text-align: center; /* Centralizado para o efeito do véu */
+            padding: 0 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; }
-        .hero p { max-width: 600px; font-size: 1.1em; opacity: 0.8; margin: 0 0 30px auto; }
+        .hero p { max-width: 800px; font-size: 1.1em; opacity: 0.8; margin: 0 auto 30px; }
 
         .btn-enquadramento {
             padding: 20px 50px; background: transparent;
@@ -96,7 +126,7 @@
         }
         .btn-enquadramento:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
 
-        /* --- MOLDURAS (IDÊNTICAS À RAIZ) --- */
+        /* --- MOLDURAS --- */
         .moldura-texto, .moldura-setor {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             border: 1px solid var(--dourado-fosco); display: none;
@@ -113,13 +143,16 @@
         .assinatura-dev { position: fixed; bottom: 10px; right: 20px; font-size: 0.6em; color: #C0C0C0; opacity: 0.5; pointer-events: none; text-transform: uppercase; letter-spacing: 2px; }
 
         @media (max-width: 768px) {
-            .container-principal { flex-direction: column-reverse; align-items: center; }
-            .setores-operacionais { width: 100%; border-right: none; border-top: 1px solid var(--dourado-fosco); padding: 20px 0; }
-            .hero { text-align: center; padding-left: 0; }
+            .container-principal { flex-direction: column-reverse; align-items: center; justify-content: center; }
+            .setores-operacionais { width: 100%; border-right: none; border-top: 1px solid var(--dourado-fosco); padding: 20px 0; margin-top: 20px; }
+            header { position: relative; top: 70px; left: 0; text-align: center; }
+            .hero { padding: 0; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
+
+    <img src="../logo-touro.png" class="marca-dagua-fundo" alt="Background Logo">
 
     <div id="gatekeeper">
         <div class="roleta-box">
@@ -204,19 +237,18 @@
             document.getElementById('iframeSetor').src = "";
         }
 
-        // --- RITUAL DE 4 SEGUNDOS ---
         window.onload = function() {
             const ipEl = document.getElementById('roleta-ip');
             const geoEl = document.getElementById('roleta-geo');
             let c = 0;
             const t = setInterval(() => {
                 ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-                if(c++ > 30) { // 3 Segundos de roleta
+                if(c++ > 30) { 
                     clearInterval(t);
                     fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
                         ipEl.innerText = d.ip;
                         geoEl.innerText = `${d.city}, ${d.region} - ${d.country_name}`;
-                        setTimeout(() => { // 1 Segundo de apresentação
+                        setTimeout(() => { 
                             document.getElementById('gatekeeper').style.opacity = "0";
                             setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 1000);
                         }, 1000);
