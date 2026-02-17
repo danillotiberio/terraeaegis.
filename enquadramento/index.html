@@ -79,8 +79,8 @@
         /* --- CONTAINER PRINCIPAL --- */
         .container-principal {
             display: flex;
-            justify-content: space-between;
-            align-items: center; /* Centralização vertical total para o Hero */
+            justify-content: flex-start;
+            align-items: flex-start;
             padding: 0 5%;
             height: 100vh;
             position: relative;
@@ -91,11 +91,11 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            width: 250px;
+            width: 120px; /* Mesma largura do Logo conforme solicitado */
             align-items: flex-start;
             border-right: 1px solid rgba(197, 160, 89, 0.2); 
             padding-right: 20px;
-            margin-top: 80px; /* Alinhamento abaixo do logo materializado */
+            margin-top: 220px; /* Ajuste para descer após o logo */
         }
 
         .setor-card {
@@ -107,22 +107,26 @@
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        /* CENTRO LIMPO E RECENTRALIZADO */
+        /* CENTRO LIMPO PARA AS FRASES */
         .hero { 
             flex: 1; 
-            text-align: center; /* Centralizado para o efeito do véu */
-            padding: 0 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            height: 100%;
         }
-        .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; }
-        .hero p { max-width: 800px; font-size: 1.1em; opacity: 0.8; margin: 0 auto 30px; }
 
+        /* POSICIONAMENTO DO BOTÃO ANCORADO À MARCA D'ÁGUA */
         .btn-enquadramento {
+            position: fixed;
+            top: calc(50% + 140px); /* Ajustado para ficar logo acima da escrita do logo de fundo */
+            left: 50%;
+            transform: translateX(-50%);
             padding: 20px 50px; background: transparent;
             border: 1px solid var(--dourado-fosco); color: var(--dourado-fosco);
             text-transform: uppercase; letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
+            z-index: 100;
         }
         .btn-enquadramento:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
 
@@ -146,7 +150,7 @@
             .container-principal { flex-direction: column-reverse; align-items: center; justify-content: center; }
             .setores-operacionais { width: 100%; border-right: none; border-top: 1px solid var(--dourado-fosco); padding: 20px 0; margin-top: 20px; }
             header { position: relative; top: 70px; left: 0; text-align: center; }
-            .hero { padding: 0; }
+            .btn-enquadramento { position: relative; top: 0; transform: none; margin-top: 20px; }
         }
     </style>
 </head>
@@ -177,7 +181,7 @@
 
     <div class="container-principal">
         <section class="setores-operacionais">
-            <div style="font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); margin-bottom: 10px; text-transform: uppercase;">Aprofundamento</div>
+            <div style="font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); margin-bottom: 10px; text-transform: uppercase; width: 100%; text-align: center;">Aprofundamento</div>
             <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
             <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
             <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
@@ -185,8 +189,6 @@
         </section>
 
         <section class="hero">
-            <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
-            <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
             <button class="btn-enquadramento" onclick="window.location.href='index.html'">Enquadramento para Soluções</button>
         </section>
     </div>
