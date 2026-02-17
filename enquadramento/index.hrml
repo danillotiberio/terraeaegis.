@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrae Aegis | Enquadramento Estratégico</title>
+    <style>
+        :root {
+            --azul-profundo: #0A192F;
+            --dourado-fosco: #C5A059;
+            --dourado-brilhante: #FFD700;
+            --branco-marfim: #E6E6E6;
+            --prata: #C0C0C0;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--azul-profundo);
+            color: var(--branco-marfim);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        /* --- RITUAL DE IDENTIFICAÇÃO (GATEKEEPER) --- */
+        #gatekeeper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--azul-profundo);
+            z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); }
+        #roleta-ip { font-size: 2em; color: var(--dourado-brilhante); margin-bottom: 10px; }
+        #roleta-geo { font-size: 1em; color: var(--branco-marfim); letter-spacing: 2px; }
+
+        /* --- LAYOUT PRINCIPAL (PÓS-DILUIÇÃO) --- */
+        #main-content { opacity: 0; transition: opacity 1.5s ease-in-out; display: flex; min-height: 100vh; }
+
+        /* Navegação Vertical Esquerda */
+        .sidebar-comando {
+            width: 250px; padding: 100px 20px 40px;
+            display: flex; flex-direction: column; gap: 15px;
+            border-right: 1px solid rgba(197, 160, 89, 0.4); /* Linha Divisória Dourada */
+            position: relative;
+        }
+
+        .label-vanguarda {
+            position: absolute; top: 75px; left: 20px;
+            font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco);
+            text-transform: uppercase; font-weight: bold;
+        }
+
+        .setor-card {
+            width: 100%; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; text-transform: uppercase; font-size: 0.8em;
+            letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
+        }
+        .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.05); }
+
+        /* Área Central */
+        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 100px 5%; }
+
+        .btn-sair {
+            position: fixed; top: 25px; right: 5%;
+            font-size: 0.7em; letter-spacing: 2px; color: var(--dourado-fosco);
+            text-decoration: none; border: 1px solid transparent; padding: 5px 10px; transition: 0.3s;
+        }
+        .btn-sair:hover { border-color: var(--dourado-fosco); color: var(--branco-marfim); }
+
+        /* Logo Prisma */
+        .logo-prisma-container { position: relative; margin-bottom: 50px; cursor: crosshair; }
+        .logo-prisma { height: 280px; width: auto; filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.2)); }
+        .brilho-reflexo {
+            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.4), transparent);
+            transform: skewX(-25deg); transition: 0.1s; pointer-events: none;
+        }
+
+        /* Botão Enquadramento Final */
+        .btn-enquadramento-final {
+            margin-top: 80px; padding: 20px 40px;
+            background: transparent; border: 1px solid var(--dourado-fosco);
+            color: var(--dourado-fosco); text-transform: uppercase;
+            letter-spacing: 3px; cursor: pointer; transition: 0.5s; font-size: 1.1em;
+            position: relative; overflow: hidden;
+        }
+        .btn-enquadramento-final:hover { color: var(--azul-profundo); background: var(--dourado-fosco); box-shadow: 0 0 30px rgba(197, 160, 89, 0.4); }
+
+        /* Moldura Setores (Modal) */
+        .moldura-setor {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; height: 85%; max-width: 1100px;
+            border: 1px solid var(--dourado-fosco); background: rgba(10, 25, 47, 0.95);
+            display: none; z-index: 5000; box-shadow: 0 0 50px rgba(0,0,0,0.9);
+        }
+        .fechar-moldura { position: absolute; top: 15px; right: 20px; color: var(--dourado-fosco); cursor: pointer; font-size: 2em; }
+        .iframe-setor { width: 100%; height: 100%; border: none; }
+
+        .assinatura-dev { position: fixed; bottom: 15px; right: 20px; font-size: 0.6em; color: var(--prata); opacity: 0.5; letter-spacing: 2px; }
+
+        @media (max-width: 768px) {
+            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); padding: 60px 20px 20px; }
+            #main-content { flex-direction: column; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div id="gatekeeper">
+        <div class="roleta-box">
+            <div id="roleta-ip">000.000.000.000</div>
+            <div id="roleta-geo">SINCRIZANDO COORDENADAS...</div>
+        </div>
+    </div>
+
+    <a href="../index.html" class="btn-sair">SAIR DA ÁREA RESTRITA</a>
+
+    <div id="main-content">
+        <aside class="sidebar-comando">
+            <span class="label-vanguarda">APROFUNDAMENTO</span>
+            <div class="setor-card" onclick="abrirSetor('../agro2/index.html')">Agro</div>
+            <div class="setor-card" onclick="abrirSetor('../mineracao2/index.html')">Mineração</div>
+            <div class="setor-card" onclick="abrirSetor('../industria2/index.html')">Indústria</div>
+            <div class="setor-card" onclick="abrirSetor('../novos_negocios2/index.html')">Novos Negócios</div>
+        </aside>
+
+        <main class="viewport-central">
+            <div class="logo-prisma-container" id="logo-container">
+                <img src="../logo-touro.png" class="logo-prisma" alt="Terrae Aegis">
+                <div class="brilho-reflexo" id="brilho"></div>
+            </div>
+
+            <h2 style="color: var(--dourado-fosco); font-weight: 300; letter-spacing: 5px; text-transform: uppercase;">Sintonização de Ativos</h2>
+            <p style="max-width: 600px; text-align: center; opacity: 0.8; line-height: 1.8;">Ambiente de Enquadramento Estratégico. Explore as ramificações setoriais para análise de liquidez e blindagem patrimonial.</p>
+
+            <button class="btn-enquadramento-final" onclick="window.location.href='questionario.html'">Enquadramento para Soluções</button>
+        </main>
+    </div>
+
+    <div id="molduraSetor" class="moldura-setor">
+        <span class="fechar-moldura" onclick="fecharSetor()">×</span>
+        <iframe id="iframeSetor" class="iframe-setor"></iframe>
+    </div>
+
+    <div class="assinatura-dev">Developed by Terrae Aegis</div>
+
+    <script>
+        // 1. Lógica do Gatekeeper (Roleta)
+        async function ritualEntrada() {
+            const ipEl = document.getElementById('roleta-ip');
+            const geoEl = document.getElementById('roleta-geo');
+            const gate = document.getElementById('gatekeeper');
+            const main = document.getElementById('main-content');
+
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                
+                let i = 0;
+                const interval = setInterval(() => {
+                    ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+                    i++;
+                    if(i > 25) {
+                        clearInterval(interval);
+                        ipEl.innerText = data.ip;
+                        geoEl.innerText = `${data.latitude}, ${data.longitude} | ${data.city}, ${data.region_code}`;
+                        
+                        setTimeout(() => {
+                            gate.style.transition = "all 1s ease";
+                            gate.style.opacity = "0";
+                            setTimeout(() => { 
+                                gate.style.display = "none";
+                                main.style.opacity = "1";
+                            }, 1000);
+                        }, 1000); // 1s de congelamento
+                    }
+                }, 80);
+            } catch(e) { /* Fallback caso falhe API */ }
+        }
+
+        // 2. Efeito de Brilho Dourado (Logo)
+        const logoCont = document.getElementById('logo-container');
+        const brilho = document.getElementById('brilho');
+
+        logoCont.addEventListener('mousemove', (e) => {
+            const rect = logoCont.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percent = (x / rect.width) * 200;
+            brilho.style.left = `${percent - 100}%`;
+        });
+
+        // 3. Sistema de Moldura
+        function abrirSetor(url) {
+            document.getElementById('iframeSetor').src = url;
+            document.getElementById('molduraSetor').style.display = 'block';
+        }
+        function fecharSetor() {
+            document.getElementById('molduraSetor').style.display = 'none';
+            document.getElementById('iframeSetor').src = '';
+        }
+
+        window.onload = ritualEntrada;
+
+        // Trava de Soberania
+        document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+</html>
