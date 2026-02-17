@@ -70,7 +70,7 @@
             position: absolute;
             top: 85px; 
             left: 5%; 
-            width: 195px; /* Mesma largura da coluna setores-operacionais */
+            width: 195px; 
             display: flex;
             justify-content: center;
             z-index: 1001;
@@ -109,7 +109,6 @@
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        /* BOTÃO CONTATO: SUAVIZADO PARA DOURADO FOSCO SEM GROTESCOS */
         .btn-contato-trigger {
             margin-top: 15px;
             border-color: var(--dourado-fosco);
@@ -127,10 +126,9 @@
             height: 100%;
         }
 
-        /* POSICIONAMENTO REBAIXADO (MEIA ALTURA ABAIXO) */
         .btn-enquadramento {
             position: fixed;
-            bottom: 18%; /* Rebaixado para assentar sobre a marca d'água */
+            bottom: 18%; 
             left: 50%;
             transform: translateX(-50%);
             padding: 18px 45px; background: transparent;
@@ -141,14 +139,36 @@
         .btn-enquadramento:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
 
         /* --- MOLDURAS --- */
-        .moldura-texto, .moldura-setor {
+        .moldura-texto, .moldura-setor, .moldura-contato {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             border: 1px solid var(--dourado-fosco); display: none;
-            background: rgba(10, 25, 47, 0.95); z-index: 5000;
+            background: rgba(10, 25, 47, 0.98); z-index: 5000;
             box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
         .moldura-texto { width: 90%; max-width: 600px; padding: 30px; text-align: center; }
         .moldura-setor { width: 90%; height: 80%; max-width: 1000px; }
+        
+        /* ESTILO DO MODAL DE CONTATO */
+        .moldura-contato { width: 90%; max-width: 500px; padding: 35px; }
+        .fechar-contato-x { position: absolute; top: 12px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.2em; opacity: 0.5; transition: 0.3s; }
+        .fechar-contato-x:hover { opacity: 1; }
+
+        .input-protocolo {
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(197,160,89,0.2);
+            color: rgba(230, 230, 230, 0.5); padding: 12px; margin-bottom: 10px; font-size: 0.85em; 
+            outline: none; cursor: not-allowed; text-transform: uppercase; box-sizing: border-box;
+        }
+        .area-mensagem {
+            width: 100%; height: 150px; background: transparent; border: 1px solid var(--dourado-fosco);
+            color: var(--branco-marfim); padding: 15px; font-family: inherit; resize: none;
+            margin-top: 10px; font-size: 0.95em; outline: none; box-sizing: border-box;
+        }
+        .char-count { font-size: 0.6em; color: var(--dourado-fosco); text-align: right; margin-bottom: 20px; opacity: 0.6; text-transform: uppercase; }
+        .btn-enviar-protocolo {
+            width: 100%; padding: 18px; background: var(--dourado-fosco); color: var(--azul-profundo);
+            border: none; text-transform: uppercase; font-weight: bold; cursor: pointer; letter-spacing: 2px; transition: 0.3s;
+        }
+        .btn-enviar-protocolo:hover { background: var(--dourado-brilhante); }
 
         .fechar-moldura { position: absolute; top: 10px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.5em; line-height: 1; }
         .iframe-setor { width: 100%; height: 100%; border: none; }
@@ -204,6 +224,25 @@
         </section>
     </div>
 
+    <div id="modalContato" class="moldura-contato">
+        <span class="fechar-contato-x" onclick="fecharContato()">×</span>
+        <h3 style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 3px; font-size: 1em; margin-bottom: 25px; text-align: center;">Requisitar Protocolo</h3>
+        
+        <form id="formProtocolo">
+            <input type="hidden" name="access_key" value="COLOQUE-SEU-TOKEN-AQUI">
+            <input type="hidden" name="subject" value="Novo Protocolo Estratégico - Terrae Aegis">
+            
+            <input type="text" name="identidade" class="input-protocolo" value="IDENTIDADE: [DADOS VALIDADOS]" readonly>
+            <input type="text" name="email" class="input-protocolo" value="E-MAIL: [DADOS VALIDADOS]" readonly>
+            <input type="text" name="telefone" class="input-protocolo" value="CONTATO: [DADOS VALIDADOS]" readonly>
+            
+            <textarea name="mensagem" id="msgContato" class="area-mensagem" maxlength="1500" oninput="contarChar(this)" placeholder="Descreva sua demanda estratégica..." required></textarea>
+            <div id="contador" class="char-count">1500 caracteres restantes</div>
+            
+            <button type="submit" class="btn-enviar-protocolo">Enviar Protocolo</button>
+        </form>
+    </div>
+
     <div id="moldura" class="moldura-texto">
         <span class="fechar-moldura" onclick="fecharMoldura()">×</span>
         <span id="titulo-moldura" style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 3px; font-size: 1.1em; margin-bottom: 15px; display: block;"></span>
@@ -250,9 +289,34 @@
             document.getElementById('iframeSetor').src = "";
         }
 
-        function abrirContato() {
-            alert('Módulo de Contato em desenvolvimento operacional.');
-        }
+        // --- LÓGICA DE CONTATO INTEGRADA ---
+        function abrirContato() { document.getElementById('modalContato').style.display = 'block'; }
+        function fecharContato() { document.getElementById('modalContato').style.display = 'none'; }
+        function contarChar(val) { document.getElementById('contador').innerHTML = (1500 - val.value.length) + " caracteres restantes"; }
+
+        const form = document.getElementById('formProtocolo');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    alert("Protocolo enviado com sucesso.");
+                    fecharContato();
+                    form.reset();
+                } else {
+                    alert("Erro no envio. Tente novamente.");
+                }
+            })
+            .catch(error => { alert("Falha na comunicação com a central."); });
+        });
 
         window.onload = function() {
             const ipEl = document.getElementById('roleta-ip');
@@ -279,8 +343,10 @@
         document.addEventListener('mousedown', function(e) {
             const mText = document.getElementById('moldura');
             const mSetor = document.getElementById('molduraSetor');
+            const mContato = document.getElementById('modalContato');
             if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) fecharMoldura();
             if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) fecharSetor();
+            if (mContato.style.display === 'block' && !mContato.contains(e.target) && !e.target.closest('.btn-contato-trigger')) fecharContato();
         });
     </script>
 </body>
