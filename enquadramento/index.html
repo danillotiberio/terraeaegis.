@@ -12,6 +12,15 @@
             --branco-marfim: #E6E6E6;
         }
 
+        /* Bloqueio de Seleção Visual */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
         body, html {
             margin: 0; padding: 0;
             background-color: var(--azul-profundo);
@@ -32,18 +41,16 @@
         }
         .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); width: 80%; max-width: 400px; }
         #roleta-ip { font-size: 1.8em; color: var(--dourado-brilhante); margin-bottom: 10px; }
-        #roleta-geo { font-size: 0.8em; color: var(--branco-marfim); letter-spacing: 2px; text-transform: uppercase; }
+        #roleta-geo { font-size: 0.9em; color: var(--branco-marfim); letter-spacing: 2px; }
 
         /* --- CONTEÚDO PRINCIPAL --- */
         #main-content { opacity: 0; display: flex; min-height: 100vh; transition: opacity 1.5s ease-in; }
 
-        /* Sidebar Vertical com Linha Divisória */
         .sidebar-comando {
             width: 250px; padding: 100px 20px 40px;
             display: flex; flex-direction: column; gap: 15px;
             border-right: 1px solid rgba(197, 160, 89, 0.4);
             box-sizing: border-box;
-            position: relative;
         }
         .label-vanguarda { font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); text-transform: uppercase; font-weight: bold; margin-bottom: 15px; }
 
@@ -60,14 +67,11 @@
         /* --- LOGO COM BRILHO NO CONTORNO (MASK) --- */
         .logo-wrapper {
             position: relative;
-            width: 280px;
-            height: 280px;
+            width: 280px; height: 280px;
             margin-bottom: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
         }
-        .logo-touro { height: 100%; width: auto; z-index: 2; position: relative; }
+        .logo-touro { height: 100%; width: auto; z-index: 2; position: relative; pointer-events: none; }
         
         .logo-wrapper::after {
             content: "";
@@ -86,14 +90,14 @@
             z-index: 3;
             pointer-events: none;
         }
-        .logo-wrapper:hover::after { animation: deslizarBrilhoContorno 1.5s ease-in-out forwards; }
+        .logo-wrapper:hover::after { animation: deslizarBrilho 1.2s ease-in-out forwards; }
 
-        @keyframes deslizarBrilhoContorno {
+        @keyframes deslizarBrilho {
             0% { left: -100%; }
             100% { left: 100%; }
         }
 
-        /* --- BOTÃO ENQUADRAMENTO DE ELITE --- */
+        /* --- BOTÃO DE ELITE --- */
         .btn-solucoes {
             margin-top: 60px;
             padding: 22px 50px;
@@ -104,7 +108,6 @@
             letter-spacing: 4px;
             font-weight: bold;
             cursor: pointer;
-            position: relative;
             transition: 0.5s;
             outline: 1px solid transparent;
             outline-offset: 4px;
@@ -117,9 +120,6 @@
         }
 
         .btn-sair { position: fixed; top: 25px; right: 5%; font-size: 0.7em; letter-spacing: 2px; color: var(--dourado-fosco); text-decoration: none; text-transform: uppercase; z-index: 1000; }
-        .btn-sair:hover { color: #fff; }
-
-        .assinatura-dev { position: fixed; bottom: 15px; right: 20px; font-size: 0.6em; color: #C0C0C0; opacity: 0.5; letter-spacing: 2px; }
 
         @media (max-width: 768px) {
             #main-content { flex-direction: column; }
@@ -127,7 +127,7 @@
         }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;" onkeydown="return false;">
 
     <div id="gatekeeper">
         <div class="roleta-box">
@@ -141,67 +141,57 @@
     <div id="main-content">
         <aside class="sidebar-comando">
             <span class="label-vanguarda">APROFUNDAMENTO</span>
-            <div class="setor-card" onclick="location.href='../Agro2/index.html'">Agro</div>
-            <div class="setor-card" onclick="location.href='../Mineracao2/index.html'">Mineração</div>
-            <div class="setor-card" onclick="location.href='../Industria2/index.html'">Indústria</div>
-            <div class="setor-card" onclick="location.href='../Novos_Negocios2/index.html'">Novos Negócios</div>
+            <div class="setor-card" onclick="location.href='Agro2/index.html'">Agro</div>
+            <div class="setor-card" onclick="location.href='Mineracao2/index.html'">Mineração</div>
+            <div class="setor-card" onclick="location.href='Industria2/index.html'">Indústria</div>
+            <div class="setor-card" onclick="location.href='Novos_Negocios2/index.html'">Novos Negócios</div>
         </aside>
 
         <main class="viewport-central">
             <div class="logo-wrapper">
                 <img src="../logo-touro.png" class="logo-touro" alt="Terrae Aegis">
             </div>
-            
             <h2 style="letter-spacing: 6px; color: var(--dourado-fosco); text-align: center; font-weight: 300; text-transform: uppercase;">Sintonização de Ativos</h2>
-            <p style="max-width: 500px; text-align: center; opacity: 0.7; font-size: 0.9em; line-height: 1.6;">Acesse as camadas profundas de enquadramento para estruturação internacional e liquidez de ativos reais.</p>
-            
             <button class="btn-solucoes" onclick="location.href='questionario.html'">Enquadramento para Soluções</button>
         </main>
     </div>
 
-    <div class="assinatura-dev">Developed by Terrae Aegis</div>
-
     <script>
-        function iniciarRitual() {
+        // --- BLINDAGEM DE SOBERANIA ---
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+                return false;
+            }
+        };
+
+        // Anti-Debugger Loop
+        setInterval(function() { debugger; }, 100);
+
+        function iniciar() {
             const ipEl = document.getElementById('roleta-ip');
             const geoEl = document.getElementById('roleta-geo');
             const gate = document.getElementById('gatekeeper');
             const main = document.getElementById('main-content');
             
             let count = 0;
-            const roletaTimer = setInterval(() => {
+            const timer = setInterval(() => {
                 ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-                count++;
-                
-                if(count > 30) {
-                    clearInterval(roletaTimer);
-                    finalizar(ipEl, geoEl, gate, main);
+                if(count++ > 30) {
+                    clearInterval(timer);
+                    fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                        ipEl.innerText = d.ip;
+                        geoEl.innerText = `${d.city} | ${d.region} | ${d.country_name}`;
+                        setTimeout(() => { 
+                            gate.style.opacity = "0"; 
+                            setTimeout(() => { gate.style.display="none"; main.style.opacity="1"; }, 1000);
+                        }, 1000);
+                    }).catch(() => {
+                        setTimeout(() => { gate.style.display="none"; main.style.opacity="1"; }, 500);
+                    });
                 }
             }, 100);
         }
-
-        async function finalizar(ipEl, geoEl, gate, main) {
-            try {
-                const res = await fetch('https://ipapi.co/json/').catch(() => null);
-                const data = res ? await res.json() : { ip: "---.---.---.---", city: "LOCALIZAÇÃO", region: "RESTRITA", country_name: "TERRAE AEGIS" };
-                
-                ipEl.innerText = data.ip;
-                geoEl.innerText = `${data.city} | ${data.region} | ${data.country_name || data.country}`;
-                
-                setTimeout(() => {
-                    gate.style.opacity = "0";
-                    setTimeout(() => {
-                        gate.style.display = "none";
-                        main.style.opacity = "1";
-                    }, 1000);
-                }, 1000);
-            } catch(e) {
-                gate.style.display = "none";
-                main.style.opacity = "1";
-            }
-        }
-
-        window.onload = iniciarRitual;
+        window.onload = iniciar;
     </script>
 </body>
 </html>
