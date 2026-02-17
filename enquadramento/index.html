@@ -74,7 +74,7 @@
             display: block;
             z-index: 1001;
         }
-        .logo img { height: 120px; width: auto; }
+        .logo img { height: 110px; width: auto; }
 
         /* --- CONTAINER PRINCIPAL --- */
         .container-principal {
@@ -90,22 +90,30 @@
         .setores-operacionais {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            width: 120px; /* Mesma largura do Logo conforme solicitado */
+            gap: 8px;
+            width: 195px; /* Alinhado horizontalmente com a palavra APROFUNDAMENTO */
             align-items: flex-start;
             border-right: 1px solid rgba(197, 160, 89, 0.2); 
             padding-right: 20px;
-            margin-top: 220px; /* Ajuste para descer após o logo */
+            margin-top: 215px; 
         }
 
         .setor-card {
-            width: 100%; height: 60px;
+            width: 100%; height: 35px; /* Corte Vertical Slim */
             border: 1px solid rgba(197, 160, 89, 0.3);
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; text-transform: uppercase; font-size: 0.8em;
+            cursor: pointer; text-transform: uppercase; font-size: 0.65em;
             letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
+            white-space: nowrap; /* Impede quebra de linha */
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
+
+        .btn-contato-trigger {
+            margin-top: 15px; /* Respiro vertical */
+            border-color: var(--dourado-brilhante);
+            color: var(--dourado-brilhante);
+            font-weight: bold;
+        }
 
         /* CENTRO LIMPO PARA AS FRASES */
         .hero { 
@@ -117,13 +125,13 @@
             height: 100%;
         }
 
-        /* POSICIONAMENTO DO BOTÃO ANCORADO À MARCA D'ÁGUA */
+        /* POSICIONAMENTO DO BOTÃO ANCORADO (BEIJO NA MARCA D'ÁGUA) */
         .btn-enquadramento {
             position: fixed;
-            top: calc(50% + 140px); /* Ajustado para ficar logo acima da escrita do logo de fundo */
+            bottom: 22%; /* Coordenada para tablet 16:9 ancorar na logo de fundo */
             left: 50%;
             transform: translateX(-50%);
-            padding: 20px 50px; background: transparent;
+            padding: 18px 45px; background: transparent;
             border: 1px solid var(--dourado-fosco); color: var(--dourado-fosco);
             text-transform: uppercase; letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
             z-index: 100;
@@ -150,7 +158,7 @@
             .container-principal { flex-direction: column-reverse; align-items: center; justify-content: center; }
             .setores-operacionais { width: 100%; border-right: none; border-top: 1px solid var(--dourado-fosco); padding: 20px 0; margin-top: 20px; }
             header { position: relative; top: 70px; left: 0; text-align: center; }
-            .btn-enquadramento { position: relative; top: 0; transform: none; margin-top: 20px; }
+            .btn-enquadramento { position: relative; bottom: 0; transform: none; margin-top: 20px; }
         }
     </style>
 </head>
@@ -186,6 +194,7 @@
             <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
             <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
             <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
+            <div class="setor-card btn-contato-trigger" onclick="abrirContato()">Contato</div>
         </section>
 
         <section class="hero">
@@ -237,6 +246,10 @@
         function fecharSetor() {
             document.getElementById('molduraSetor').style.display = 'none';
             document.getElementById('iframeSetor').src = "";
+        }
+
+        function abrirContato() {
+            alert('Módulo de Contato em desenvolvimento operacional.');
         }
 
         window.onload = function() {
