@@ -118,5 +118,22 @@
             window.parent.location.hash = 'diagnostico';
         }
     </script>
+    <script>
+        // Trava de Soberania da Terrae Aegis
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onselectstart = function() { return false; };
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) {
+                return false;
+            }
+        };
+
+        // Sua função de navegação
+        function fecharIrParaToken() {
+            const overlay = window.parent.document.querySelector('[style*="display: block"]');
+            if (overlay) { overlay.style.display = 'none'; }
+            window.parent.location.hash = 'diagnostico';
+        }
+    </script>
 </body>
 </html>
