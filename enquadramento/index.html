@@ -17,7 +17,7 @@
             background-color: var(--azul-profundo);
             color: var(--branco-marfim);
             font-family: 'Segoe UI', Roboto, sans-serif;
-            overflow: hidden; /* Trava scroll durante o ritual */
+            overflow-x: hidden;
             height: 100%;
         }
 
@@ -30,38 +30,22 @@
             font-family: 'Courier New', monospace;
             transition: opacity 1s ease-out;
         }
-
-        .roleta-box { 
-            text-align: center; 
-            border: 1px solid var(--dourado-fosco); 
-            padding: 40px; 
-            background: rgba(0,0,0,0.3);
-            width: 80%;
-            max-width: 400px;
-        }
-        
+        .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); width: 80%; max-width: 400px; }
         #roleta-ip { font-size: 1.8em; color: var(--dourado-brilhante); margin-bottom: 10px; }
-        #roleta-geo { font-size: 0.9em; color: var(--branco-marfim); letter-spacing: 2px; text-transform: uppercase; }
+        #roleta-geo { font-size: 0.8em; color: var(--branco-marfim); letter-spacing: 2px; text-transform: uppercase; }
 
-        /* --- CONTEÚDO (OCULTO INICIALMENTE) --- */
-        #main-content { 
-            opacity: 0; 
-            display: flex; 
-            min-height: 100vh; 
-            transition: opacity 1.5s ease-in;
-        }
+        /* --- CONTEÚDO PRINCIPAL --- */
+        #main-content { opacity: 0; display: flex; min-height: 100vh; transition: opacity 1.5s ease-in; }
 
-        /* Sidebar Vertical */
+        /* Sidebar Vertical com Linha Divisória */
         .sidebar-comando {
             width: 250px; padding: 100px 20px 40px;
             display: flex; flex-direction: column; gap: 15px;
             border-right: 1px solid rgba(197, 160, 89, 0.4);
+            box-sizing: border-box;
+            position: relative;
         }
-
-        .label-vanguarda {
-            font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco);
-            text-transform: uppercase; font-weight: bold; margin-bottom: 20px;
-        }
+        .label-vanguarda { font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); text-transform: uppercase; font-weight: bold; margin-bottom: 15px; }
 
         .setor-card {
             width: 100%; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3);
@@ -69,37 +53,77 @@
             cursor: pointer; text-transform: uppercase; font-size: 0.8em;
             letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
         }
-        .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.05); }
+        .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 100px 5%; position: relative; }
+        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 5%; }
 
-        /* Logo com Brilho Correndo */
-        .logo-container { position: relative; margin-bottom: 40px; }
-        .logo-touro { height: 250px; width: auto; }
-        .brilho-efeito {
-            position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.3), transparent);
-            transform: skewX(-25deg);
+        /* --- LOGO COM BRILHO NO CONTORNO (MASK) --- */
+        .logo-wrapper {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-touro { height: 100%; width: auto; z-index: 2; position: relative; }
+        
+        .logo-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -150%;
+            width: 100%; height: 100%;
+            background: linear-gradient(105deg, transparent, rgba(255, 215, 0, 0.6), transparent);
+            -webkit-mask-image: url('../logo-touro.png');
+            mask-image: url('../logo-touro.png');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            z-index: 3;
             pointer-events: none;
         }
-        .logo-container:hover .brilho-efeito { animation: correrBrilho 1.5s infinite; }
+        .logo-wrapper:hover::after { animation: deslizarBrilhoContorno 1.5s ease-in-out forwards; }
 
-        @keyframes correrBrilho {
-            0% { left: -150%; }
-            100% { left: 150%; }
+        @keyframes deslizarBrilhoContorno {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
-        .btn-enquadramento {
-            margin-top: 50px; padding: 20px 40px;
-            background: transparent; border: 1px solid var(--dourado-fosco);
-            color: var(--dourado-fosco); text-transform: uppercase;
-            letter-spacing: 3px; cursor: pointer; transition: 0.5s;
+        /* --- BOTÃO ENQUADRAMENTO DE ELITE --- */
+        .btn-solucoes {
+            margin-top: 60px;
+            padding: 22px 50px;
+            background: transparent;
+            border: 1px solid var(--dourado-fosco);
+            color: var(--dourado-fosco);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            transition: 0.5s;
+            outline: 1px solid transparent;
+            outline-offset: 4px;
         }
-        .btn-enquadramento:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
+        .btn-solucoes:hover {
+            color: var(--azul-profundo);
+            background: var(--dourado-fosco);
+            box-shadow: 0 0 40px rgba(197, 160, 89, 0.3);
+            outline: 1px solid var(--dourado-fosco);
+        }
+
+        .btn-sair { position: fixed; top: 25px; right: 5%; font-size: 0.7em; letter-spacing: 2px; color: var(--dourado-fosco); text-decoration: none; text-transform: uppercase; z-index: 1000; }
+        .btn-sair:hover { color: #fff; }
+
+        .assinatura-dev { position: fixed; bottom: 15px; right: 20px; font-size: 0.6em; color: #C0C0C0; opacity: 0.5; letter-spacing: 2px; }
 
         @media (max-width: 768px) {
             #main-content { flex-direction: column; }
-            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); box-sizing: border-box; }
+            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); padding: 80px 20px 20px; }
         }
     </style>
 </head>
@@ -112,24 +136,30 @@
         </div>
     </div>
 
+    <a href="../index.html" class="btn-sair">Sair da Área Restrita</a>
+
     <div id="main-content">
         <aside class="sidebar-comando">
             <span class="label-vanguarda">APROFUNDAMENTO</span>
-            <div class="setor-card" onclick="location.href='../agro2/index.html'">Agro</div>
-            <div class="setor-card" onclick="location.href='../mineracao2/index.html'">Mineração</div>
-            <div class="setor-card" onclick="location.href='../industria2/index.html'">Indústria</div>
-            <div class="setor-card" onclick="location.href='../novos_negocios2/index.html'">Novos Negócios</div>
+            <div class="setor-card" onclick="location.href='../Agro2/index.html'">Agro</div>
+            <div class="setor-card" onclick="location.href='../Mineracao2/index.html'">Mineração</div>
+            <div class="setor-card" onclick="location.href='../Industria2/index.html'">Indústria</div>
+            <div class="setor-card" onclick="location.href='../Novos_Negocios2/index.html'">Novos Negócios</div>
         </aside>
 
         <main class="viewport-central">
-            <div class="logo-container">
+            <div class="logo-wrapper">
                 <img src="../logo-touro.png" class="logo-touro" alt="Terrae Aegis">
-                <div class="brilho-efeito"></div>
             </div>
-            <h2 style="letter-spacing: 5px; color: var(--dourado-fosco);">SINTONIZAÇÃO DE ATIVOS</h2>
-            <button class="btn-enquadramento" onclick="location.href='enquadramento2/index.html'">Enquadramento para Soluções</button>
+            
+            <h2 style="letter-spacing: 6px; color: var(--dourado-fosco); text-align: center; font-weight: 300; text-transform: uppercase;">Sintonização de Ativos</h2>
+            <p style="max-width: 500px; text-align: center; opacity: 0.7; font-size: 0.9em; line-height: 1.6;">Acesse as camadas profundas de enquadramento para estruturação internacional e liquidez de ativos reais.</p>
+            
+            <button class="btn-solucoes" onclick="location.href='questionario.html'">Enquadramento para Soluções</button>
         </main>
     </div>
+
+    <div class="assinatura-dev">Developed by Terrae Aegis</div>
 
     <script>
         function iniciarRitual() {
@@ -138,13 +168,11 @@
             const gate = document.getElementById('gatekeeper');
             const main = document.getElementById('main-content');
             
-            // Inicia roleta visual IMEDIATAMENTE
             let count = 0;
             const roletaTimer = setInterval(() => {
                 ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
                 count++;
                 
-                // Após ~3 segundos (30 iterações de 100ms)
                 if(count > 30) {
                     clearInterval(roletaTimer);
                     finalizar(ipEl, geoEl, gate, main);
@@ -154,24 +182,20 @@
 
         async function finalizar(ipEl, geoEl, gate, main) {
             try {
-                // Tenta pegar dados reais, se falhar, usa fallback
                 const res = await fetch('https://ipapi.co/json/').catch(() => null);
-                const data = res ? await res.json() : { ip: "177.105.122.18", city: "SÃO PAULO", region: "SP", country: "BR" };
+                const data = res ? await res.json() : { ip: "---.---.---.---", city: "LOCALIZAÇÃO", region: "RESTRITA", country_name: "TERRAE AEGIS" };
                 
                 ipEl.innerText = data.ip;
                 geoEl.innerText = `${data.city} | ${data.region} | ${data.country_name || data.country}`;
                 
-                // Congela por 1 segundo e dilui
                 setTimeout(() => {
                     gate.style.opacity = "0";
-                    document.body.style.overflow = "auto";
                     setTimeout(() => {
                         gate.style.display = "none";
                         main.style.opacity = "1";
                     }, 1000);
                 }, 1000);
             } catch(e) {
-                // Caso extremo de erro
                 gate.style.display = "none";
                 main.style.opacity = "1";
             }
