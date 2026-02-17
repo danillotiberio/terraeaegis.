@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terrae Aegis | Enquadramento Estratégico</title>
+    <title>Terrae Aegis | Enquadramento</title>
     <style>
         :root {
             --azul-profundo: #0A192F;
@@ -12,25 +12,18 @@
             --branco-marfim: #E6E6E6;
         }
 
-        /* Bloqueio de Seleção Visual */
-        * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
+        * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
 
         body, html {
             margin: 0; padding: 0;
             background-color: var(--azul-profundo);
             color: var(--branco-marfim);
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             overflow-x: hidden;
             height: 100%;
         }
 
-        /* --- GATEKEEPER RITUAL --- */
+        /* --- GATEKEEPER --- */
         #gatekeeper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--azul-profundo);
@@ -41,21 +34,18 @@
         }
         .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); width: 80%; max-width: 400px; }
         #roleta-ip { font-size: 1.8em; color: var(--dourado-brilhante); margin-bottom: 10px; }
-        #roleta-geo { font-size: 0.9em; color: var(--branco-marfim); letter-spacing: 2px; }
 
-        /* --- CONTEÚDO PRINCIPAL --- */
+        /* --- LAYOUT --- */
         #main-content { opacity: 0; display: flex; min-height: 100vh; transition: opacity 1.5s ease-in; }
 
         .sidebar-comando {
-            width: 250px; padding: 100px 20px 40px;
+            width: 250px; padding: 100px 20px;
             display: flex; flex-direction: column; gap: 15px;
             border-right: 1px solid rgba(197, 160, 89, 0.4);
-            box-sizing: border-box;
         }
-        .label-vanguarda { font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); text-transform: uppercase; font-weight: bold; margin-bottom: 15px; }
 
         .setor-card {
-            width: 100%; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3);
+            width: 100%; height: 55px; border: 1px solid rgba(197, 160, 89, 0.3);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; text-transform: uppercase; font-size: 0.8em;
             letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
@@ -64,66 +54,35 @@
 
         .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 5%; }
 
-        /* --- LOGO COM BRILHO NO CONTORNO (MASK) --- */
-        .logo-wrapper {
+        /* --- EFEITO PRISMA SEGURO --- */
+        .prisma-container {
             position: relative;
-            width: 280px; height: 280px;
-            margin-bottom: 40px;
-            display: flex; justify-content: center; align-items: center;
+            width: 250px;
+            overflow: hidden;
+            margin-bottom: 30px;
         }
-        .logo-touro { height: 100%; width: auto; z-index: 2; position: relative; pointer-events: none; }
-        
-        .logo-wrapper::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -150%;
-            width: 100%; height: 100%;
-            background: linear-gradient(105deg, transparent, rgba(255, 215, 0, 0.6), transparent);
-            -webkit-mask-image: url('../logo-touro.png');
-            mask-image: url('../logo-touro.png');
-            -webkit-mask-size: contain;
-            mask-size: contain;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            mask-position: center;
-            z-index: 3;
-            pointer-events: none;
+        .logo-estatico { width: 100%; height: auto; display: block; }
+        .prisma-reflexo {
+            position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(105deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-30deg);
+            transition: 0.8s;
         }
-        .logo-wrapper:hover::after { animation: deslizarBrilho 1.2s ease-in-out forwards; }
+        .prisma-container:hover .prisma-reflexo { left: 150%; }
 
-        @keyframes deslizarBrilho {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        /* --- BOTÃO DE ELITE --- */
         .btn-solucoes {
-            margin-top: 60px;
-            padding: 22px 50px;
-            background: transparent;
-            border: 1px solid var(--dourado-fosco);
-            color: var(--dourado-fosco);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.5s;
-            outline: 1px solid transparent;
-            outline-offset: 4px;
+            margin-top: 50px; padding: 20px 45px;
+            background: transparent; border: 1px solid var(--dourado-fosco);
+            color: var(--dourado-fosco); text-transform: uppercase;
+            letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
         }
-        .btn-solucoes:hover {
-            color: var(--azul-profundo);
-            background: var(--dourado-fosco);
-            box-shadow: 0 0 40px rgba(197, 160, 89, 0.3);
-            outline: 1px solid var(--dourado-fosco);
-        }
+        .btn-solucoes:hover { background: var(--dourado-fosco); color: var(--azul-profundo); box-shadow: 0 0 30px rgba(197,160,89,0.3); }
 
-        .btn-sair { position: fixed; top: 25px; right: 5%; font-size: 0.7em; letter-spacing: 2px; color: var(--dourado-fosco); text-decoration: none; text-transform: uppercase; z-index: 1000; }
+        .btn-sair { position: fixed; top: 25px; right: 5%; font-size: 0.7em; color: var(--dourado-fosco); text-decoration: none; text-transform: uppercase; }
 
         @media (max-width: 768px) {
             #main-content { flex-direction: column; }
-            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); padding: 80px 20px 20px; }
+            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); }
         }
     </style>
 </head>
@@ -132,66 +91,59 @@
     <div id="gatekeeper">
         <div class="roleta-box">
             <div id="roleta-ip">000.000.000.000</div>
-            <div id="roleta-geo">SINCRONIZANDO COORDENADAS...</div>
+            <div id="roleta-geo" style="font-size: 0.8em; opacity: 0.7;">IDENTIFICANDO ACESSO...</div>
         </div>
     </div>
 
-    <a href="../index.html" class="btn-sair">Sair da Área Restrita</a>
+    <a href="../index.html" class="btn-sair">Sair</a>
 
     <div id="main-content">
         <aside class="sidebar-comando">
-            <span class="label-vanguarda">APROFUNDAMENTO</span>
-            <div class="setor-card" onclick="location.href='Agro2/index.html'">Agro</div>
-            <div class="setor-card" onclick="location.href='Mineracao2/index.html'">Mineração</div>
-            <div class="setor-card" onclick="location.href='Industria2/index.html'">Indústria</div>
-            <div class="setor-card" onclick="location.href='Novos_Negocios2/index.html'">Novos Negócios</div>
+            <div style="font-size: 0.6em; letter-spacing: 3px; color: var(--dourado-fosco); margin-bottom: 15px;">APROFUNDAMENTO</div>
+            <div class="setor-card" onclick="location.href='agro2/index.html'">Agro</div>
+            <div class="setor-card" onclick="location.href='mineracao2/index.html'">Mineração</div>
+            <div class="setor-card" onclick="location.href='industria2/index.html'">Indústria</div>
+            <div class="setor-card" onclick="location.href='novos_negocios2/index.html'">Novos Negócios</div>
         </aside>
 
         <main class="viewport-central">
-            <div class="logo-wrapper">
-                <img src="../logo-touro.png" class="logo-touro" alt="Terrae Aegis">
+            <div class="prisma-container">
+                <img src="../logo-touro.png" class="logo-estatico" alt="Terrae Aegis">
+                <div class="prisma-reflexo"></div>
             </div>
-            <h2 style="letter-spacing: 6px; color: var(--dourado-fosco); text-align: center; font-weight: 300; text-transform: uppercase;">Sintonização de Ativos</h2>
+            <h2 style="letter-spacing: 5px; color: var(--dourado-fosco); font-weight: 300;">SINTONIZAÇÃO DE ATIVOS</h2>
             <button class="btn-solucoes" onclick="location.href='questionario.html'">Enquadramento para Soluções</button>
         </main>
     </div>
 
     <script>
-        // --- BLINDAGEM DE SOBERANIA ---
+        // Blindagem de Teclado
         document.onkeydown = function(e) {
-            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
-                return false;
-            }
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false;
         };
 
-        // Anti-Debugger Loop
-        setInterval(function() { debugger; }, 100);
-
-        function iniciar() {
+        function ritual() {
             const ipEl = document.getElementById('roleta-ip');
-            const geoEl = document.getElementById('roleta-geo');
             const gate = document.getElementById('gatekeeper');
             const main = document.getElementById('main-content');
-            
-            let count = 0;
-            const timer = setInterval(() => {
+            let c = 0;
+            const t = setInterval(() => {
                 ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-                if(count++ > 30) {
-                    clearInterval(timer);
+                if(c++ > 25) {
+                    clearInterval(t);
                     fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
                         ipEl.innerText = d.ip;
-                        geoEl.innerText = `${d.city} | ${d.region} | ${d.country_name}`;
                         setTimeout(() => { 
                             gate.style.opacity = "0"; 
                             setTimeout(() => { gate.style.display="none"; main.style.opacity="1"; }, 1000);
-                        }, 1000);
+                        }, 800);
                     }).catch(() => {
                         setTimeout(() => { gate.style.display="none"; main.style.opacity="1"; }, 500);
                     });
                 }
             }, 100);
         }
-        window.onload = iniciar;
+        window.onload = ritual;
     </script>
 </body>
 </html>
