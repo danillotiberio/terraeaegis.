@@ -10,7 +10,6 @@
             --dourado-fosco: #C5A059;
             --dourado-brilhante: #FFD700;
             --branco-marfim: #E6E6E6;
-            --prata: #C0C0C0;
         }
 
         body, html {
@@ -18,38 +17,50 @@
             background-color: var(--azul-profundo);
             color: var(--branco-marfim);
             font-family: 'Segoe UI', Roboto, sans-serif;
-            overflow-x: hidden;
+            overflow: hidden; /* Trava scroll durante o ritual */
             height: 100%;
         }
 
-        /* --- RITUAL DE IDENTIFICAÇÃO (GATEKEEPER) --- */
+        /* --- GATEKEEPER RITUAL --- */
         #gatekeeper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--azul-profundo);
             z-index: 9999; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             font-family: 'Courier New', monospace;
+            transition: opacity 1s ease-out;
         }
 
-        .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); }
-        #roleta-ip { font-size: 2em; color: var(--dourado-brilhante); margin-bottom: 10px; }
-        #roleta-geo { font-size: 1em; color: var(--branco-marfim); letter-spacing: 2px; }
+        .roleta-box { 
+            text-align: center; 
+            border: 1px solid var(--dourado-fosco); 
+            padding: 40px; 
+            background: rgba(0,0,0,0.3);
+            width: 80%;
+            max-width: 400px;
+        }
+        
+        #roleta-ip { font-size: 1.8em; color: var(--dourado-brilhante); margin-bottom: 10px; }
+        #roleta-geo { font-size: 0.9em; color: var(--branco-marfim); letter-spacing: 2px; text-transform: uppercase; }
 
-        /* --- LAYOUT PRINCIPAL (PÓS-DILUIÇÃO) --- */
-        #main-content { opacity: 0; transition: opacity 1.5s ease-in-out; display: flex; min-height: 100vh; }
+        /* --- CONTEÚDO (OCULTO INICIALMENTE) --- */
+        #main-content { 
+            opacity: 0; 
+            display: flex; 
+            min-height: 100vh; 
+            transition: opacity 1.5s ease-in;
+        }
 
-        /* Navegação Vertical Esquerda */
+        /* Sidebar Vertical */
         .sidebar-comando {
             width: 250px; padding: 100px 20px 40px;
             display: flex; flex-direction: column; gap: 15px;
-            border-right: 1px solid rgba(197, 160, 89, 0.4); /* Linha Divisória Dourada */
-            position: relative;
+            border-right: 1px solid rgba(197, 160, 89, 0.4);
         }
 
         .label-vanguarda {
-            position: absolute; top: 75px; left: 20px;
             font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco);
-            text-transform: uppercase; font-weight: bold;
+            text-transform: uppercase; font-weight: bold; margin-bottom: 20px;
         }
 
         .setor-card {
@@ -60,50 +71,35 @@
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.05); }
 
-        /* Área Central */
-        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 100px 5%; }
+        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 100px 5%; position: relative; }
 
-        .btn-sair {
-            position: fixed; top: 25px; right: 5%;
-            font-size: 0.7em; letter-spacing: 2px; color: var(--dourado-fosco);
-            text-decoration: none; border: 1px solid transparent; padding: 5px 10px; transition: 0.3s;
+        /* Logo com Brilho Correndo */
+        .logo-container { position: relative; margin-bottom: 40px; }
+        .logo-touro { height: 250px; width: auto; }
+        .brilho-efeito {
+            position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.3), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
         }
-        .btn-sair:hover { border-color: var(--dourado-fosco); color: var(--branco-marfim); }
+        .logo-container:hover .brilho-efeito { animation: correrBrilho 1.5s infinite; }
 
-        /* Logo Prisma */
-        .logo-prisma-container { position: relative; margin-bottom: 50px; cursor: crosshair; }
-        .logo-prisma { height: 280px; width: auto; filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.2)); }
-        .brilho-reflexo {
-            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.4), transparent);
-            transform: skewX(-25deg); transition: 0.1s; pointer-events: none;
+        @keyframes correrBrilho {
+            0% { left: -150%; }
+            100% { left: 150%; }
         }
 
-        /* Botão Enquadramento Final */
-        .btn-enquadramento-final {
-            margin-top: 80px; padding: 20px 40px;
+        .btn-enquadramento {
+            margin-top: 50px; padding: 20px 40px;
             background: transparent; border: 1px solid var(--dourado-fosco);
             color: var(--dourado-fosco); text-transform: uppercase;
-            letter-spacing: 3px; cursor: pointer; transition: 0.5s; font-size: 1.1em;
-            position: relative; overflow: hidden;
+            letter-spacing: 3px; cursor: pointer; transition: 0.5s;
         }
-        .btn-enquadramento-final:hover { color: var(--azul-profundo); background: var(--dourado-fosco); box-shadow: 0 0 30px rgba(197, 160, 89, 0.4); }
-
-        /* Moldura Setores (Modal) */
-        .moldura-setor {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; height: 85%; max-width: 1100px;
-            border: 1px solid var(--dourado-fosco); background: rgba(10, 25, 47, 0.95);
-            display: none; z-index: 5000; box-shadow: 0 0 50px rgba(0,0,0,0.9);
-        }
-        .fechar-moldura { position: absolute; top: 15px; right: 20px; color: var(--dourado-fosco); cursor: pointer; font-size: 2em; }
-        .iframe-setor { width: 100%; height: 100%; border: none; }
-
-        .assinatura-dev { position: fixed; bottom: 15px; right: 20px; font-size: 0.6em; color: var(--prata); opacity: 0.5; letter-spacing: 2px; }
+        .btn-enquadramento:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
 
         @media (max-width: 768px) {
-            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); padding: 60px 20px 20px; }
             #main-content { flex-direction: column; }
+            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); box-sizing: border-box; }
         }
     </style>
 </head>
@@ -112,100 +108,76 @@
     <div id="gatekeeper">
         <div class="roleta-box">
             <div id="roleta-ip">000.000.000.000</div>
-            <div id="roleta-geo">SINCRIZANDO COORDENADAS...</div>
+            <div id="roleta-geo">SINCRONIZANDO COORDENADAS...</div>
         </div>
     </div>
-
-    <a href="../index.html" class="btn-sair">SAIR DA ÁREA RESTRITA</a>
 
     <div id="main-content">
         <aside class="sidebar-comando">
             <span class="label-vanguarda">APROFUNDAMENTO</span>
-            <div class="setor-card" onclick="abrirSetor('../agro2/index.html')">Agro</div>
-            <div class="setor-card" onclick="abrirSetor('../mineracao2/index.html')">Mineração</div>
-            <div class="setor-card" onclick="abrirSetor('../industria2/index.html')">Indústria</div>
-            <div class="setor-card" onclick="abrirSetor('../novos_negocios2/index.html')">Novos Negócios</div>
+            <div class="setor-card" onclick="location.href='../agro2/index.html'">Agro</div>
+            <div class="setor-card" onclick="location.href='../mineracao2/index.html'">Mineração</div>
+            <div class="setor-card" onclick="location.href='../industria2/index.html'">Indústria</div>
+            <div class="setor-card" onclick="location.href='../novos_negocios2/index.html'">Novos Negócios</div>
         </aside>
 
         <main class="viewport-central">
-            <div class="logo-prisma-container" id="logo-container">
-                <img src="../logo-touro.png" class="logo-prisma" alt="Terrae Aegis">
-                <div class="brilho-reflexo" id="brilho"></div>
+            <div class="logo-container">
+                <img src="../logo-touro.png" class="logo-touro" alt="Terrae Aegis">
+                <div class="brilho-efeito"></div>
             </div>
-
-            <h2 style="color: var(--dourado-fosco); font-weight: 300; letter-spacing: 5px; text-transform: uppercase;">Sintonização de Ativos</h2>
-            <p style="max-width: 600px; text-align: center; opacity: 0.8; line-height: 1.8;">Ambiente de Enquadramento Estratégico. Explore as ramificações setoriais para análise de liquidez e blindagem patrimonial.</p>
-
-            <button class="btn-enquadramento-final" onclick="window.location.href='questionario.html'">Enquadramento para Soluções</button>
+            <h2 style="letter-spacing: 5px; color: var(--dourado-fosco);">SINTONIZAÇÃO DE ATIVOS</h2>
+            <button class="btn-enquadramento" onclick="location.href='enquadramento2/index.html'">Enquadramento para Soluções</button>
         </main>
     </div>
 
-    <div id="molduraSetor" class="moldura-setor">
-        <span class="fechar-moldura" onclick="fecharSetor()">×</span>
-        <iframe id="iframeSetor" class="iframe-setor"></iframe>
-    </div>
-
-    <div class="assinatura-dev">Developed by Terrae Aegis</div>
-
     <script>
-        // 1. Lógica do Gatekeeper (Roleta)
-        async function ritualEntrada() {
+        function iniciarRitual() {
             const ipEl = document.getElementById('roleta-ip');
             const geoEl = document.getElementById('roleta-geo');
             const gate = document.getElementById('gatekeeper');
             const main = document.getElementById('main-content');
-
-            try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
+            
+            // Inicia roleta visual IMEDIATAMENTE
+            let count = 0;
+            const roletaTimer = setInterval(() => {
+                ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+                count++;
                 
-                let i = 0;
-                const interval = setInterval(() => {
-                    ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-                    i++;
-                    if(i > 25) {
-                        clearInterval(interval);
-                        ipEl.innerText = data.ip;
-                        geoEl.innerText = `${data.latitude}, ${data.longitude} | ${data.city}, ${data.region_code}`;
-                        
-                        setTimeout(() => {
-                            gate.style.transition = "all 1s ease";
-                            gate.style.opacity = "0";
-                            setTimeout(() => { 
-                                gate.style.display = "none";
-                                main.style.opacity = "1";
-                            }, 1000);
-                        }, 1000); // 1s de congelamento
-                    }
-                }, 80);
-            } catch(e) { /* Fallback caso falhe API */ }
+                // Após ~3 segundos (30 iterações de 100ms)
+                if(count > 30) {
+                    clearInterval(roletaTimer);
+                    finalizar(ipEl, geoEl, gate, main);
+                }
+            }, 100);
         }
 
-        // 2. Efeito de Brilho Dourado (Logo)
-        const logoCont = document.getElementById('logo-container');
-        const brilho = document.getElementById('brilho');
-
-        logoCont.addEventListener('mousemove', (e) => {
-            const rect = logoCont.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const percent = (x / rect.width) * 200;
-            brilho.style.left = `${percent - 100}%`;
-        });
-
-        // 3. Sistema de Moldura
-        function abrirSetor(url) {
-            document.getElementById('iframeSetor').src = url;
-            document.getElementById('molduraSetor').style.display = 'block';
+        async function finalizar(ipEl, geoEl, gate, main) {
+            try {
+                // Tenta pegar dados reais, se falhar, usa fallback
+                const res = await fetch('https://ipapi.co/json/').catch(() => null);
+                const data = res ? await res.json() : { ip: "177.105.122.18", city: "SÃO PAULO", region: "SP", country: "BR" };
+                
+                ipEl.innerText = data.ip;
+                geoEl.innerText = `${data.city} | ${data.region} | ${data.country_name || data.country}`;
+                
+                // Congela por 1 segundo e dilui
+                setTimeout(() => {
+                    gate.style.opacity = "0";
+                    document.body.style.overflow = "auto";
+                    setTimeout(() => {
+                        gate.style.display = "none";
+                        main.style.opacity = "1";
+                    }, 1000);
+                }, 1000);
+            } catch(e) {
+                // Caso extremo de erro
+                gate.style.display = "none";
+                main.style.opacity = "1";
+            }
         }
-        function fecharSetor() {
-            document.getElementById('molduraSetor').style.display = 'none';
-            document.getElementById('iframeSetor').src = '';
-        }
 
-        window.onload = ritualEntrada;
-
-        // Trava de Soberania
-        document.addEventListener('contextmenu', e => e.preventDefault());
+        window.onload = iniciarRitual;
     </script>
 </body>
 </html>
