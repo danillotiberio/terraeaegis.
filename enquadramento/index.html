@@ -12,6 +12,7 @@
             --branco-marfim: #E6E6E6;
         }
 
+        /* Bloqueio de Seleção e Arrastre */
         * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
 
         body, html {
@@ -19,11 +20,11 @@
             background-color: var(--azul-profundo);
             color: var(--branco-marfim);
             font-family: 'Segoe UI', sans-serif;
-            overflow-x: hidden;
+            overflow: hidden;
             height: 100%;
         }
 
-        /* --- GATEKEEPER --- */
+        /* --- GATEKEEPER RITUAL --- */
         #gatekeeper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--azul-profundo);
@@ -35,13 +36,14 @@
         .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); width: 80%; max-width: 400px; }
         #roleta-ip { font-size: 1.8em; color: var(--dourado-brilhante); margin-bottom: 10px; }
 
-        /* --- LAYOUT --- */
+        /* --- LAYOUT PRINCIPAL --- */
         #main-content { opacity: 0; display: flex; min-height: 100vh; transition: opacity 1.5s ease-in; }
 
         .sidebar-comando {
             width: 250px; padding: 100px 20px;
             display: flex; flex-direction: column; gap: 15px;
             border-right: 1px solid rgba(197, 160, 89, 0.4);
+            z-index: 10;
         }
 
         .setor-card {
@@ -52,23 +54,9 @@
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 5%; }
+        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 5%; position: relative; }
 
-        /* --- EFEITO PRISMA SEGURO --- */
-        .prisma-container {
-            position: relative;
-            width: 250px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        .logo-estatico { width: 100%; height: auto; display: block; }
-        .prisma-reflexo {
-            position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
-            background: linear-gradient(105deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-30deg);
-            transition: 0.8s;
-        }
-        .prisma-container:hover .prisma-reflexo { left: 150%; }
+        .logo-estatico { width: 250px; height: auto; margin-bottom: 30px; opacity: 1; }
 
         .btn-solucoes {
             margin-top: 50px; padding: 20px 45px;
@@ -76,13 +64,31 @@
             color: var(--dourado-fosco); text-transform: uppercase;
             letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
         }
-        .btn-solucoes:hover { background: var(--dourado-fosco); color: var(--azul-profundo); box-shadow: 0 0 30px rgba(197,160,89,0.3); }
+        .btn-solucoes:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
 
-        .btn-sair { position: fixed; top: 25px; right: 5%; font-size: 0.7em; color: var(--dourado-fosco); text-decoration: none; text-transform: uppercase; }
+        .btn-sair { position: fixed; top: 25px; right: 5%; font-size: 0.7em; color: var(--dourado-fosco); text-decoration: none; text-transform: uppercase; z-index: 20; }
+
+        /* --- SISTEMA DE MOLDURA (MODAL / IFRAME) --- */
+        #molduraSetor {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 25, 47, 0.98);
+            display: none; z-index: 5000;
+        }
+        .container-iframe {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; height: 85%; max-width: 1300px;
+            border: 1px solid var(--dourado-fosco); background: #000;
+        }
+        .iframe-setor { width: 100%; height: 100%; border: none; }
+        .fechar-moldura {
+            position: absolute; top: -45px; right: 0;
+            color: var(--dourado-fosco); font-size: 2.5em; cursor: pointer;
+        }
 
         @media (max-width: 768px) {
             #main-content { flex-direction: column; }
-            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); }
+            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); padding: 80px 20px 20px; }
+            .container-iframe { width: 95%; height: 90%; }
         }
     </style>
 </head>
@@ -91,7 +97,7 @@
     <div id="gatekeeper">
         <div class="roleta-box">
             <div id="roleta-ip">000.000.000.000</div>
-            <div id="roleta-geo" style="font-size: 0.8em; opacity: 0.7;">IDENTIFICANDO ACESSO...</div>
+            <div id="roleta-geo" style="font-size: 0.8em; opacity: 0.7; letter-spacing: 2px;">ACESSO RESTRITO</div>
         </div>
     </div>
 
@@ -100,37 +106,52 @@
     <div id="main-content">
         <aside class="sidebar-comando">
             <div style="font-size: 0.6em; letter-spacing: 3px; color: var(--dourado-fosco); margin-bottom: 15px;">APROFUNDAMENTO</div>
-            <div class="setor-card" onclick="location.href='agro2/index.html'">Agro</div>
-            <div class="setor-card" onclick="location.href='mineracao2/index.html'">Mineração</div>
-            <div class="setor-card" onclick="location.href='industria2/index.html'">Indústria</div>
-            <div class="setor-card" onclick="location.href='novos_negocios2/index.html'">Novos Negócios</div>
+            <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
+            <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
+            <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
+            <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
         </aside>
 
         <main class="viewport-central">
-            <div class="prisma-container">
-                <img src="../logo-touro.png" class="logo-estatico" alt="Terrae Aegis">
-                <div class="prisma-reflexo"></div>
-            </div>
+            <img src="../logo-touro.png" class="logo-estatico" alt="Terrae Aegis">
             <h2 style="letter-spacing: 5px; color: var(--dourado-fosco); font-weight: 300;">SINTONIZAÇÃO DE ATIVOS</h2>
-            <button class="btn-solucoes" onclick="location.href='questionario.html'">Enquadramento para Soluções</button>
+            <button class="btn-solucoes" onclick="window.location.href='questionario.html'">Enquadramento para Soluções</button>
         </main>
     </div>
 
+    <div id="molduraSetor">
+        <div class="container-iframe">
+            <span class="fechar-moldura" onclick="fecharSetor()">×</span>
+            <iframe id="iframeSetor" class="iframe-setor"></iframe>
+        </div>
+    </div>
+
     <script>
-        // Blindagem de Teclado
+        // Bloqueio de Teclado (F12, Ctrl+U, Inspect)
         document.onkeydown = function(e) {
             if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false;
         };
 
-        function ritual() {
+        // Gerenciamento da Moldura
+        function abrirSetor(url) {
+            document.getElementById('iframeSetor').src = url;
+            document.getElementById('molduraSetor').style.display = 'block';
+        }
+        function fecharSetor() {
+            document.getElementById('molduraSetor').style.display = 'none';
+            document.getElementById('iframeSetor').src = '';
+        }
+
+        // Ritual de Identificação
+        function iniciarRitual() {
             const ipEl = document.getElementById('roleta-ip');
             const gate = document.getElementById('gatekeeper');
             const main = document.getElementById('main-content');
-            let c = 0;
-            const t = setInterval(() => {
+            let count = 0;
+            const timer = setInterval(() => {
                 ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-                if(c++ > 25) {
-                    clearInterval(t);
+                if(count++ > 25) {
+                    clearInterval(timer);
                     fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
                         ipEl.innerText = d.ip;
                         setTimeout(() => { 
@@ -143,7 +164,7 @@
                 }
             }, 100);
         }
-        window.onload = ritual;
+        window.onload = iniciarRitual;
     </script>
 </body>
 </html>
