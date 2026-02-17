@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terrae Aegis | Enquadramento</title>
+    <title>Terrae Aegis | Enquadramento Estratégico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <style>
         :root {
             --azul-profundo: #0A192F;
@@ -12,159 +14,190 @@
             --branco-marfim: #E6E6E6;
         }
 
-        /* Bloqueio de Seleção e Arrastre */
-        * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
-
-        body, html {
-            margin: 0; padding: 0;
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--azul-profundo);
             color: var(--branco-marfim);
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden;
-            height: 100%;
+            overflow-x: hidden;
         }
 
-        /* --- GATEKEEPER RITUAL --- */
-        #gatekeeper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--azul-profundo);
-            z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            font-family: 'Courier New', monospace;
-            transition: opacity 1s ease-out;
-        }
-        .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); width: 80%; max-width: 400px; }
-        #roleta-ip { font-size: 1.8em; color: var(--dourado-brilhante); margin-bottom: 10px; }
-
-        /* --- LAYOUT PRINCIPAL --- */
-        #main-content { opacity: 0; display: flex; min-height: 100vh; transition: opacity 1.5s ease-in; }
-
-        .sidebar-comando {
-            width: 250px; padding: 100px 20px;
-            display: flex; flex-direction: column; gap: 15px;
-            border-right: 1px solid rgba(197, 160, 89, 0.4);
-            z-index: 10;
+        .barra-trindade {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(10, 25, 47, 0.95);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            position: fixed;
+            top: 0; z-index: 2000;
+            backdrop-filter: blur(10px);
         }
 
-        .setor-card {
-            width: 100%; height: 55px; border: 1px solid rgba(197, 160, 89, 0.3);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; text-transform: uppercase; font-size: 0.8em;
-            letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
+        .item-trindade-container { padding: 15px 20px; cursor: pointer; }
+        .item-trindade { font-size: 0.75em; letter-spacing: 3px; text-transform: uppercase; color: var(--dourado-brilhante); font-weight: bold; }
+        .divisor-trindade { color: var(--dourado-brilhante); padding-top: 13px; opacity: 0.8; }
+
+        .moldura-texto {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border: 1px solid var(--dourado-fosco);
+            display: none;
+            background: rgba(10, 25, 47, 0.90);
+            text-align: center;
+            z-index: 1500;
         }
+
+        .moldura-setor {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 80%;
+            max-width: 1000px;
+            border: 1px solid var(--dourado-fosco);
+            display: none;
+            background: rgba(10, 25, 47, 0.95);
+            z-index: 3000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .fechar-moldura { position: absolute; top: 10px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.5em; line-height: 1; z-index: 3100; }
+        .iframe-setor { width: 100%; height: 100%; border: none; background: transparent; }
+        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
+
+        .btn-sair-topo {
+            position: absolute;
+            top: 65px;
+            right: 5%;
+            padding: 10px 20px;
+            border: 1px solid var(--dourado-fosco);
+            color: var(--dourado-fosco);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.7em;
+            text-decoration: none;
+            z-index: 1000;
+        }
+
+        header { padding: 120px 5% 10px; display: flex; flex-direction: column; align-items: center; }
+        .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
+
+        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 20px; flex-wrap: wrap; }
+        .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        .viewport-central { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 80px 5%; position: relative; }
+        .hero { padding: 20px 10% 40px; text-align: center; }
+        .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; }
+        .hero p { max-width: 800px; font-size: 1.1em; margin: 0 auto 30px; opacity: 0.8; }
 
-        .logo-estatico { width: 250px; height: auto; margin-bottom: 30px; opacity: 1; }
+        .btn-enquadramento {
+            padding: 20px 50px;
+            background: transparent;
+            border: 1px solid var(--dourado-fosco);
+            color: var(--dourado-fosco);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+        .btn-enquadramento:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
 
-        .btn-solucoes {
-            margin-top: 50px; padding: 20px 45px;
-            background: transparent; border: 1px solid var(--dourado-fosco);
-            color: var(--dourado-fosco); text-transform: uppercase;
-            letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
-        }
-        .btn-solucoes:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
-
-        .btn-sair { position: fixed; top: 25px; right: 5%; font-size: 0.7em; color: var(--dourado-fosco); text-decoration: none; text-transform: uppercase; z-index: 20; }
-
-        /* --- SISTEMA DE MOLDURA (MODAL / IFRAME) --- */
-        #molduraSetor {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 25, 47, 0.98);
-            display: none; z-index: 5000;
-        }
-        .container-iframe {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; height: 85%; max-width: 1300px;
-            border: 1px solid var(--dourado-fosco); background: #000;
-        }
-        .iframe-setor { width: 100%; height: 100%; border: none; }
-        .fechar-moldura {
-            position: absolute; top: -45px; right: 0;
-            color: var(--dourado-fosco); font-size: 2.5em; cursor: pointer;
-        }
+        .assinatura-dev { position: fixed; bottom: 10px; right: 20px; font-size: 0.6em; color: #C0C0C0; font-weight: 200; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; pointer-events: none; }
 
         @media (max-width: 768px) {
-            #main-content { flex-direction: column; }
-            .sidebar-comando { width: 100%; border-right: none; border-bottom: 1px solid var(--dourado-fosco); padding: 80px 20px 20px; }
-            .container-iframe { width: 95%; height: 90%; }
+            .hero h1 { font-size: 1.6em; }
+            .logo img { height: 180px; }
         }
     </style>
 </head>
-<body oncontextmenu="return false;" onkeydown="return false;">
+<body oncontextmenu="return false;">
 
-    <div id="gatekeeper">
-        <div class="roleta-box">
-            <div id="roleta-ip">000.000.000.000</div>
-            <div id="roleta-geo" style="font-size: 0.8em; opacity: 0.7; letter-spacing: 2px;">ACESSO RESTRITO</div>
-        </div>
+    <nav class="barra-trindade">
+        <div class="item-trindade-container" onclick="escrever('seguranca', 'SEGURANÇA')"><span class="item-trindade">Segurança</span></div>
+        <span class="divisor-trindade">|</span>
+        <div class="item-trindade-container" onclick="escrever('financas', 'FINANÇAS')"><span class="item-trindade">Finanças</span></div>
+        <span class="divisor-trindade">|</span>
+        <div class="item-trindade-container" onclick="escrever('governanca', 'GOVERNANÇA')"><span class="item-trindade">Governança</span></div>
+    </nav>
+
+    <a href="../index.html" class="btn-sair-topo">Sair da Área Restrita</a>
+
+    <div id="moldura" class="moldura-texto">
+        <span class="fechar-moldura" onclick="fecharMoldura()">×</span>
+        <span id="titulo-moldura" style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 3px; font-size: 1.1em; margin-bottom: 15px; display: block;"></span>
+        <div id="escrita"></div>
     </div>
 
-    <a href="../index.html" class="btn-sair">Sair</a>
-
-    <div id="main-content">
-        <aside class="sidebar-comando">
-            <div style="font-size: 0.6em; letter-spacing: 3px; color: var(--dourado-fosco); margin-bottom: 15px;">APROFUNDAMENTO</div>
-            <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
-            <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
-            <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
-            <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
-        </aside>
-
-        <main class="viewport-central">
-            <img src="../logo-touro.png" class="logo-estatico" alt="Terrae Aegis">
-            <h2 style="letter-spacing: 5px; color: var(--dourado-fosco); font-weight: 300;">SINTONIZAÇÃO DE ATIVOS</h2>
-            <button class="btn-solucoes" onclick="window.location.href='questionario.html'">Enquadramento para Soluções</button>
-        </main>
+    <div id="molduraSetor" class="moldura-setor">
+        <span class="fechar-moldura" onclick="fecharSetor()">×</span>
+        <iframe id="iframeSetor" class="iframe-setor"></iframe>
     </div>
 
-    <div id="molduraSetor">
-        <div class="container-iframe">
-            <span class="fechar-moldura" onclick="fecharSetor()">×</span>
-            <iframe id="iframeSetor" class="iframe-setor"></iframe>
-        </div>
-    </div>
+    <header>
+        <div class="logo"><img src="../logo-touro.png" alt="Terrae Aegis"></div>
+    </header>
+
+    <section class="setores-operacionais">
+        <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
+        <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
+        <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
+        <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
+    </section>
+
+    <section class="hero">
+        <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
+        <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
+        <button class="btn-enquadramento" onclick="window.location.href='questionario.html'">Enquadramento para Soluções</button>
+    </section>
+
+    <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
 
     <script>
-        // Bloqueio de Teclado (F12, Ctrl+U, Inspect)
         document.onkeydown = function(e) {
             if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false;
         };
 
-        // Gerenciamento da Moldura
+        const info = {
+            'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
+            'financas': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
+            'governanca': "Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios."
+        };
+
+        function escrever(tipo, titulo) {
+            const moldura = document.getElementById('moldura');
+            const box = document.getElementById('escrita');
+            document.getElementById('titulo-moldura').innerText = titulo;
+            moldura.style.display = 'block';
+            box.innerHTML = "";
+            let i = 0; const texto = info[tipo];
+            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 2000 / texto.length); } }
+            type();
+        }
+
+        function fecharMoldura() { document.getElementById('moldura').style.display = 'none'; }
         function abrirSetor(url) {
+            const m = document.getElementById('molduraSetor');
             document.getElementById('iframeSetor').src = url;
-            document.getElementById('molduraSetor').style.display = 'block';
+            m.style.display = 'block';
         }
         function fecharSetor() {
             document.getElementById('molduraSetor').style.display = 'none';
-            document.getElementById('iframeSetor').src = '';
+            document.getElementById('iframeSetor').src = "";
         }
 
-        // Ritual de Identificação
-        function iniciarRitual() {
-            const ipEl = document.getElementById('roleta-ip');
-            const gate = document.getElementById('gatekeeper');
-            const main = document.getElementById('main-content');
-            let count = 0;
-            const timer = setInterval(() => {
-                ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-                if(count++ > 25) {
-                    clearInterval(timer);
-                    fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
-                        ipEl.innerText = d.ip;
-                        setTimeout(() => { 
-                            gate.style.opacity = "0"; 
-                            setTimeout(() => { gate.style.display="none"; main.style.opacity="1"; }, 1000);
-                        }, 800);
-                    }).catch(() => {
-                        setTimeout(() => { gate.style.display="none"; main.style.opacity="1"; }, 500);
-                    });
-                }
-            }, 100);
-        }
-        window.onload = iniciarRitual;
+        document.addEventListener('mousedown', function(e) {
+            const mText = document.getElementById('moldura');
+            const mSetor = document.getElementById('molduraSetor');
+            if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) fecharMoldura();
+            if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) fecharSetor();
+        });
     </script>
 </body>
 </html>
