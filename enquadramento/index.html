@@ -14,110 +14,119 @@
             --branco-marfim: #E6E6E6;
         }
 
+        * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
+
         body {
             margin: 0;
             font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--azul-profundo);
             color: var(--branco-marfim);
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
+        /* --- GATEKEEPER RITUAL (4 SEGUNDOS) --- */
+        #gatekeeper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--azul-profundo);
+            z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-family: 'Courier New', monospace;
+            transition: opacity 1s ease-out;
+        }
+        .roleta-box { text-align: center; border: 1px solid var(--dourado-fosco); padding: 40px; background: rgba(0,0,0,0.3); width: 80%; max-width: 400px; }
+        #roleta-ip { font-size: 1.8em; color: var(--dourado-brilhante); margin-bottom: 10px; }
+
+        /* --- LAYOUT E BARRA TRINDADE --- */
         .barra-trindade {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: rgba(10, 25, 47, 0.95);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-            position: fixed;
-            top: 0; z-index: 2000;
-            backdrop-filter: blur(10px);
+            width: 100%; display: flex; justify-content: center;
+            background: rgba(10, 25, 47, 0.95); border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            position: fixed; top: 0; z-index: 2000; backdrop-filter: blur(10px);
         }
-
         .item-trindade-container { padding: 15px 20px; cursor: pointer; }
         .item-trindade { font-size: 0.75em; letter-spacing: 3px; text-transform: uppercase; color: var(--dourado-brilhante); font-weight: bold; }
         .divisor-trindade { color: var(--dourado-brilhante); padding-top: 13px; opacity: 0.8; }
 
-        .moldura-texto {
-            position: absolute;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 600px;
-            padding: 30px;
-            border: 1px solid var(--dourado-fosco);
-            display: none;
-            background: rgba(10, 25, 47, 0.90);
-            text-align: center;
-            z-index: 1500;
-        }
-
-        .moldura-setor {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            height: 80%;
-            max-width: 1000px;
-            border: 1px solid var(--dourado-fosco);
-            display: none;
-            background: rgba(10, 25, 47, 0.95);
-            z-index: 3000;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        }
-
-        .fechar-moldura { position: absolute; top: 10px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.5em; line-height: 1; z-index: 3100; }
-        .iframe-setor { width: 100%; height: 100%; border: none; background: transparent; }
-        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
-
         .btn-sair-topo {
-            position: absolute;
-            top: 65px;
-            right: 5%;
-            padding: 10px 20px;
-            border: 1px solid var(--dourado-fosco);
-            color: var(--dourado-fosco);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.7em;
-            text-decoration: none;
-            z-index: 1000;
+            position: absolute; top: 65px; right: 5%;
+            padding: 10px 20px; border: 1px solid var(--dourado-fosco);
+            color: var(--dourado-fosco); text-transform: uppercase;
+            letter-spacing: 2px; font-size: 0.7em; text-decoration: none; z-index: 1000;
         }
 
-        header { padding: 120px 5% 10px; display: flex; flex-direction: column; align-items: center; }
+        header { padding: 100px 5% 10px; display: flex; flex-direction: column; align-items: center; }
+        /* LOGO ALINHADO À INDEX PADRÃO (280px) */
         .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
 
-        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 20px; flex-wrap: wrap; }
-        .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
+        /* --- CONTAINER PRINCIPAL (BOTÕES À ESQUERDA) --- */
+        .container-principal {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0 5%;
+            margin-top: -30px;
+        }
+
+        .setores-operacionais {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 250px;
+            align-items: flex-start;
+            border-right: 1px solid rgba(197, 160, 89, 0.2); /* Linha delicada lateral */
+            padding-right: 20px;
+        }
+
+        .setor-card {
+            width: 100%; height: 60px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; text-transform: uppercase; font-size: 0.8em;
+            letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
+        }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        .hero { padding: 20px 10% 40px; text-align: center; }
+        .hero { flex: 1; text-align: right; padding-left: 50px; }
         .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; }
-        .hero p { max-width: 800px; font-size: 1.1em; margin: 0 auto 30px; opacity: 0.8; }
+        .hero p { max-width: 600px; font-size: 1.1em; opacity: 0.8; margin: 0 0 30px auto; }
 
         .btn-enquadramento {
-            padding: 20px 50px;
-            background: transparent;
-            border: 1px solid var(--dourado-fosco);
-            color: var(--dourado-fosco);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.5s;
+            padding: 20px 50px; background: transparent;
+            border: 1px solid var(--dourado-fosco); color: var(--dourado-fosco);
+            text-transform: uppercase; letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
         }
         .btn-enquadramento:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
 
-        .assinatura-dev { position: fixed; bottom: 10px; right: 20px; font-size: 0.6em; color: #C0C0C0; font-weight: 200; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; pointer-events: none; }
+        /* --- MOLDURAS (IDÊNTICAS À RAIZ) --- */
+        .moldura-texto, .moldura-setor {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            border: 1px solid var(--dourado-fosco); display: none;
+            background: rgba(10, 25, 47, 0.95); z-index: 5000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+        .moldura-texto { width: 90%; max-width: 600px; padding: 30px; text-align: center; }
+        .moldura-setor { width: 90%; height: 80%; max-width: 1000px; }
+
+        .fechar-moldura { position: absolute; top: 10px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.5em; line-height: 1; }
+        .iframe-setor { width: 100%; height: 100%; border: none; }
+        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
+
+        .assinatura-dev { position: fixed; bottom: 10px; right: 20px; font-size: 0.6em; color: #C0C0C0; opacity: 0.5; pointer-events: none; text-transform: uppercase; letter-spacing: 2px; }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 1.6em; }
-            .logo img { height: 180px; }
+            .container-principal { flex-direction: column-reverse; align-items: center; }
+            .setores-operacionais { width: 100%; border-right: none; border-top: 1px solid var(--dourado-fosco); padding: 20px 0; }
+            .hero { text-align: center; padding-left: 0; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
+
+    <div id="gatekeeper">
+        <div class="roleta-box">
+            <div id="roleta-ip">000.000.000.000</div>
+            <div id="roleta-geo" style="font-size: 0.8em; opacity: 0.7; letter-spacing: 2px;">IDENTIFICANDO...</div>
+        </div>
+    </div>
 
     <nav class="barra-trindade">
         <div class="item-trindade-container" onclick="escrever('seguranca', 'SEGURANÇA')"><span class="item-trindade">Segurança</span></div>
@@ -129,6 +138,26 @@
 
     <a href="../index.html" class="btn-sair-topo">Sair da Área Restrita</a>
 
+    <header>
+        <div class="logo"><img src="../logo-touro.png" alt="Terrae Aegis"></div>
+    </header>
+
+    <div class="container-principal">
+        <section class="setores-operacionais">
+            <div style="font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); margin-bottom: 10px; text-transform: uppercase;">Aprofundamento</div>
+            <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
+            <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
+            <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
+            <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
+        </section>
+
+        <section class="hero">
+            <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
+            <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
+            <button class="btn-enquadramento" onclick="window.location.href='index.html'">Enquadramento para Soluções</button>
+        </section>
+    </div>
+
     <div id="moldura" class="moldura-texto">
         <span class="fechar-moldura" onclick="fecharMoldura()">×</span>
         <span id="titulo-moldura" style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 3px; font-size: 1.1em; margin-bottom: 15px; display: block;"></span>
@@ -139,23 +168,6 @@
         <span class="fechar-moldura" onclick="fecharSetor()">×</span>
         <iframe id="iframeSetor" class="iframe-setor"></iframe>
     </div>
-
-    <header>
-        <div class="logo"><img src="../logo-touro.png" alt="Terrae Aegis"></div>
-    </header>
-
-    <section class="setores-operacionais">
-        <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
-        <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
-        <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
-        <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
-    </section>
-
-    <section class="hero">
-        <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
-        <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
-        <button class="btn-enquadramento" onclick="window.location.href='questionario.html'">Enquadramento para Soluções</button>
-    </section>
 
     <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
 
@@ -191,6 +203,29 @@
             document.getElementById('molduraSetor').style.display = 'none';
             document.getElementById('iframeSetor').src = "";
         }
+
+        // --- RITUAL DE 4 SEGUNDOS ---
+        window.onload = function() {
+            const ipEl = document.getElementById('roleta-ip');
+            const geoEl = document.getElementById('roleta-geo');
+            let c = 0;
+            const t = setInterval(() => {
+                ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+                if(c++ > 30) { // 3 Segundos de roleta
+                    clearInterval(t);
+                    fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                        ipEl.innerText = d.ip;
+                        geoEl.innerText = `${d.city}, ${d.region} - ${d.country_name}`;
+                        setTimeout(() => { // 1 Segundo de apresentação
+                            document.getElementById('gatekeeper').style.opacity = "0";
+                            setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 1000);
+                        }, 1000);
+                    }).catch(() => {
+                        setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 500);
+                    });
+                }
+            }, 100);
+        };
 
         document.addEventListener('mousedown', function(e) {
             const mText = document.getElementById('moldura');
