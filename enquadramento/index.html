@@ -36,7 +36,7 @@
             pointer-events: none;
         }
 
-        /* --- GATEKEEPER RITUAL (4 SEGUNDOS) --- */
+        /* --- GATEKEEPER RITUAL --- */
         #gatekeeper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--azul-profundo);
@@ -50,7 +50,7 @@
 
         /* --- LAYOUT E BARRA TRINDADE --- */
         .barra-trindade {
-            width: 100%; display: flex; justify-content: center;
+            width: 100%; display: flex; justify(content: center;
             background: rgba(10, 25, 47, 0.95); border-bottom: 1px solid rgba(255, 215, 0, 0.3);
             position: fixed; top: 0; z-index: 2000; backdrop-filter: blur(10px);
         }
@@ -65,43 +65,28 @@
             letter-spacing: 2px; font-size: 0.7em; text-decoration: none; z-index: 1000;
         }
 
-        /* HEADER: LOGO CENTRALIZADO SOBRE A COLUNA ESQUERDA */
         header { 
             position: absolute;
-            top: 85px; 
-            left: 5%; 
-            width: 195px; 
-            display: flex;
-            justify-content: center;
-            z-index: 1001;
+            top: 85px; left: 5%; width: 195px; 
+            display: flex; justify-content: center; z-index: 1001;
         }
         .logo img { height: 110px; width: auto; }
 
         /* --- CONTAINER PRINCIPAL --- */
         .container-principal {
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding: 0 5%;
-            height: 100vh;
-            position: relative;
-            z-index: 10;
+            display: flex; justify-content: flex-start; align-items: flex-start;
+            padding: 0 5%; height: 100vh; position: relative; z-index: 10;
         }
 
         .setores-operacionais {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 195px; 
-            align-items: flex-start;
+            display: flex; flex-direction: column; gap: 8px;
+            width: 195px; align-items: flex-start;
             border-right: 1px solid rgba(197, 160, 89, 0.2); 
-            padding-right: 20px;
-            margin-top: 215px; 
+            padding-right: 20px; margin-top: 215px; 
         }
 
         .setor-card {
-            width: 100%; height: 35px; 
-            border: 1px solid rgba(197, 160, 89, 0.3);
+            width: 100%; height: 35px; border: 1px solid rgba(197, 160, 89, 0.3);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; text-transform: uppercase; font-size: 0.65em;
             letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s;
@@ -109,28 +94,36 @@
         }
         .setor-card:hover { border-color: var(--dourado-brilhante); color: #fff; background: rgba(197,160,89,0.1); }
 
-        .btn-contato-trigger {
-            margin-top: 15px;
-            border-color: var(--dourado-fosco);
-            color: var(--dourado-fosco);
-            font-weight: normal;
+        .btn-contato-trigger { margin-top: 15px; border-color: var(--dourado-fosco); color: var(--dourado-fosco); }
+
+        /* HERO: VOZ CENTRAL PRATA ACETINADO */
+        .hero { 
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; height: 100%;
+            padding: 0 50px; text-align: center;
         }
 
-        /* HERO: PALCO CENTRAL */
-        .hero { 
-            flex: 1; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
+        .texto-enquadramento-container {
+            max-width: 800px; margin-bottom: 80px;
+            opacity: 0; animation: surgimentoVeu 4s ease-out forwards;
+        }
+
+        .frase-pg {
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 200; font-size: 1.1em; letter-spacing: 2px;
+            line-height: 1.6; margin-bottom: 25px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #C0C0C0 50%, #8E8E8E 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        @keyframes surgimentoVeu {
+            0% { opacity: 0; transform: translateY(10px); filter: blur(10px); }
+            100% { opacity: 0.8; transform: translateY(0); filter: blur(0); }
         }
 
         .btn-enquadramento {
-            position: fixed;
-            bottom: 18%; 
-            left: 50%;
-            transform: translateX(-50%);
+            position: fixed; bottom: 18%; left: 50%; transform: translateX(-50%);
             padding: 18px 45px; background: transparent;
             border: 1px solid var(--dourado-fosco); color: var(--dourado-fosco);
             text-transform: uppercase; letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
@@ -147,15 +140,13 @@
         }
         .moldura-texto { width: 90%; max-width: 600px; padding: 30px; text-align: center; }
         .moldura-setor { width: 90%; height: 80%; max-width: 1000px; }
-        
-        /* ESTILO DO MODAL DE CONTATO */
         .moldura-contato { width: 90%; max-width: 500px; padding: 35px; }
-        .fechar-contato-x { position: absolute; top: 12px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.2em; opacity: 0.5; transition: 0.3s; }
-        .fechar-contato-x:hover { opacity: 1; }
+        
+        .fechar-contato-x { position: absolute; top: 12px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.2em; }
 
         .input-protocolo {
             width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(197,160,89,0.2);
-            color: rgba(230, 230, 230, 0.5); padding: 12px; margin-bottom: 10px; font-size: 0.85em; 
+            color: rgba(230, 230, 230, 0.7); padding: 12px; margin-bottom: 10px; font-size: 0.85em; 
             outline: none; cursor: not-allowed; text-transform: uppercase; box-sizing: border-box;
         }
         .area-mensagem {
@@ -163,24 +154,24 @@
             color: var(--branco-marfim); padding: 15px; font-family: inherit; resize: none;
             margin-top: 10px; font-size: 0.95em; outline: none; box-sizing: border-box;
         }
-        .char-count { font-size: 0.6em; color: var(--dourado-fosco); text-align: right; margin-bottom: 20px; opacity: 0.6; text-transform: uppercase; }
+        .char-count { font-size: 0.6em; color: var(--dourado-fosco); text-align: right; margin-bottom: 20px; opacity: 0.6; }
         .btn-enviar-protocolo {
             width: 100%; padding: 18px; background: var(--dourado-fosco); color: var(--azul-profundo);
-            border: none; text-transform: uppercase; font-weight: bold; cursor: pointer; letter-spacing: 2px; transition: 0.3s;
+            border: none; text-transform: uppercase; font-weight: bold; cursor: pointer; letter-spacing: 2px;
         }
-        .btn-enviar-protocolo:hover { background: var(--dourado-brilhante); }
 
-        .fechar-moldura { position: absolute; top: 10px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.5em; line-height: 1; }
+        .fechar-moldura { position: absolute; top: 10px; right: 15px; color: var(--dourado-fosco); cursor: pointer; font-size: 1.5em; }
         .iframe-setor { width: 100%; height: 100%; border: none; }
         #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
 
         .assinatura-dev { position: fixed; bottom: 10px; right: 20px; font-size: 0.6em; color: #C0C0C0; opacity: 0.5; pointer-events: none; text-transform: uppercase; letter-spacing: 2px; }
 
         @media (max-width: 768px) {
-            .container-principal { flex-direction: column-reverse; align-items: center; justify-content: center; }
+            .container-principal { flex-direction: column-reverse; align-items: center; }
             .setores-operacionais { width: 100%; border-right: none; border-top: 1px solid var(--dourado-fosco); padding: 20px 0; margin-top: 20px; }
             header { position: relative; top: 70px; left: 0; text-align: center; }
             .btn-enquadramento { position: relative; bottom: 0; transform: none; margin-top: 20px; }
+            .frase-pg { font-size: 0.85em; letter-spacing: 1px; }
         }
     </style>
 </head>
@@ -220,6 +211,12 @@
         </section>
 
         <section class="hero">
+            <div class="texto-enquadramento-container">
+                <div class="frase-pg">A Terrae Aegis não é apenas uma holding de ativos; somos o escudo estratégico que separa a perpetuidade do patrimônio da erosão sistêmica global.</div>
+                <div class="frase-pg">A verdadeira soberania financeira não reside na posse local, mas na estruturação de instrumentos bancários internacionais que antecipam o valor futuro.</div>
+                <div class="frase-pg">Enquanto o mercado observa oscilações, nós operamos na convergência entre o agro, a mineração e a indústria, transformando ativos reais em liquidez inabalável.</div>
+                <div class="frase-pg">Onde o vácuo institucional se expande, a nossa governança se torna a única constante para a proteção e aceleração do seu legado.</div>
+            </div>
             <button class="btn-enquadramento" onclick="window.location.href='index.html'">Enquadramento para Soluções</button>
         </section>
     </div>
@@ -230,15 +227,12 @@
         
         <form id="formProtocolo">
             <input type="hidden" name="access_key" value="COLOQUE-SEU-TOKEN-AQUI">
-            <input type="hidden" name="subject" value="Novo Protocolo Estratégico - Terrae Aegis">
-            
-            <input type="text" name="identidade" class="input-protocolo" value="IDENTIDADE: [DADOS VALIDADOS]" readonly>
-            <input type="text" name="email" class="input-protocolo" value="E-MAIL: [DADOS VALIDADOS]" readonly>
-            <input type="text" name="telefone" class="input-protocolo" value="CONTATO: [DADOS VALIDADOS]" readonly>
+            <input type="text" id="identidade_modal" name="identidade" class="input-protocolo" readonly>
+            <input type="text" id="email_modal" name="email" class="input-protocolo" readonly>
+            <input type="text" id="telefone_modal" name="telefone" class="input-protocolo" value="CONTATO: [VALIDADO]">
             
             <textarea name="mensagem" id="msgContato" class="area-mensagem" maxlength="1500" oninput="contarChar(this)" placeholder="Descreva sua demanda estratégica..." required></textarea>
             <div id="contador" class="char-count">1500 caracteres restantes</div>
-            
             <button type="submit" class="btn-enviar-protocolo">Enviar Protocolo</button>
         </form>
     </div>
@@ -262,9 +256,9 @@
         };
 
         const info = {
-            'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
-            'financas': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
-            'governanca': "Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios."
+            'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais.",
+            'financas': "Proporcionamos total independência do sistema nacional para acelerar seus projetos.",
+            'governanca': "Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens."
         };
 
         function escrever(tipo, titulo) {
@@ -274,23 +268,32 @@
             moldura.style.display = 'block';
             box.innerHTML = "";
             let i = 0; const texto = info[tipo];
-            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 2000 / texto.length); } }
+            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 20); } }
             type();
         }
 
         function fecharMoldura() { document.getElementById('moldura').style.display = 'none'; }
         function abrirSetor(url) {
-            const m = document.getElementById('molduraSetor');
             document.getElementById('iframeSetor').src = url;
-            m.style.display = 'block';
+            document.getElementById('molduraSetor').style.display = 'block';
         }
         function fecharSetor() {
             document.getElementById('molduraSetor').style.display = 'none';
             document.getElementById('iframeSetor').src = "";
         }
 
-        // --- LÓGICA DE CONTATO INTEGRADA ---
-        function abrirContato() { document.getElementById('modalContato').style.display = 'block'; }
+        // --- LÓGICA DE HERANÇA E CONTATO ---
+        function abrirContato() {
+            // Recupera dados salvos pela Index Raiz
+            const emailSalvo = localStorage.getItem('terrae_user_email') || "NÃO IDENTIFICADO";
+            const tokenSalvo = localStorage.getItem('terrae_user_token') || "SEM TOKEN";
+            
+            document.getElementById('identidade_modal').value = "OPERADOR: " + tokenSalvo;
+            document.getElementById('email_modal').value = "E-MAIL: " + emailSalvo;
+            
+            document.getElementById('modalContato').style.display = 'block'; 
+        }
+
         function fecharContato() { document.getElementById('modalContato').style.display = 'none'; }
         function contarChar(val) { document.getElementById('contador').innerHTML = (1500 - val.value.length) + " caracteres restantes"; }
 
@@ -298,27 +301,23 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(form);
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
-
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: json
-            })
-            .then(async (response) => {
-                if (response.status == 200) {
-                    alert("Protocolo enviado com sucesso.");
-                    fecharContato();
-                    form.reset();
-                } else {
-                    alert("Erro no envio. Tente novamente.");
-                }
-            })
-            .catch(error => { alert("Falha na comunicação com a central."); });
+                body: formData
+            }).then(() => {
+                alert("Protocolo enviado com sucesso.");
+                fecharContato();
+                form.reset();
+            });
         });
 
         window.onload = function() {
+            // Bloqueio de acesso direto sem login
+            if (!localStorage.getItem('terrae_user_email')) {
+                alert("AUTENTICAÇÃO REQUERIDA.");
+                window.location.href = "../index.html";
+            }
+
             const ipEl = document.getElementById('roleta-ip');
             const geoEl = document.getElementById('roleta-geo');
             let c = 0;
