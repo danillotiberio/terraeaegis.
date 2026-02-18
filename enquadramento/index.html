@@ -478,24 +478,22 @@
             }
         }
 
-        /* --- AJUSTE PAISAGEM (AGRUPAMENTO HOMOGÊNEO - PROTOCOLO FINAL) --- */
+        /* --- AJUSTE PAISAGEM (RECALIBRAGEM DE ATRAÇÃO - RESET DE HERANÇA) --- */
         @media only screen and (max-width: 1024px) and (orientation: landscape) {
             
-            body { 
-                overflow-y: auto !important; 
-            }
+            body { overflow-y: auto !important; }
 
-            /* ÁREA DE JOGO COMEÇA APÓS A TRINDADE */
+            /* RESET DE ÁREA ÚTIL: FORÇA O INÍCIO APÓS A TRINDADE */
             .container-principal { 
                 display: flex !important;
                 flex-direction: column !important;
-                padding-top: 60px !important; 
+                padding-top: 65px !important; /* Respiro da Trindade */
                 height: auto !important;
                 align-items: center !important;
                 justify-content: flex-start !important;
             }
 
-            /* TOURO ACOPLADO AO TOPO DO BLOCO DE TEXTO */
+            /* TOURO: ACOPLADO E DESLOCADO PARA BAIXO PARA "BEIJAR" O TEXTO */
             header {
                 position: relative !important; 
                 top: 0 !important;
@@ -504,7 +502,8 @@
                 width: 100% !important;
                 display: flex !important;
                 justify-content: center !important;
-                margin-bottom: 5px !important; /* COLADO NO TEXTO */
+                margin-top: 0 !important;
+                margin-bottom: 5px !important; /* DISTÂNCIA DE 5PX DOS PÉS DO TOURO PARA O TEXTO */
                 z-index: 10 !important;
             }
 
@@ -513,42 +512,43 @@
                 width: auto !important;
             }
 
-            /* BLOCO HERO: UNIDADE ÚNICA COM O TOURO */
+            /* HERO: NEUTRALIZAÇÃO DAS MARGENS DO RETRATO */
             .hero {
                 display: flex !important;
                 flex-direction: column !important;
                 width: 100% !important;
                 height: auto !important;
                 padding: 0 !important;
+                margin-top: 0 !important; /* RESET DO VÁCUO */
                 justify-content: flex-start !important;
-                margin-top: 0 !important; /* REMOVE O ABISMO */
             }
 
             .texto-enquadramento-container {
                 width: 95% !important;
                 min-height: auto !important;
-                margin-bottom: 20px !important;
+                margin-top: 0 !important;
+                margin-bottom: 15px !important; /* COMPACTAÇÃO */
                 position: relative !important;
             }
 
             .frase-pg {
                 font-size: 0.9rem !important;
                 line-height: 1.4 !important;
+                text-align: center !important;
                 display: block !important;
                 opacity: 1 !important;
                 clip-path: none !important;
-                text-align: center !important;
             }
 
-            /* BOTÃO: AJUSTE DE CAIXA PARA NÃO VAZAR */
+            /* BOTÃO: RESPEITO À CAIXA E AO TEXTO */
             .btn-enquadramento {
                 position: relative !important;
                 bottom: auto !important;
                 left: auto !important;
                 transform: none !important;
-                margin: 0 auto 40px auto !important;
+                margin: 5px auto 35px auto !important;
                 width: 290px !important;
-                height: auto !important; /* ESTICA SE O TEXTO QUEBRAR */
+                height: auto !important;
                 min-height: 45px !important;
                 padding: 12px 20px !important;
                 font-size: 0.75em !important;
@@ -558,7 +558,7 @@
                 z-index: 100 !important;
             }
 
-            /* SETORES NO RODAPÉ DO FLUXO */
+            /* SETORES: RESET DA MARGEM DE 215PX */
             .setores-operacionais { 
                 position: relative !important;
                 width: 100% !important;
@@ -566,8 +566,8 @@
                 flex-wrap: wrap !important; 
                 justify-content: center !important; 
                 gap: 8px !important; 
-                padding: 20px 0 !important;
-                margin-top: 20px !important;
+                padding: 15px 0 !important;
+                margin-top: 10px !important; /* FIM DO ABISMO DE 215PX */
                 border-top: 1px solid rgba(197, 160, 89, 0.2) !important;
                 border-right: none !important;
             }
