@@ -6,6 +6,7 @@
     <title>Terrae Aegis | Enquadramento Estratégico</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
             --azul-profundo: #0A192F;
@@ -316,31 +317,58 @@
             });
         });
 
+        // --- NOVO XERIFE MATEMÁTICO ---
         window.onload = function() {
-            if (!localStorage.getItem('terrae_user_email')) {
-                alert("AUTENTICAÇÃO REQUERIDA.");
-                window.location.href = "../index.html";
+            let email = localStorage.getItem('terrae_user_email');
+            let token = localStorage.getItem('terrae_user_token');
+
+            // Se o bolso estiver vazio, inicia interrogatório manual
+            if (!email || !token) {
+                email = prompt("ACESSO AO ENQUADRAMENTO - IDENTIFICAÇÃO (E-MAIL):")?.trim().toLowerCase();
+                token = prompt("TOKEN DE SEGURANÇA:")?.trim().toUpperCase();
             }
 
-            const ipEl = document.getElementById('roleta-ip');
-            const geoEl = document.getElementById('roleta-geo');
-            let c = 0;
-            const t = setInterval(() => {
-                ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-                if(c++ > 30) { 
-                    clearInterval(t);
-                    fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
-                        ipEl.innerText = d.ip;
-                        geoEl.innerText = `${d.city}, ${d.region} - ${d.country_name}`;
-                        setTimeout(() => { 
-                            document.getElementById('gatekeeper').style.opacity = "0";
-                            setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 1000);
-                        }, 1000);
-                    }).catch(() => {
-                        setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 500);
-                    });
-                }
-            }, 100);
+            // Se mesmo pedindo ele não digitou nada
+            if (!email || !token) {
+                alert("ACESSO NEGADO.");
+                window.location.href = "../index.html";
+                return;
+            }
+
+            // VALIDAÇÃO MATEMÁTICA REAL-TIME
+            const hash = CryptoJS.MD5(email).toString();
+            const tokenCalculado = btoa(hash).substring(0, 6).toUpperCase();
+
+            if (token === tokenCalculado) {
+                // SUCESSO: SALVA E LIBERA
+                localStorage.setItem('terrae_user_email', email);
+                localStorage.setItem('terrae_user_token', token);
+                
+                // Roda o ritual de IP
+                const ipEl = document.getElementById('roleta-ip');
+                const geoEl = document.getElementById('roleta-geo');
+                let c = 0;
+                const t = setInterval(() => {
+                    ipEl.innerText = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+                    if(c++ > 30) { 
+                        clearInterval(t);
+                        fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                            ipEl.innerText = d.ip;
+                            geoEl.innerText = `${d.city}, ${d.region} - ${d.country_name}`;
+                            setTimeout(() => { 
+                                document.getElementById('gatekeeper').style.opacity = "0";
+                                setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 1000);
+                            }, 1000);
+                        }).catch(() => {
+                            setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 500);
+                        });
+                    }
+                }, 100);
+            } else {
+                alert("TOKEN INVÁLIDO PARA ESTE E-MAIL.");
+                encerrarSessao();
+                window.location.href = "../index.html";
+            }
         };
 
         document.addEventListener('mousedown', function(e) {
