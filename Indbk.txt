@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrae Aegis | Holding Finance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <style>
+        :root {
+            --azul-profundo: #0A192F;
+            --dourado-fosco: #C5A059;
+            --dourado-brilhante: #FFD700;
+            --branco-marfim: #E6E6E6;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--azul-profundo);
+            color: var(--branco-marfim);
+            overflow-x: hidden;
+        }
+
+        /* BARRA DA TRINDADE */
+        .barra-trindade {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(10, 25, 47, 0.95);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            position: fixed;
+            top: 0; z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .item-trindade-container { padding: 15px 20px; cursor: pointer; }
+        .item-trindade {
+            font-size: 0.75em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--dourado-brilhante);
+            font-weight: bold;
+        }
+
+        .divisor-trindade { color: var(--dourado-brilhante); padding-top: 13px; opacity: 0.8; }
+
+        /* MOLDURA TRINDADE (VIDRO FUMÊ 90% - SEM BLUR - ABSOLUTE) */
+        .moldura-texto {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border: 1px solid var(--dourado-fosco);
+            display: none;
+            background: rgba(10, 25, 47, 0.90); /* FUMÊ 90% para legibilidade */
+            text-align: center;
+            z-index: 1500;
+        }
+
+        /* MOLDURA SETORES (MODAL COM IFRAME) */
+        .moldura-setor {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 80%;
+            max-width: 1000px;
+            border: 1px solid var(--dourado-fosco); box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); /* Moldura mais presente */
+            display: none;
+            background: rgba(10, 25, 47, 0.95);
+            z-index: 3000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .fechar-moldura {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--dourado-fosco);
+            cursor: pointer;
+            font-size: 1.5em;
+            line-height: 1;
+            z-index: 3100;
+        }
+
+        .iframe-setor {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+        }
+
+        .titulo-moldura {
+            color: var(--dourado-fosco);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
+
+        /* LOGIN MINIMALISTA VERTICAL */
+        .login-topo-minimalista {
+            position: absolute;
+            top: 65px;
+            right: 5%;
+            width: 22%;
+            max-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }
+        .titulo-login {
+            color: var(--dourado-fosco);
+            font-size: 0.6em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 2px solid var(--dourado-fosco);
+            padding-left: 8px;
+        }
+        .login-topo-minimalista input {
+            background: rgba(255, 255, 255, 0.03);
+            border: none;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--branco-marfim);
+            font-size: 0.7em;
+            padding: 6px;
+            outline: none;
+        }
+        .login-topo-minimalista button {
+            background: var(--dourado-fosco);
+            color: var(--azul-profundo);
+            border: none;
+            padding: 8px;
+            font-size: 0.65em;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        header { padding: 100px 5% 10px; display: flex; flex-direction: column; align-items: center; }
+        .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
+
+        .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 20px; flex-wrap: wrap; }
+        .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
+
+        /* HERO COMPACTO EM LINHA ÚNICA */
+        .hero { padding: 20px 10% 40px; text-align: center; }
+        .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; white-space: nowrap; }
+        .hero p { max-width: 800px; font-size: 1.1em; margin: 0 auto; opacity: 0.8; }
+
+        .footer { padding: 40px 10%; border-top: 1px solid rgba(197, 160, 89, 0.3); }
+        .form-contato { max-width: 600px; margin: 0 auto; }
+        .form-contato input { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; outline: none; }
+        
+        /* Ajuste Telefone */
+        .iti { width: 100%; margin-bottom: 15px; }
+        .iti__placeholder { color: rgba(255,255,255,0.3); }
+
+        /* ASSINATURA PRATEADA DISCRETA */
+        .assinatura-dev {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.6em;
+            color: #C0C0C0; /* Prata */
+            font-weight: 200;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.6em; white-space: normal; }
+            .login-topo-minimalista { position: relative; top: 80px; width: 90%; right: auto; margin: 0 auto; }
+            
+            /* Ajuste para a Trindade não cortar no mobile vertical */
+            .item-trindade-container { padding: 15px 8px; }
+            .item-trindade { font-size: 0.65em; letter-spacing: 1px; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <nav class="barra-trindade">
+        <div class="item-trindade-container" onclick="escrever('seguranca', 'SEGURANÇA')"><span class="item-trindade">Segurança</span></div>
+        <span class="divisor-trindade">|</span>
+        <div class="item-trindade-container" onclick="escrever('financas', 'FINANÇAS')"><span class="item-trindade">Finanças</span></div>
+        <span class="divisor-trindade">|</span>
+        <div class="item-trindade-container" onclick="escrever('governanca', 'GOVERNANÇA')"><span class="item-trindade">Governança</span></div>
+    </nav>
+
+    <div class="login-topo-minimalista">
+        <div class="titulo-login">Área Restrita Login</div>
+        <input type="email" id="email_restrito" placeholder="E-MAIL">
+        <input type="text" id="token_restrito" placeholder="TOKEN">
+        <button onclick="validarTokenRestrito()">Acessar</button>
+    </div>
+
+    <div id="moldura" class="moldura-texto">
+        <span class="fechar-moldura" onclick="fecharMoldura()">×</span>
+        <span id="titulo-moldura" class="titulo-moldura"></span>
+        <div id="escrita"></div>
+    </div>
+
+    <div id="molduraSetor" class="moldura-setor">
+        <span class="fechar-moldura" onclick="fecharSetor()">×</span>
+        <iframe id="iframeSetor" class="iframe-setor"></iframe>
+    </div>
+
+    <header>
+        <div class="logo"><img src="logo-touro.png" alt="Terrae Aegis"></div>
+    </header>
+
+    <section class="setores-operacionais">
+        <div class="setor-card" onclick="abrirSetor('agro/index.html')">Agro</div>
+        <div class="setor-card" onclick="abrirSetor('Mineracao/index.html')">Mineração</div>
+        <div class="setor-card" onclick="abrirSetor('industria/index.html')">Indústria</div>
+        <div class="setor-card" onclick="abrirSetor('novos-negocios/index.html')">Novos Negócios</div>
+    </section>
+
+    <section class="hero">
+        <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
+        <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
+    </section>
+
+    <footer class="footer">
+        <div class="form-contato">
+            <h3 style="color: var(--dourado-fosco); text-transform: uppercase; text-align: center; margin-bottom: 20px; font-weight: 300;">Cadastramento Área Restrita</h3>
+            <form id="form_contato_principal" onsubmit="event.preventDefault(); enviarParaGoogle(this);">
+                <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
+                <input type="text" id="nome_contato" name="name" placeholder="Nome Completo" required>
+                <input type="email" id="email_contato" name="email" placeholder="E-mail" required>
+                <input type="tel" id="telefone_contato" name="phone" required>
+                
+                <button type="submit" id="btn_contato" style="background: var(--dourado-fosco); color: var(--azul-profundo); padding: 15px; border: none; width: 100%; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px;">OBTER CREDENCIAL</button>
+            </form>
+        </div>
+    </footer>
+
+    <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <script>
+        // Inicialização Telefone Inteligente
+        const phoneInput = document.querySelector("#telefone_contato");
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "auto",
+            geoIpLookup: function(success, failure) {
+                fetch("https://ipapi.co/json").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("br"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz96bq1ngrjZoBzTGGr0GdCiVpA7Anzq_QW8eAwI-KNAO7PbYoMnUuM_RXf-yPX3CySVA/exec';
+
+        async function enviarParaGoogle(form) {
+            const btn = form.querySelector('button');
+            const email = document.getElementById('email_contato').value;
+            btn.innerText = "PROCESSANDO..."; btn.disabled = true;
+
+            const hash = CryptoJS.MD5(email.trim().toLowerCase()).toString();
+            const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
+
+            const dadosGAS = {
+                nome: document.getElementById('nome_contato').value,
+                email: email,
+                telefone: iti.getNumber(),
+                mensagem: "Cadastramento Área Restrita",
+                token: tokenGerado
+            };
+
+            fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) });
+
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dadosGAS) });
+                alert("Cadastramento realizado! Sua Credencial: " + tokenGerado);
+            } catch (e) { alert("Erro na sincronia."); }
+            btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
+        }
+
+        function validarTokenRestrito() {
+            const email = document.getElementById('email_restrito').value.trim().toLowerCase();
+            const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
+            if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
+            const hash = CryptoJS.MD5(email).toString();
+            if (tokenDigitado === btoa(hash).substring(0, 6).toUpperCase()) {
+                window.location.href = "enquadramento/index.html";
+            } else { alert("Token inválido."); }
+        }
+
+        const info = {
+            'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
+            'financas': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
+            'governanca': "Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios."
+        };
+
+        function escrever(tipo, titulo) {
+            const moldura = document.getElementById('moldura');
+            const box = document.getElementById('escrita');
+            document.getElementById('titulo-moldura').innerText = titulo;
+            moldura.style.display = 'block';
+            box.innerHTML = "";
+            let i = 0; const texto = info[tipo];
+            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 2000 / texto.length); } }
+            type();
+        }
+
+        function fecharMoldura() { document.getElementById('moldura').style.display = 'none'; }
+
+        // Funções para a Moldura de Setores
+        function abrirSetor(url) {
+            const moldura = document.getElementById('molduraSetor');
+            const iframe = document.getElementById('iframeSetor');
+            iframe.src = url;
+            moldura.style.display = 'block';
+        }
+
+        function fecharSetor() {
+            const moldura = document.getElementById('molduraSetor');
+            const iframe = document.getElementById('iframeSetor');
+            iframe.src = "";
+            moldura.style.display = 'none';
+        }
+
+        // Fechar ao clicar fora
+        document.addEventListener('mousedown', function(e) {
+            const mText = document.getElementById('moldura');
+            const mSetor = document.getElementById('molduraSetor');
+            
+            if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) {
+                fecharMoldura();
+            }
+            if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) {
+                fecharSetor();
+            }
+        });
+    </script>
+</body>
+</html>
