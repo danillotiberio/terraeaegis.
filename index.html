@@ -294,6 +294,9 @@
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
             const hash = CryptoJS.MD5(email).toString();
             if (tokenDigitado === btoa(hash).substring(0, 6).toUpperCase()) {
+                // CORREÇÃO: SALVAR ANTES DE PULAR
+                localStorage.setItem('terrae_user_email', email);
+                localStorage.setItem('terrae_user_token', tokenDigitado);
                 window.location.href = "enquadramento/index.html";
             } else { alert("Token inválido."); }
         }
