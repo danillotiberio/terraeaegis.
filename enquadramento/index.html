@@ -478,82 +478,78 @@
             }
         }
 
-        /* --- AJUSTE PAISAGEM (A DUPLA IDENTIDADE DE POSICIONAMENTO FIXO) --- */
+        /* --- AJUSTE PAISAGEM (MODO FLUXO ORGÂNICO - ZERO SOBREPOSIÇÃO) --- */
         @media only screen and (max-width: 1024px) and (orientation: landscape) {
             
+            body { 
+                overflow-y: auto !important; /* Libera o scroll na horizontal */
+            }
+
             .container-principal { 
                 display: flex !important;
                 flex-direction: column !important;
-                padding-top: 55px !important; /* Espaço para a Barra Trindade */
-                height: 100vh !important;
+                padding-top: 55px !important; 
+                height: auto !important; /* Altura flui com o conteúdo */
                 align-items: center !important;
                 justify-content: flex-start !important;
             }
 
-            /* LOGO DO TOURO: REBAIXAMENTO PARA FICAR ABAIXO DA TRINDADE */
+            /* TOURO NO FLUXO: SOBE JUNTO COM O SCROLL */
             header {
-                position: fixed !important; 
-                top: 60px !important; /* "Nasce" exatamente abaixo da linha divisória */
-                left: 50% !important;
-                transform: translateX(-50%) !important;
+                position: static !important; /* SAI DO VIDRO, VAI PARA A PÁGINA */
+                margin-top: 10px !important;
                 width: auto !important;
-                z-index: 1001 !important;
+                display: flex !important;
+                justify-content: center !important;
+                z-index: 10 !important;
+                transform: none !important;
+                left: auto !important;
             }
 
             .logo img {
-                height: 75px !important; /* Redução de escala para caber na tela baixa */
+                height: 70px !important; /* Escala compacta para horizontal */
                 width: auto !important;
-                object-fit: contain !important;
             }
 
-            /* MIOLO CENTRAL: HERO GERENCIA O VÁCUO */
+            /* HERO: SEGUE O TOURO SEM ATROPELAR */
             .hero {
                 display: flex !important;
                 flex-direction: column !important;
                 width: 100% !important;
                 height: auto !important;
                 padding: 0 !important;
+                margin-top: 20px !important; 
                 justify-content: flex-start !important;
-                margin-top: 85px !important; /* Começa após o Touro rebaixado */
             }
 
-            /* ORÁCULO: TEXTO AOS PÉS DO TOURO */
             .texto-enquadramento-container {
-                display: flex !important;
-                width: 90% !important;
-                height: auto !important;
-                min-height: 80px !important;
-                max-width: 900px !important;
-                margin-bottom: 15px !important;
+                width: 95% !important;
+                min-height: auto !important;
+                margin-bottom: 25px !important;
                 position: relative !important;
-                justify-content: center !important;
             }
 
             .frase-pg {
-                font-size: 0.9rem !important;
-                line-height: 1.4 !important;
+                font-size: 0.95rem !important;
+                line-height: 1.5 !important;
                 display: block !important;
                 opacity: 1 !important;
                 clip-path: none !important;
             }
 
-            /* BOTÃO: ÂNCORA DE COMANDO CENTRALIZADA */
+            /* BOTÃO: LIVRE PARA SER CLICADO */
             .btn-enquadramento {
-                position: relative !important; /* Torna-se parte do fluxo para não sobrepor */
-                bottom: 0 !important;
-                left: 0 !important;
+                position: relative !important;
+                bottom: auto !important;
+                left: auto !important;
                 transform: none !important;
-                margin: 10px auto 30px auto !important; /* Centralizado horizontalmente */
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: 280px !important;
-                height: 40px !important;
-                font-size: 0.75em !important;
+                margin: 0 auto 40px auto !important;
+                width: 300px !important;
+                height: 45px !important;
                 z-index: 100 !important;
             }
 
-            /* SETORES OPERACIONAIS: RODAPÉ ESTRATÉGICO */
+            /* SETORES: RODAPÉ QUE ESPERA O CONTEÚDO ACABAR */
             .setores-operacionais { 
                 position: relative !important;
                 width: 100% !important;
@@ -561,15 +557,15 @@
                 flex-wrap: wrap !important; 
                 justify-content: center !important; 
                 gap: 8px !important; 
-                padding: 10px 0 !important;
-                margin-top: auto !important; /* Cola no final da tela */
+                padding: 20px 0 !important;
+                margin-top: 20px !important;
                 border-top: 1px solid rgba(197, 160, 89, 0.2) !important;
                 border-right: none !important;
             }
             
-            .setor-card { width: calc(25% - 12px) !important; height: 35px !important; font-size: 0.55em !important; }
-            .btn-contato-trigger { width: 50% !important; margin-top: 5px !important; }
-            .btn-sair-topo { top: 12px !important; right: 12px !important; font-size: 0.55em !important; }
+            .setor-card { width: calc(25% - 15px) !important; height: 40px !important; font-size: 0.58em !important; }
+            .btn-contato-trigger { width: 60% !important; }
+            .btn-sair-topo { top: 10px !important; right: 10px !important; font-size: 0.55em !important; }
         }
     </style>
 </head>
