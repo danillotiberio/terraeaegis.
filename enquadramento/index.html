@@ -387,7 +387,7 @@
             letter-spacing: 2px; 
         }
 
-        /* --- BLOCO DE BLINDAGEM MOBILE (ÉTERA V1.2) --- */
+        /* --- BLOCO DE BLINDAGEM MOBILE (ÉTERA V1.3) --- */
         @media only screen and (max-width: 1024px) {
             body { 
                 overflow-y: auto !important; 
@@ -478,20 +478,27 @@
             }
         }
 
-        /* --- AJUSTE PAISAGEM (ESTRUTURA 4 + 1) --- */
+        /* --- AJUSTE PAISAGEM (LAYOUT LATERAL 4 + 1) --- */
         @media only screen and (max-width: 1024px) and (orientation: landscape) {
             .container-principal { 
-                padding-top: 90px; 
+                padding-top: 60px; 
+                flex-direction: row; /* Ativa fluxo lateral */
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
+            /* LOGO NA LATERAL ESQUERDA */
             header { 
-                top: 5px; 
-                left: 10px; 
+                position: relative;
+                top: 20px; 
+                left: 0; 
                 transform: none; 
+                width: 120px;
+                margin-right: 20px;
             }
 
             .logo img { 
-                height: 45px; 
+                height: 60px; 
             }
 
             .btn-sair-topo { 
@@ -500,42 +507,56 @@
                 font-size: 0.55em; 
             }
 
-            .frase-pg { 
-                font-size: 0.85rem !important; 
-                line-height: 1.3; 
+            /* HERO AO LADO DO LOGO */
+            .hero {
+                flex: 1;
+                padding: 0;
+                justify-content: flex-start;
+                align-items: flex-start;
+                text-align: left;
             }
 
             .texto-enquadramento-container { 
-                min-height: 100px; 
+                min-height: 80px; 
                 margin-bottom: 10px; 
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .frase-pg { 
+                font-size: 0.85rem !important; 
+                line-height: 1.3; 
+                text-align: left;
             }
 
             .btn-enquadramento { 
-                margin: 10px 0; 
-                padding: 12px 30px; 
-                font-size: 0.8em; 
+                margin: 5px 0; 
+                padding: 10px 25px; 
+                font-size: 0.75em; 
+                width: auto;
             }
 
+            /* GRADE DE SETORES ABAIXO */
             .setores-operacionais { 
-                padding-top: 15px; 
+                width: 100%;
+                max-width: 98%;
                 flex-direction: row; 
                 flex-wrap: wrap; 
                 justify-content: center; 
-                gap: 8px; 
-                max-width: 95%; 
+                gap: 5px; 
+                padding-top: 10px;
+                margin-top: 0;
             }
             
-            /* Os 4 Setores (25% cada) */
             .setor-card { 
                 width: calc(25% - 10px); 
-                height: 35px; 
-                font-size: 0.52em; 
+                height: 32px; 
+                font-size: 0.5em; 
             }
             
-            /* O Contato (Isolado embaixo) */
             .btn-contato-trigger { 
-                width: 60% !important; 
-                margin-top: 5px; 
+                width: 40% !important; 
+                margin-top: 2px; 
             }
         }
     </style>
@@ -619,20 +640,17 @@
     <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
 
     <script>
-        // BLOQUEIO DE INSPEÇÃO
         document.onkeydown = function(e) {
             if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) {
                 return false;
             }
         };
 
-        // PROTOCOLO DE SEGURANÇA: ENCERRAMENTO DE RASTROS
         function encerrarSessao() {
             localStorage.removeItem('terrae_user_email');
             localStorage.removeItem('terrae_user_token');
         }
 
-        // TEXTOS DA BARRA TRINDADE
         const info = {
             'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais.",
             'financas': "Proporcionamos total independência do sistema nacional para acelerar seus projetos.",
@@ -672,7 +690,6 @@
             document.getElementById('iframeSetor').src = "";
         }
 
-        // --- LÓGICA DE HERANÇA E CONTATO ---
         function abrirContato() {
             const emailSalvo = localStorage.getItem('terrae_user_email') || "NÃO IDENTIFICADO";
             const tokenSalvo = localStorage.getItem('terrae_user_token') || "SEM TOKEN";
@@ -691,7 +708,6 @@
             document.getElementById('contador').innerHTML = (1500 - val.value.length) + " caracteres restantes"; 
         }
 
-        // ENVIO DO FORMULÁRIO (Web3Forms)
         const form = document.getElementById('formProtocolo');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -706,7 +722,6 @@
             });
         });
 
-        // --- MOTOR LÓGICO DO ORÁCULO ---
         const frasesEstrategicas = [
             '"A Terrae Aegis não é apenas uma holding de ativos; somos o escudo estratégico que separa a perpetuidade do patrimônio da erosão sistêmica global."',
             '"A verdadeira soberania financeira não reside na posse local, mas na estruturação de instrumentos bancários internacionais que antecipam o valor futuro."',
@@ -722,24 +737,20 @@
             elementoFrase.classList.remove('animar-saida');
             elementoFrase.classList.add('animar-entrada');
 
-            // 15 segundos de Exposição + 2s de Revelação = 17s
             setTimeout(() => {
                 elementoFrase.classList.remove('animar-entrada');
                 elementoFrase.classList.add('animar-saida');
 
-                // 2.5s de Fade Out + 1.5s de Vácuo
                 setTimeout(() => {
                     elementoFrase.style.display = 'none';
                     indiceAtual = (indiceAtual + 1) % frasesEstrategicas.length;
                     
-                    // Reinício após o Vácuo
                     setTimeout(cicloOraculo, 1500); 
                 }, 2500); 
 
             }, 15000); 
         }
 
-        // --- SISTEMA GATEKEEPER ---
         window.onload = function() {
             let email = localStorage.getItem('terrae_user_email');
             let token = localStorage.getItem('terrae_user_token');
@@ -755,7 +766,6 @@
                 return;
             }
 
-            // Validação MD5
             const hash = CryptoJS.MD5(email).toString();
             const tokenCalculado = btoa(hash).substring(0, 6).toUpperCase();
 
@@ -780,7 +790,7 @@
                                 document.getElementById('gatekeeper').style.opacity = "0";
                                 setTimeout(() => {
                                     document.getElementById('gatekeeper').style.display = "none";
-                                    cicloOraculo(); // ATIVAÇÃO DO ORÁCULO
+                                    cicloOraculo(); 
                                 }, 1000);
                             }, 1000);
                         }).catch(() => {
@@ -798,7 +808,6 @@
             }
         };
 
-        // FECHAMENTO POR CLIQUE FORA
         document.addEventListener('mousedown', function(e) {
             const mText = document.getElementById('moldura');
             const mSetor = document.getElementById('molduraSetor');
