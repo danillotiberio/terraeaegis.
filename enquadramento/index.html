@@ -97,7 +97,7 @@
 
         .btn-contato-trigger { margin-top: 15px; border-color: var(--dourado-fosco); color: var(--dourado-fosco); }
 
-        /* HERO: VOZ CENTRAL PRATA ACETINADO */
+        /* HERO: VOZ CENTRAL PRATA ACETINADO - AJUSTE ORÁCULO */
         .hero { 
             flex: 1; display: flex; flex-direction: column;
             align-items: center; justify-content: center; height: 100%;
@@ -105,23 +105,31 @@
         }
 
         .texto-enquadramento-container {
-            max-width: 800px; margin-bottom: 80px;
-            opacity: 0; animation: surgimentoVeu 4s ease-out forwards;
+            max-width: 850px; min-height: 280px; margin-bottom: 80px;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .frase-pg {
-            font-family: 'Segoe UI', sans-serif;
-            font-weight: 200; font-size: 1.1em; letter-spacing: 2px;
-            line-height: 1.6; margin-bottom: 25px;
-            background: linear-gradient(180deg, #FFFFFF 0%, #C0C0C0 50%, #8E8E8E 100%);
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-weight: 300; font-size: 1.55em; letter-spacing: 1px;
+            line-height: 1.6;
+            background: linear-gradient(180deg, #FFFFFF 0%, #D1D1D1 50%, #AFAFAF 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
+            opacity: 0; display: none;
         }
 
-        @keyframes surgimentoVeu {
-            0% { opacity: 0; transform: translateY(10px); filter: blur(10px); }
-            100% { opacity: 0.8; transform: translateY(0); filter: blur(0); }
+        /* ANIMAÇÕES DO ORÁCULO */
+        @keyframes cortinaRevelacao {
+            from { clip-path: inset(0 100% 0 0); opacity: 1; }
+            to { clip-path: inset(0 0 0 0); opacity: 1; }
         }
+        @keyframes fadeOutLento {
+            from { opacity: 1; filter: blur(0px); }
+            to { opacity: 0; filter: blur(10px); }
+        }
+        .animar-entrada { display: block !important; animation: cortinaRevelacao 2s ease-out forwards; }
+        .animar-saida { display: block !important; animation: fadeOutLento 2.5s ease-in forwards; }
 
         .btn-enquadramento {
             position: fixed; bottom: 18%; left: 50%; transform: translateX(-50%);
@@ -213,10 +221,7 @@
 
         <section class="hero">
             <div class="texto-enquadramento-container">
-                <div class="frase-pg">A Terrae Aegis não é apenas uma holding de ativos; somos o escudo estratégico que separa a perpetuidade do patrimônio da erosão sistêmica global.</div>
-                <div class="frase-pg">A verdadeira soberania financeira não reside na posse local, mas na estruturação de instrumentos bancários internacionais que antecipam o valor futuro.</div>
-                <div class="frase-pg">Enquanto o mercado observa oscilações, nós operamos na convergência entre o agro, a mineração e a indústria, transformando ativos reais em liquidez inabalável.</div>
-                <div class="frase-pg">Onde o vácuo institucional se expande, a nossa governança se torna a única constante para a proteção e aceleração do seu legado.</div>
+                <div id="oraculo-frase" class="frase-pg"></div>
             </div>
             <button class="btn-enquadramento" onclick="window.location.href='index.html'">Enquadramento para Soluções</button>
         </section>
@@ -317,34 +322,62 @@
             });
         });
 
+        // --- MOTOR LÓGICO DO ORÁCULO ---
+        const frasesEstrategicas = [
+            '"A Terrae Aegis não é apenas uma holding de ativos; somos o escudo estratégico que separa a perpetuidade do patrimônio da erosão sistêmica global."',
+            '"A verdadeira soberania financeira não reside na posse local, mas na estruturação de instrumentos bancários internacionais que antecipam o valor futuro."',
+            '"Enquanto o mercado observa oscilações, nós operamos na convergência entre o agro, a mineração e a indústria, transformando ativos reais em liquidez inabalável."',
+            '"Onde o vácuo institucional se expande, a nossa governança se torna a única constante para a proteção e aceleração do seu legado."'
+        ];
+
+        let indiceAtual = 0;
+        const elementoFrase = document.getElementById('oraculo-frase');
+
+        function cicloOraculo() {
+            elementoFrase.innerText = frasesEstrategicas[indiceAtual];
+            elementoFrase.classList.remove('animar-saida');
+            elementoFrase.classList.add('animar-entrada');
+
+            // 15 segundos de Exposição + 2s de Revelação = 17s
+            setTimeout(() => {
+                elementoFrase.classList.remove('animar-entrada');
+                elementoFrase.classList.add('animar-saida');
+
+                // 2.5s de Fade Out + 1.5s de Vácuo (Cegueira)
+                setTimeout(() => {
+                    elementoFrase.style.display = 'none';
+                    indiceAtual = (indiceAtual + 1) % frasesEstrategicas.length;
+                    
+                    // Reinício após o Vácuo
+                    setTimeout(cicloOraculo, 1500); 
+                }, 2500); 
+
+            }, 15000); 
+        }
+
         // --- NOVO XERIFE MATEMÁTICO ---
         window.onload = function() {
             let email = localStorage.getItem('terrae_user_email');
             let token = localStorage.getItem('terrae_user_token');
 
-            // Se o bolso estiver vazio, inicia interrogatório manual
             if (!email || !token) {
                 email = prompt("ACESSO AO ENQUADRAMENTO - IDENTIFICAÇÃO (E-MAIL):")?.trim().toLowerCase();
                 token = prompt("TOKEN DE SEGURANÇA:")?.trim().toUpperCase();
             }
 
-            // Se mesmo pedindo ele não digitou nada
             if (!email || !token) {
                 alert("ACESSO NEGADO.");
                 window.location.href = "../index.html";
                 return;
             }
 
-            // VALIDAÇÃO MATEMÁTICA REAL-TIME
             const hash = CryptoJS.MD5(email).toString();
             const tokenCalculado = btoa(hash).substring(0, 6).toUpperCase();
 
             if (token === tokenCalculado) {
-                // SUCESSO: SALVA E LIBERA
                 localStorage.setItem('terrae_user_email', email);
                 localStorage.setItem('terrae_user_token', token);
                 
-                // Roda o ritual de IP
                 const ipEl = document.getElementById('roleta-ip');
                 const geoEl = document.getElementById('roleta-geo');
                 let c = 0;
@@ -357,10 +390,16 @@
                             geoEl.innerText = `${d.city}, ${d.region} - ${d.country_name}`;
                             setTimeout(() => { 
                                 document.getElementById('gatekeeper').style.opacity = "0";
-                                setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 1000);
+                                setTimeout(() => {
+                                    document.getElementById('gatekeeper').style.display = "none";
+                                    cicloOraculo(); // ATIVAÇÃO DO ORÁCULO
+                                }, 1000);
                             }, 1000);
                         }).catch(() => {
-                            setTimeout(() => document.getElementById('gatekeeper').style.display = "none", 500);
+                            setTimeout(() => {
+                                document.getElementById('gatekeeper').style.display = "none";
+                                cicloOraculo();
+                            }, 500);
                         });
                     }
                 }, 100);
