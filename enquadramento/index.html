@@ -50,7 +50,7 @@
 
         /* --- LAYOUT E BARRA TRINDADE --- */
         .barra-trindade {
-            width: 100%; display: flex; justify(content: center;
+            width: 100%; display: flex; justify-content: center;
             background: rgba(10, 25, 47, 0.95); border-bottom: 1px solid rgba(255, 215, 0, 0.3);
             position: fixed; top: 0; z-index: 2000; backdrop-filter: blur(10px);
         }
@@ -194,7 +194,7 @@
         <div class="item-trindade-container" onclick="escrever('governanca', 'GOVERNANÇA')"><span class="item-trindade">Governança</span></div>
     </nav>
 
-    <a href="../index.html" class="btn-sair-topo">Sair da Área Restrita</a>
+    <a href="../index.html" class="btn-sair-topo" onclick="encerrarSessao()">Sair da Área Restrita</a>
 
     <header>
         <div class="logo"><img src="../logo-touro.png" alt="Terrae Aegis"></div>
@@ -255,6 +255,12 @@
             if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false;
         };
 
+        // PROTOCOLO DE SEGURANÇA: ENCERRAMENTO DE RASTROS
+        function encerrarSessao() {
+            localStorage.removeItem('terrae_user_email');
+            localStorage.removeItem('terrae_user_token');
+        }
+
         const info = {
             'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais.",
             'financas': "Proporcionamos total independência do sistema nacional para acelerar seus projetos.",
@@ -284,7 +290,6 @@
 
         // --- LÓGICA DE HERANÇA E CONTATO ---
         function abrirContato() {
-            // Recupera dados salvos pela Index Raiz
             const emailSalvo = localStorage.getItem('terrae_user_email') || "NÃO IDENTIFICADO";
             const tokenSalvo = localStorage.getItem('terrae_user_token') || "SEM TOKEN";
             
@@ -312,7 +317,6 @@
         });
 
         window.onload = function() {
-            // Bloqueio de acesso direto sem login
             if (!localStorage.getItem('terrae_user_email')) {
                 alert("AUTENTICAÇÃO REQUERIDA.");
                 window.location.href = "../index.html";
