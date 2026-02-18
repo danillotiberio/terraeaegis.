@@ -3,103 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mineração | Terrae Aegis Holding Finance</title>
+    <title>Terrae Aegis | Mineração - Inteligência e Soberania</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --azul-p: #001220;
-            --dourado: #C5B358;
-        }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Garamond', serif; overflow-x: hidden; background-color: var(--azul-p); }
+        :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
         
-        /* Proteção Visual */
-        body { user-select: none; -webkit-user-select: none; transition: filter 0.3s ease; }
-        .blur-active { filter: blur(20px); }
+        /* BLOQUEIO DE SELEÇÃO E ARRASTE */
+        * { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
 
-        .bg-mineracao {
-            background-image: linear-gradient(rgba(0, 18, 32, 0.85), rgba(0, 18, 32, 0.85)), url('image_1.png');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            min-height: 100vh; display: flex; flex-direction: column; align-items: center; color: var(--dourado); padding: 60px 20px;
-        }
-
-        /* Marca d'água Fixa */
-        .watermark {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70%; opacity: 0.07; z-index: 0; pointer-events: none;
+        body { 
+            background-color: var(--azul); 
+            color: var(--branco); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; padding: 0; 
+            font-weight: 200;
+            overflow-x: hidden;
+            transition: filter 0.3s ease;
         }
 
-        .container { 
-            max-width: 1000px; width: 100%; background-color: rgba(0, 18, 32, 0.75); 
-            padding: 50px; border: 1px solid var(--dourado); 
-            box-shadow: 0 0 40px rgba(0,0,0,0.8); position: relative; z-index: 1;
+        /* GHOST MODE - BLUR DE SEGURANÇA */
+        .blur-active { filter: blur(25px); }
+
+        /* MARCA D'ÁGUA FIXA VIA PSEUDO-ELEMENTO (PADRÃO AGRO 2) */
+        body::before {
+            content: ""; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); width: 60%; height: 60%;
+            background: url('logo-touro.png') no-repeat center;
+            background-size: contain; opacity: 0.08; z-index: -1; pointer-events: none;
         }
-        
-        .header { text-align: center; margin-bottom: 40px; }
-        .header h1 { font-size: 28px; letter-spacing: 6px; text-transform: uppercase; margin: 0; }
-        
-        hr { border: 0; border-top: 1px solid var(--dourado); margin: 30px 0; opacity: 0.5; }
-        
-        h2 { font-size: 20px; text-transform: uppercase; letter-spacing: 2px; border-left: 3px solid var(--dourado); padding-left: 15px; margin-top: 40px; }
-        
-        .content { font-size: 18px; line-height: 1.8; text-align: justify; color: #E6F1FF; }
-        .highlight { color: var(--dourado); font-weight: bold; }
+
+        header { 
+            padding: 80px 20px; 
+            text-align: center; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
+            background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('mineracao.png'); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .tag-impacto { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; margin: 0; font-weight: 300; }
+        header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
+
+        .container { padding: 60px 20px; max-width: 1000px; margin: auto; position: relative; z-index: 10; }
+
+        .chamariz { 
+            font-style: italic; 
+            font-size: 1.4rem; 
+            line-height: 1.8; 
+            text-align: center; 
+            margin-bottom: 60px; 
+            color: rgba(255,255,255,0.9);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 40px;
+        }
+
+        .pilar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 40px; 
+            margin-top: 30px; 
+        }
+
+        .card { padding: 20px; border-left: 1px solid rgba(212, 175, 55, 0.3); }
+        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
+        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; font-weight: 300; text-align: justify; }
+        .highlight { color: var(--dourado); font-weight: 400; }
+
+        .video-placeholder { 
+            border: 1px solid var(--dourado); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: rgba(0,0,0,0.3);
+            min-height: 200px;
+        }
+        .video-placeholder::after { content: 'Escaneamento de Ativos Minerais'; color: var(--dourado); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        .cta-container { text-align: center; margin-top: 80px; }
+        .cta-frase { color: var(--branco); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
         
         .btn-enquadramento {
-            display: block; width: 100%; background-color: var(--dourado); color: var(--azul-p); 
-            text-align: center; padding: 25px; font-weight: bold; text-transform: uppercase; 
-            text-decoration: none; font-size: 18px; margin-top: 60px; transition: 0.3s; border-radius: 2px;
+            display: inline-block; padding: 18px 40px; background: transparent;
+            border: 1px solid var(--dourado); color: var(--dourado);
+            text-transform: uppercase; letter-spacing: 3px; font-weight: bold; cursor: pointer; transition: 0.5s;
+            text-decoration: none; margin-top: 25px;
         }
-        .btn-enquadramento:hover { background-color: #e2d17b; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .btn-enquadramento:hover { background: var(--dourado); color: var(--azul); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+
+        /* RESPONSIVIDADE INTERMEDIÁRIA */
+        @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <img src="enquadramento/logo-touro.png" class="watermark" alt="Terrae Aegis">
+    <header>
+        <span class="tag-impacto">Soberania do Subsolo</span>
+        <h1>Mineração: Inteligência Mineral</h1>
+        <p>Engenharia de Concessões e Liquidez Estratégica</p>
+    </header>
 
-    <div class="bg-mineracao">
-        <div class="container">
-            <div class="header">
-                <h1>Soberania do Subsolo e Inteligência Mineral</h1>
+    <div class="container">
+        <div class="chamariz">
+            "O lucro na mineração de alta performance não está apenas na extração, mas na <span class="highlight">Soberania Jurídica</span> e na capacidade de dominar a cadeia financeira e logística do seu próprio ativo."
+        </div>
+
+        <div class="pilar-grid">
+            <div class="card">
+                <h3>I. Segregação e Blindagem</h3>
+                <p>Nossa engenharia realiza a separação jurídica absoluta: os direitos permanecem protegidos em uma estrutura de holding superior, imunes a passivos ambientais ou bloqueios judiciais diretos sobre a operação.</p>
             </div>
             
-            <hr>
-
-            <div class="content">
-                <p>O lucro na mineração de alta performance não está apenas na extração, mas na <span class="highlight">Soberania Jurídica</span> e na capacidade de dominar a cadeia financeira e logística do seu próprio ativo.</p>
-
-                <h2>I. Segregação de Ativos e Blindagem de Concessões</h2>
-                <p>Nossa engenharia realiza a separação jurídica absoluta: os direitos permanecem protegidos em uma estrutura de holding superior, imunes a passivos ambientais ou bloqueios judiciais.</p>
-
-                <h2>II. Capitalização Digital: Royalties e Maquinário</h2>
-                <ul>
-                    <li><strong>Royalties:</strong> Transformamos o fluxo de recebíveis futuros em liquidez imediata no mercado global.</li>
-                    <li><strong>Maquinário:</strong> Convertemos seu CAPEX em ativos financeiros que geram crédito e proteção patrimonial.</li>
-                </ul>
-
-                <h2>III. Estocagem Estratégica e Arbitragem de Mercado</h2>
-                <p>Implementamos a lógica de Entrepostos Inteligentes, dando ao minerador o poder de arbitragem para vender nos picos de alta internacional.</p>
-
-                <h2>IV. Recuperação de Margem e Eficiência Tributária</h2>
-                <p>Onde o mercado vê custo, a <strong>Terrae Aegis</strong> estabelece uma estrutura de aproveitamento máximo de capital através de regimes especiais.</p>
-            
-                <p style="margin-top: 40px; text-align: center; font-style: italic;">* A finalização do protocolo resulta em um <strong>Diagnóstico Estratégico em D+1 (24 horas)</strong>.</p>
+            <div class="card">
+                <h3>II. Capitalização Digital</h3>
+                <p>Transformamos o fluxo de recebíveis futuros (Royalties) em <span class="highlight">liquidez imediata</span> e convertemos seu CAPEX em ativos financeiros que geram crédito global e proteção patrimonial robusta.</p>
             </div>
 
-            <a href="enquadramento/index.html" class="btn-enquadramento">Solicitar Enquadramento Estratégico</a>
+            <div class="card">
+                <h3>III. Arbitragem e Eficiência</h3>
+                <p>Implementamos a lógica de Entrepostos Inteligentes para venda nos picos de alta e estabelecemos estruturas de aproveitamento máximo de capital através de regimes tributários especiais e internacionais.</p>
+            </div>
+
+            <div class="video-placeholder"></div>
+        </div>
+
+        <div class="cta-container">
+            <p class="cta-frase">
+                A finalização do protocolo resulta em um Diagnóstico Estratégico em D+1.
+            </p>
+            <a href="#" class="btn-enquadramento" onclick="fecharIrParaEnquadramento()">Solicitar Enquadramento Estratégico</a>
         </div>
     </div>
 
     <script>
-        // Ghost Mode - Blur ao perder o foco
-        window.addEventListener('blur', () => document.body.classList.add('blur-active'));
-        window.addEventListener('focus', () => document.body.classList.remove('blur-active'));
-
-        // Bloqueio de PrintScreen e Atalhos
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 'u' || e.key === 's'))) {
-                e.preventDefault();
-                alert('Protocolo de Segurança Ativo: Captura Proibida.');
-            }
+        /* PROTOCOLO GHOST MODE - PROTEÇÃO VISUAL ATIVA */
+        window.addEventListener('blur', function() {
+            document.body.classList.add('blur-active');
         });
+        
+        window.addEventListener('focus', function() {
+            document.body.classList.remove('blur-active');
+        });
+
+        /* TRAVAS DE SEGURANÇA E SOBERANIA DO CÓDIGO */
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+
+        document.onkeydown = function(e) {
+            // Bloqueio de F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U e PrintScreen
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || 
+                (e.ctrlKey && e.keyCode == 85) || 
+                e.key === 'PrintScreen') {
+                return false;
+            }
+        };
+
+        /* NAVEGAÇÃO ENTRE CAMADAS DE ENQUADRAMENTO */
+        function fecharIrParaEnquadramento() {
+            const modal = window.parent.document.getElementById('molduraSetor');
+            if (modal) { 
+                modal.style.display = 'none'; 
+            }
+            // Redireciona a index principal para o Enquadramento Final (Enquadramento 2)
+            window.parent.location.href = 'enquadramento2.html';
+        }
     </script>
 </body>
 </html>
