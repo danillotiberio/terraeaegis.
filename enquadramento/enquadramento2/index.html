@@ -19,33 +19,22 @@
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--azul-profundo);
             color: var(--branco-marfim);
-            overflow: hidden; /* Travado para validação inicial */
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
-        /* TELA DE VALIDAÇÃO INICIAL */
+        /* LOADER */
         #loader-seguranca {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--azul-profundo);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 5000; transition: 0.8s;
         }
-        .scan-line {
-            width: 200px; height: 2px; background: var(--dourado-fosco);
-            box-shadow: 0 0 15px var(--dourado-fosco);
-            animation: scan 1.5s infinite ease-in-out;
-        }
+        .scan-line { width: 200px; height: 2px; background: var(--dourado-fosco); box-shadow: 0 0 15px var(--dourado-fosco); animation: scan 1.5s infinite ease-in-out; }
         @keyframes scan { 0%, 100% { transform: translateY(-20px); } 50% { transform: translateY(20px); } }
         .texto-valida { margin-top: 20px; font-size: 0.7em; letter-spacing: 3px; color: var(--dourado-fosco); text-transform: uppercase; }
 
-        .touro-bg {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%; opacity: 0.05;
-            z-index: -1; pointer-events: none;
-        }
+        .touro-bg { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; opacity: 0.05; z-index: -1; pointer-events: none; }
 
         .barra-trindade {
             width: 100%; display: flex; justify-content: center;
@@ -54,24 +43,20 @@
         }
         .item-trindade { padding: 15px 20px; font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: var(--dourado-brilhante); font-weight: bold; opacity: 0.8; }
 
-        /* HUD SIMÉTRICO */
+        /* HUD SIMÉTRICO CORRIGIDO */
         .hud-topo {
             position: fixed; top: 70px; width: 90%; left: 5%;
             display: flex; justify-content: space-between; align-items: center; z-index: 1000;
         }
         .hud-id {
-            font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco);
-            text-transform: uppercase; border-left: 2px solid var(--dourado-fosco); padding-left: 10px;
+            font-size: 0.85em; letter-spacing: 1px; color: var(--dourado-fosco);
+            font-style: italic; text-transform: capitalize;
         }
-        .hud-home {
-            text-decoration: none; color: var(--dourado-fosco); font-size: 0.8em;
-            letter-spacing: 2px; cursor: pointer; position: relative;
+        .hud-sair {
+            text-decoration: none; color: var(--dourado-fosco); font-size: 0.85em;
+            letter-spacing: 2px; cursor: pointer; transition: 0.3s;
         }
-        .hud-home:hover::after {
-            content: "[ SUSPENDER ENQUADRAMENTO ]";
-            position: absolute; right: 0; top: 20px;
-            font-size: 0.6em; white-space: nowrap; color: var(--azul-neon); opacity: 0.7;
-        }
+        .hud-sair:hover { color: var(--azul-neon); }
 
         .progresso-container {
             position: fixed; top: 52px; left: 0; width: 100%;
@@ -91,23 +76,32 @@
             padding-bottom: 10px; text-align: center;
         }
 
-        .campo-grupo { margin-bottom: 30px; }
+        .campo-grupo { margin-bottom: 30px; position: relative; }
         label { display: block; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; color: var(--dourado-brilhante); }
         
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], select {
             width: 100%; background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(197, 160, 89, 0.2);
             padding: 15px; color: #fff; font-size: 1em; outline: none; box-sizing: border-box;
+            transition: 0.3s;
         }
-        input:focus { border-color: var(--azul-neon); background: rgba(0, 255, 255, 0.05); }
+        input:focus, select:focus { border-color: var(--azul-neon); background: rgba(0, 255, 255, 0.05); }
 
-        /* TRAVA DE RESPONSABILIDADE */
-        .check-container {
-            display: flex; align-items: center; gap: 10px; margin-top: 30px;
-            padding: 15px; border: 1px solid rgba(197, 160, 89, 0.1); background: rgba(255,255,255,0.01);
+        /* OPACIDADE DINÂMICA P1 */
+        #p1-field { opacity: 0.25; }
+        #p1-field.focado { opacity: 1; }
+
+        /* SELETORES EM BOTÕES (SEGMENTO / SUCESSORES / CANAL) */
+        .grid-seletores { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; }
+        .btn-seletor {
+            padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--branco-marfim); font-size: 0.8em; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            text-align: center;
         }
-        .check-container input { cursor: pointer; width: 18px; height: 18px; }
-        .check-text { font-size: 0.65em; color: var(--branco-marfim); text-transform: uppercase; letter-spacing: 1px; line-height: 1.4; }
+        .btn-seletor:hover, .btn-seletor.selected { border-color: var(--azul-neon); background: rgba(0, 255, 255, 0.1); color: #fff; }
+
+        /* CONDICIONAL Q5 */
+        #lacuna-outros { display: none; margin-top: 15px; animation: fadeIn 0.4s ease; }
 
         .controles { display: flex; justify-content: space-between; margin-top: 50px; }
         .btn-nav {
@@ -144,19 +138,76 @@
     </div>
 
     <div class="hud-topo">
-        <div class="hud-id" id="hud-nome">IDENTIFICANDO...</div>
-        <a href="index.html" class="hud-home">HOME</a>
+        <div class="hud-id" id="hud-nome-display">...</div>
+        <a href="index.html" class="hud-sair">Sair</a>
     </div>
 
     <div class="wrapper">
         <form id="formAegis">
             <div class="bloco-pergunta active" id="bloco-1">
-                <div class="titulo-bloco">I. Identidade e Escopo</div>
-                <div class="campo-grupo"><label>1. Titular da Operação</label><input type="text" name="p1"></div>
-                <div class="campo-grupo"><label>2. Razão Social da Holding Principal</label><input type="text" name="p2"></div>
-                <div class="campo-grupo"><label>3. Segmento de Impacto (Agro / Mina / Ind)</label><input type="text" name="p3"></div>
-                <div class="campo-grupo"><label>4. Herdeiros ou Sucessores Diretos</label><input type="text" name="p4"></div>
-                <div class="campo-grupo"><label>5. Canal de Comunicação Criptografado</label><input type="text" name="p5"></div>
+                <div class="titulo-bloco">IDENTIFICAÇÃO</div>
+                
+                <div class="campo-grupo">
+                    <label>1. Titular do Grupo Econômico</label>
+                    <input type="text" name="p1" id="p1-field" onfocus="ativarP1()" oninput="ativarP1()">
+                </div>
+
+                <div class="campo-grupo">
+                    <label>2. Razão Social do Grupo Econômico</label>
+                    <input type="text" name="p2" id="p2-field" onblur="mostrarEnquadramento()">
+                    <div id="wrapper-enquadramento" style="display:none; margin-top:15px;">
+                        <label style="font-size: 0.6em;">Enquadramento Societário</label>
+                        <select name="p2_tipo" id="p2-tipo">
+                            <option value="">Selecione o enquadramento...</option>
+                            <option value="SA_ABERTO">S/A - Capital Aberto</option>
+                            <option value="SA_FECHADO">S/A - Capital Fechado</option>
+                            <option value="LTDA">Limitada (LTDA)</option>
+                            <option value="COLETIVO">Sociedade em Nome Coletivo</option>
+                            <option value="COMANDITA">Sociedade em Comandita</option>
+                            <option value="EIRELI_SLU">EIRELI / SLU</option>
+                            <option value="COOPERATIVA">Cooperativa</option>
+                            <option value="CONSORCIO">Consórcio / SCP</option>
+                            <option value="OUTROS">Outros (Pessoa Física / Estruturas Atípicas)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="campo-grupo">
+                    <label>3. Segmento</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Agro')">Agro</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Mineração')">Mineração</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Indústria')">Indústria</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Novos Negócios')">Novos Negócios</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Outros')">Outros</div>
+                    </div>
+                    <input type="hidden" name="p3" id="input-p3">
+                </div>
+
+                <div class="campo-grupo">
+                    <label>4. Sucessores Diretos</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', 'Nenhum')">Nenhum</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', '1 a 5')">1 a 5</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', '5 a 10')">5 a 10</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', '10+')">10+</div>
+                    </div>
+                    <input type="hidden" name="p4" id="input-p4">
+                </div>
+
+                <div class="campo-grupo">
+                    <label>5. Canal de Comunicação Principal</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="toggleMulti(this, 'E-mail')">E-mail</div>
+                        <div class="btn-seletor" onclick="toggleMulti(this, 'Telefone')">Telefone</div>
+                        <div class="btn-seletor" onclick="toggleMulti(this, 'WhatsApp')">WhatsApp</div>
+                        <div class="btn-seletor" onclick="toggleMulti(this, 'Outros')">Outros</div>
+                    </div>
+                    <input type="hidden" name="p5" id="input-p5">
+                    <div id="lacuna-outros">
+                        <input type="text" id="p5-obs" placeholder="Especifique o canal (máx 50 caracteres)" maxlength="50">
+                    </div>
+                </div>
             </div>
 
             <div class="bloco-pergunta" id="bloco-2">
@@ -198,56 +249,54 @@
         </form>
     </div>
 
-    <div class="assinatura-dev">Developed by Terrae Aegis ®</div>
-
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz96bq1ngrjZoBzTGGr0GdCiVpA7Anzq_QW8eAwI-KNAO7PbYoMnUuM_RXf-yPX3CySVA/exec';
         let blocoAtual = 1;
 
         window.onload = () => {
-            // Loader de Segurança
+            const rawName = localStorage.getItem('terrae_user_name') || "Danilo Lead";
+            const formattedName = rawName.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+            document.getElementById('hud-nome-display').innerHTML = `<i>${formattedName}</i>`;
+            
+            const p1 = document.getElementById('p1-field');
+            p1.value = formattedName;
+
             setTimeout(() => {
                 document.getElementById('status-seguranca').innerText = "Criptografia 100% Ativada.";
                 setTimeout(() => {
                     document.getElementById('loader-seguranca').style.opacity = '0';
                     setTimeout(() => {
                         document.getElementById('loader-seguranca').style.display = 'none';
-                        document.body.style.overflow = 'auto';
                     }, 800);
                 }, 1000);
             }, 1500);
-
-            const email = localStorage.getItem('terrae_user_email') || "SESSÃO PRIVADA";
-            document.getElementById('hud-nome').innerText = email.split('@')[0].toUpperCase();
             atualizarProgresso();
         };
 
-        function toggleFinalizar() {
-            const btn = document.getElementById('btn-proximo');
-            if(blocoAtual === 4) {
-                btn.disabled = !document.getElementById('check-resp').checked;
+        function ativarP1() { document.getElementById('p1-field').classList.add('focado'); }
+        
+        function mostrarEnquadramento() {
+            if(document.getElementById('p2-field').value.trim() !== "") {
+                document.getElementById('wrapper-enquadramento').style.display = 'block';
             }
         }
 
-        function atualizarProgresso() {
-            for(let i=1; i<=4; i++) {
-                document.getElementById(`seg-${i}`).classList.toggle('ativo', i <= blocoAtual);
-            }
+        function selectBtn(btn, field, val) {
+            const row = btn.parentElement;
+            row.querySelectorAll('.btn-seletor').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById(`input-${field}`).value = val;
+            ativarP1(); // Ativa solidez da P1 ao interagir com qualquer outra
         }
 
-        async function processarAvanco() {
-            const campos = document.querySelectorAll(`#bloco-${blocoAtual} input`);
-            let emBranco = [];
-            campos.forEach(c => { if(!c.value.trim() && c.type !== 'checkbox') emBranco.push(c.previousElementSibling.innerText); });
-
-            if(emBranco.length > 0) {
-                if(!confirm("Atenção: Informações em branco. Deseja prosseguir com o registro parcial?")) return;
-            }
-
-            enviarDadosParciais();
-
-            if(blocoAtual < 4) { mudarBloco(1); } 
-            else { finalizar(); }
+        let canais = [];
+        function toggleMulti(btn, val) {
+            btn.classList.toggle('selected');
+            if(canais.includes(val)) { canais = canais.filter(c => c !== val); }
+            else { canais.push(val); }
+            document.getElementById('input-p5').value = canais.join(', ');
+            document.getElementById('lacuna-outros').style.display = canais.includes('Outros') ? 'block' : 'none';
+            ativarP1();
         }
 
         function mudarBloco(dir) {
@@ -256,15 +305,33 @@
             document.getElementById(`bloco-${blocoAtual}`).classList.add('active');
             document.getElementById('btn-voltar').disabled = (blocoAtual === 1);
             document.getElementById('btn-proximo').innerText = (blocoAtual === 4) ? "Finalizar" : "Próxima Etapa";
-            if(blocoAtual === 4) toggleFinalizar();
             atualizarProgresso();
             window.scrollTo(0,0);
         }
 
+        function atualizarProgresso() {
+            for(let i=1; i<=4; i++) {
+                document.getElementById(`seg-${i}`).classList.toggle('ativo', i <= blocoAtual);
+            }
+        }
+
+        function toggleFinalizar() {
+            const btn = document.getElementById('btn-proximo');
+            if(blocoAtual === 4) {
+                btn.disabled = !document.getElementById('check-resp').checked;
+            }
+        }
+
+        async function processarAvanco() {
+            enviarDadosParciais();
+            if(blocoAtual < 4) { mudarBloco(1); } 
+            else { finalizar(); }
+        }
+
         function enviarDadosParciais() {
-            const dados = Object.fromEntries(new FormData(document.getElementById('formAegis')).entries());
-            dados.email = localStorage.getItem('terrae_user_email');
-            dados.etapa = blocoAtual;
+            const form = document.getElementById('formAegis');
+            const dados = Object.fromEntries(new FormData(form).entries());
+            dados.p5_obs = document.getElementById('p5-obs').value;
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
         }
 
@@ -273,9 +340,7 @@
                 <div style="text-align: center; animation: fadeIn 1s ease;">
                     <h2 style="color: var(--dourado-brilhante); letter-spacing: 5px; text-transform: uppercase;">DADOS RECEBIDOS.</h2>
                     <p style="font-style: italic; opacity: 0.8;">Análise iniciada pelo Núcleo Étera IA®.</p>
-                    <p style="font-size: 0.9em; margin-top: 30px; border: 1px solid var(--dourado-fosco); padding: 20px;">
-                        Retorno oficial em até 72 horas.
-                    </p>
+                    <p style="font-size: 0.9em; margin-top: 30px; border: 1px solid var(--dourado-fosco); padding: 20px;">Retorno oficial em até 72 horas.</p>
                 </div>
             `;
             setTimeout(() => { window.location.href = "index.html"; }, 4000);
