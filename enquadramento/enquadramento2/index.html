@@ -4,137 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enquadramento Estratégico | Terrae Aegis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
-        :root { --azul: #001220; --dourado: #C5B358; --branco: #ffffff; }
-        
-        body, html { 
-            margin: 0; padding: 0; min-height: 100vh;
-            background-color: var(--azul); 
-            color: var(--dourado); font-family: 'Garamond', serif;
-            -webkit-user-select: none; user-select: none;
-            position: relative;
+        :root {
+            --azul-profundo: #0A192F;
+            --dourado-fosco: #C5A059;
+            --dourado-brilhante: #FFD700;
+            --azul-neon: #00FFFF;
+            --branco-marfim: #E6E6E6;
         }
 
-        /* Marca D'água do Touro FIXA ao fundo */
-        body::before {
-            content: "";
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--azul-profundo);
+            color: var(--branco-marfim);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* MARCA D'ÁGUA FIXA */
+        .touro-bg {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%; height: 80%;
-            background-image: url('logo-touro.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.1;
-            z-index: -1;
-            pointer-events: none;
+            width: 60%; opacity: 0.05;
+            z-index: -1; pointer-events: none;
         }
 
-        /* Proteção Visual (Blur) */
-        #protection-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 9999;
-            justify-content: center; align-items: center; text-align: center;
+        /* BARRA DA TRINDADE */
+        .barra-trindade {
+            width: 100%; display: flex; justify-content: center;
+            background: rgba(10, 25, 47, 0.98); border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            position: fixed; top: 0; z-index: 2000; backdrop-filter: blur(10px);
         }
-        .blur-msg { border: 1px solid var(--dourado); padding: 30px; background: var(--azul); cursor: pointer; }
+        .item-trindade { padding: 15px 20px; font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: var(--dourado-brilhante); font-weight: bold; opacity: 0.8; }
 
-        .container { 
-            max-width: 900px; margin: 30px auto; padding: 40px; 
-            background: rgba(0, 18, 32, 0.85);
-            border: 1px solid rgba(197, 179, 88, 0.3); 
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        /* HUD DE IDENTIDADE */
+        .hud-operador {
+            position: fixed; top: 70px; left: 5%;
+            font-size: 0.65em; letter-spacing: 2px; color: var(--dourado-fosco);
+            text-transform: uppercase; border-left: 2px solid var(--dourado-fosco);
+            padding-left: 10px; z-index: 1000;
         }
 
-        /* Botão Voltar */
-        .btn-voltar {
-            text-decoration: none; color: var(--dourado); font-size: 12px; 
-            text-transform: uppercase; letter-spacing: 2px; display: inline-block; 
-            margin-bottom: 20px; opacity: 0.7; transition: 0.3s;
+        /* BARRA DE EVOLUÇÃO NEON */
+        .progresso-container {
+            position: fixed; top: 50px; left: 0; width: 100%;
+            display: flex; gap: 5px; padding: 0 5%; box-sizing: border-box; z-index: 1999;
         }
-        .btn-voltar:hover { opacity: 1; letter-spacing: 3px; }
+        .segmento {
+            height: 2px; flex: 1; background: rgba(197, 160, 89, 0.2);
+            transition: 0.6s all ease;
+        }
+        .segmento.ativo { background: var(--azul-neon); box-shadow: 0 0 10px var(--azul-neon); }
+
+        /* CONTAINER DO QUESTIONÁRIO */
+        .wrapper {
+            max-width: 800px; margin: 140px auto 100px;
+            padding: 0 5%; position: relative;
+        }
+
+        .bloco-pergunta { display: none; animation: fadeIn 0.8s ease forwards; }
+        .bloco-pergunta.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .titulo-bloco {
+            font-size: 1.2em; color: var(--dourado-fosco);
+            text-transform: uppercase; letter-spacing: 4px;
+            margin-bottom: 40px; border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding-bottom: 10px; text-align: center;
+        }
+
+        .campo-grupo { margin-bottom: 30px; }
+        label { display: block; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; color: var(--dourado-brilhante); }
         
-        h1 { text-align: center; letter-spacing: 8px; text-transform: uppercase; border-bottom: 2px solid var(--dourado); padding-bottom: 20px; margin-top: 0; }
-        
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
-        .full-width { grid-column: span 2; }
-
-        .field-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #fff; }
-        input { 
-            width: 100%; padding: 12px; background: rgba(255,255,255,0.05); 
-            border: 1px solid var(--dourado); color: #fff; outline: none; box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 15px; color: #fff; font-size: 1em;
+            outline: none; transition: 0.3s;
         }
-        input:focus { border-color: #fff; background: rgba(255,255,255,0.1); }
+        input:focus { border-color: var(--azul-neon); background: rgba(0, 255, 255, 0.05); }
 
-        .btn-enviar { 
-            grid-column: span 2; background: var(--dourado); color: var(--azul); 
-            padding: 25px; border: none; font-weight: bold; font-size: 20px; 
-            text-transform: uppercase; cursor: pointer; margin-top: 30px; transition: 0.4s;
-            letter-spacing: 2px;
+        /* BOTÕES DE NAVEGAÇÃO */
+        .controles { display: flex; justify-content: space-between; margin-top: 50px; }
+        .btn-nav {
+            padding: 15px 40px; background: transparent;
+            border: 1px solid var(--dourado-fosco); color: var(--dourado-fosco);
+            text-transform: uppercase; letter-spacing: 3px; font-weight: bold;
+            cursor: pointer; transition: 0.4s;
         }
-        .btn-enviar:hover { background: #fff; letter-spacing: 6px; box-shadow: 0 0 30px rgba(197, 179, 88, 0.4); }
+        .btn-nav:hover { background: var(--dourado-fosco); color: var(--azul-profundo); }
+        .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+        .assinatura-dev { position: fixed; bottom: 10px; right: 20px; font-size: 0.6em; color: #C0C0C0; opacity: 0.5; letter-spacing: 2px; }
+
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-    <div id="protection-overlay" onclick="hideProtection()">
-        <div class="blur-msg">
-            <h2 style="letter-spacing: 5px;">SESSÃO PROTEGIDA</h2>
-            <p>Clique para validar sua identidade e retornar.</p>
-        </div>
+    <img src="../logo-touro.png" class="touro-bg">
+
+    <nav class="barra-trindade">
+        <div class="item-trindade">Segurança</div>
+        <div class="item-trindade">Finanças</div>
+        <div class="item-trindade">Governança</div>
+    </nav>
+
+    <div class="progresso-container">
+        <div class="segmento" id="seg-1"></div>
+        <div class="segmento" id="seg-2"></div>
+        <div class="segmento" id="seg-3"></div>
+        <div class="segmento" id="seg-4"></div>
     </div>
 
-    <div class="container">
-        <a href="index.html" class="btn-voltar">&#8592; Retornar à Base</a>
+    <div class="hud-operador" id="hud-id">ARQUITETO: IDENTIFICANDO...</div>
 
-        <h1>Enquadramento</h1>
-        <p style="text-align: center; font-style: italic; opacity: 0.7; letter-spacing: 1px;">Análise Crítica de Ativos e Estruturação de Liquidez.</p>
-        
-        <form id="formAegis" class="form-grid">
-            <div id="questoes-placeholder" class="form-grid" style="grid-column: span 2; margin: 0;"></div>
-            <button type="submit" class="btn-enviar">Submeter Diagnóstico à Étera</button>
+    <div class="wrapper">
+        <form id="formAegis">
+            <div class="bloco-pergunta active" id="bloco-1">
+                <div class="titulo-bloco">I. Identidade e Escopo</div>
+                <div class="campo-grupo"><label>1. Titular da Operação / Arquiteto</label><input type="text" name="p1"></div>
+                <div class="campo-grupo"><label>2. Razão Social da Holding Principal</label><input type="text" name="p2"></div>
+                <div class="campo-grupo"><label>3. Segmento de Impacto (Agro / Mina / Ind)</label><input type="text" name="p3"></div>
+                <div class="campo-grupo"><label>4. Herdeiros ou Sucessores Diretos</label><input type="text" name="p4"></div>
+                <div class="campo-grupo"><label>5. Canal de Comunicação Criptografado</label><input type="text" name="p5"></div>
+            </div>
+
+            <div class="bloco-pergunta" id="bloco-2">
+                <div class="titulo-bloco">II. Dimensionamento de Ativos</div>
+                <div class="campo-grupo"><label>6. Jurisdição Principal dos Ativos</label><input type="text" name="p6"></div>
+                <div class="campo-grupo"><label>7. Extensão Territorial (Hectares)</label><input type="text" name="p7"></div>
+                <div class="campo-grupo"><label>8. Ativos Minerários (DNPM/PLG)?</label><input type="text" name="p8"></div>
+                <div class="campo-grupo"><label>9. Faturamento Bruto Anual Consolidado</label><input type="text" name="p9"></div>
+                <div class="campo-grupo"><label>10. Patrimônio Líquido Estimado (BRL)</label><input type="text" name="p10"></div>
+            </div>
+
+            <div class="bloco-pergunta" id="bloco-3">
+                <div class="titulo-bloco">III. Vulnerabilidade e Governança</div>
+                <div class="campo-grupo"><label>11. Passivo Estrutural / Endividamento</label><input type="text" name="p11"></div>
+                <div class="campo-grupo"><label>12. Histórico de Contingências Judiciais?</label><input type="text" name="p12"></div>
+                <div class="campo-grupo"><label>13. Principal Ameaça ao Patrimônio hoje</label><input type="text" name="p13"></div>
+                <div class="campo-grupo"><label>14. Nível de Sigilo Requerido (0-10)</label><input type="number" name="p14" min="0" max="10"></div>
+                <div class="campo-grupo"><label>15. Urgência Operacional (1 a 10)</label><input type="number" name="p15" min="1" max="10"></div>
+            </div>
+
+            <div class="bloco-pergunta" id="bloco-4">
+                <div class="titulo-bloco">IV. Estruturação e Liquidez</div>
+                <div class="campo-grupo"><label>16. Prioridade: Blindagem ou Liquidez?</label><input type="text" name="p16"></div>
+                <div class="campo-grupo"><label>17. Estrutura Internacional Existente?</label><input type="text" name="p17"></div>
+                <div class="campo-grupo"><label>18. Apetite para Domicílio Suíço (0-10)</label><input type="number" name="p18" min="0" max="10"></div>
+                <div class="campo-grupo"><label>19. Bancarização Internacional Ativa?</label><input type="text" name="p19"></div>
+                <div class="campo-grupo"><label>20. Prazo Estimado para Implementação</label><input type="text" name="p20"></div>
+            </div>
+
+            <div class="controles">
+                <button type="button" class="btn-nav" id="btn-voltar" onclick="mudarBloco(-1)" disabled>Anterior</button>
+                <button type="button" class="btn-nav" id="btn-proximo" onclick="processarAvanco()">Próxima Etapa</button>
+            </div>
         </form>
     </div>
 
+    <div class="assinatura-dev">Developed by Terrae Aegis ®</div>
+
     <script>
-        const questoes = [
-            "Titular da Operação / Arquiteto", "Razão Social da Holding Principal",
-            "Segmento de Impacto (Agro / Mina / Ind)", "Patrimônio Líquido Estimado (BRL)",
-            "Passivo Estrutural / Endividamento", "Jurisdição Principal dos Ativos",
-            "Estrutura Internacional Existente?", "Herdeiros ou Sucessores Diretos",
-            "Prioridade: Blindagem ou Liquidez?", "Urgência Operacional (1 a 10)",
-            "Faturamento Bruto Anual Consolidado", "Ativos Minerários (DNPM/PLG)?",
-            "Extensão Territorial (Hectares)", "Histórico de Contingências Judiciais?",
-            "Apetite para Domicílio Suíço (0-10)", "Bancarização Internacional Ativa?",
-            "Principal Ameaça ao Patrimônio hoje", "Nível de Sigilo Requerido (0-10)",
-            "Prazo Estimado para Implementação", "Canal de Comunicação Criptografado"
-        ];
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz96bq1ngrjZoBzTGGr0GdCiVpA7Anzq_QW8eAwI-KNAO7PbYoMnUuM_RXf-yPX3CySVA/exec';
+        let blocoAtual = 1;
+        const totalBlocos = 4;
 
-        const placeholder = document.getElementById('questoes-placeholder');
-        questoes.forEach((q, i) => {
-            const isFull = (i === 0 || i === 1 || i === 16 || i === 19);
-            placeholder.innerHTML += `
-                <div class="field-group ${isFull ? 'full-width' : ''}">
-                    <label>${i + 1}. ${q}</label>
-                    <input type="text" name="p${i+1}" required autocomplete="off">
-                </div>`;
-        });
-
-        const overlay = document.getElementById('protection-overlay');
-        function showProtection() { overlay.style.display = 'flex'; }
-        function hideProtection() { overlay.style.display = 'none'; }
-
-        window.addEventListener('blur', showProtection);
-        window.addEventListener('focus', hideProtection);
-
-        document.getElementById('formAegis').onsubmit = function(e) {
-            e.preventDefault();
-            alert("Dados em processamento. A Étera iniciará a análise de enquadramento.");
+        window.onload = () => {
+            const email = localStorage.getItem('terrae_user_email') || "VISITANTE";
+            document.getElementById('hud-id').innerText = `ARQUITETO: ${email.toUpperCase()}`;
+            atualizarProgresso();
         };
+
+        function atualizarProgresso() {
+            for(let i=1; i<=totalBlocos; i++) {
+                document.getElementById(`seg-${i}`).classList.toggle('ativo', i <= blocoAtual);
+            }
+        }
+
+        async function processarAvanco() {
+            const campos = document.querySelectorAll(`#bloco-${blocoAtual} input, #bloco-${blocoAtual} select, #bloco-${blocoAtual} textarea`);
+            let emBranco = [];
+
+            campos.forEach(campo => {
+                if(!campo.value.trim()) {
+                    let label = campo.previousElementSibling.innerText;
+                    emBranco.push(label);
+                }
+            });
+
+            if(emBranco.length > 0) {
+                const conf = confirm(`Atenção: As seguintes questões estão em branco:\n\n${emBranco.join('\n')}\n\nDeseja prosseguir assim mesmo?`);
+                if(!conf) return; 
+            }
+
+            // Disparar envio parcial antes de mudar
+            enviarDadosParciais();
+
+            if(blocoAtual < totalBlocos) {
+                mudarBloco(1);
+            } else {
+                finalizarQuestionario();
+            }
+        }
+
+        function mudarBloco(direcao) {
+            document.getElementById(`bloco-${blocoAtual}`).classList.remove('active');
+            blocoAtual += direcao;
+            document.getElementById(`bloco-${blocoAtual}`).classList.add('active');
+            
+            document.getElementById('btn-voltar').disabled = (blocoAtual === 1);
+            document.getElementById('btn-proximo').innerText = (blocoAtual === totalBlocos) ? "Finalizar Enquadramento" : "Próxima Etapa";
+            
+            atualizarProgresso();
+            window.scrollTo(0,0);
+        }
+
+        async function enviarDadosParciais() {
+            const form = document.getElementById('formAegis');
+            const formData = new FormData(form);
+            const dados = Object.fromEntries(formData.entries());
+            dados.email = localStorage.getItem('terrae_user_email');
+            dados.token = localStorage.getItem('terrae_user_token');
+            dados.etapa = `Bloco ${blocoAtual} Concluído`;
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(dados)
+            });
+        }
+
+        function finalizarQuestionario() {
+            document.querySelector('.wrapper').innerHTML = `
+                <div style="text-align: center; animation: fadeIn 1s ease;">
+                    <h2 style="color: var(--dourado-brilhante); letter-spacing: 5px; text-transform: uppercase;">Protocolo Submetido</h2>
+                    <p style="font-style: italic; opacity: 0.8;">Sua análise de enquadramento estratégico foi enviada à central Étera.</p>
+                    <div style="border: 1px solid var(--dourado-fosco); padding: 20px; margin-top: 40px;">
+                        <span style="color: var(--azul-neon); font-size: 0.8em; letter-spacing: 2px;">STATUS: EM PROCESSAMENTO</span>
+                        <p style="font-size: 0.9em; margin-top: 15px;">A resposta técnica será disponibilizada em seu canal criptografado em até 72 horas.</p>
+                    </div>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>
