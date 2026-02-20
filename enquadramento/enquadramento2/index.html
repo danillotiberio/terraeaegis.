@@ -43,7 +43,7 @@
         }
         .item-trindade { padding: 15px 20px; font-size: 0.7em; letter-spacing: 3px; text-transform: uppercase; color: var(--dourado-brilhante); font-weight: bold; opacity: 0.8; }
 
-        /* HUD SIMÉTRICO CORRIGIDO */
+        /* HUD SIMÉTRICO */
         .hud-topo {
             position: fixed; top: 70px; width: 90%; left: 5%;
             display: flex; justify-content: space-between; align-items: center; z-index: 1000;
@@ -87,11 +87,9 @@
         }
         input:focus, select:focus { border-color: var(--azul-neon); background: rgba(0, 255, 255, 0.05); }
 
-        /* OPACIDADE DINÂMICA P1 */
         #p1-field { opacity: 0.25; }
         #p1-field.focado { opacity: 1; }
 
-        /* SELETORES EM BOTÕES (SEGMENTO / SUCESSORES / CANAL) */
         .grid-seletores { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; }
         .btn-seletor {
             padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 160, 89, 0.3);
@@ -100,7 +98,6 @@
         }
         .btn-seletor:hover, .btn-seletor.selected { border-color: var(--azul-neon); background: rgba(0, 255, 255, 0.1); color: #fff; }
 
-        /* CONDICIONAL Q5 */
         #lacuna-outros { display: none; margin-top: 15px; animation: fadeIn 0.4s ease; }
 
         .controles { display: flex; justify-content: space-between; margin-top: 50px; }
@@ -146,12 +143,10 @@
         <form id="formAegis">
             <div class="bloco-pergunta active" id="bloco-1">
                 <div class="titulo-bloco">IDENTIFICAÇÃO</div>
-                
                 <div class="campo-grupo">
                     <label>1. Titular do Grupo Econômico</label>
                     <input type="text" name="p1" id="p1-field" onfocus="ativarP1()" oninput="ativarP1()">
                 </div>
-
                 <div class="campo-grupo">
                     <label>2. Razão Social do Grupo Econômico</label>
                     <input type="text" name="p2" id="p2-field" onblur="mostrarEnquadramento()">
@@ -171,7 +166,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="campo-grupo">
                     <label>3. Segmento</label>
                     <div class="grid-seletores">
@@ -183,7 +177,6 @@
                     </div>
                     <input type="hidden" name="p3" id="input-p3">
                 </div>
-
                 <div class="campo-grupo">
                     <label>4. Sucessores Diretos</label>
                     <div class="grid-seletores">
@@ -194,7 +187,6 @@
                     </div>
                     <input type="hidden" name="p4" id="input-p4">
                 </div>
-
                 <div class="campo-grupo">
                     <label>5. Canal de Comunicação Principal</label>
                     <div class="grid-seletores">
@@ -204,9 +196,7 @@
                         <div class="btn-seletor" onclick="toggleMulti(this, 'Outros')">Outros</div>
                     </div>
                     <input type="hidden" name="p5" id="input-p5">
-                    <div id="lacuna-outros">
-                        <input type="text" id="p5-obs" placeholder="Especifique o canal (máx 50 caracteres)" maxlength="50">
-                    </div>
+                    <div id="lacuna-outros"><input type="text" id="p5-obs" placeholder="Especifique o canal" maxlength="50"></div>
                 </div>
             </div>
 
@@ -235,10 +225,9 @@
                 <div class="campo-grupo"><label>18. Apetite para Domicílio Suíço (0-10)</label><input type="number" name="p18" min="0" max="10"></div>
                 <div class="campo-grupo"><label>19. Bancarização Internacional Ativa?</label><input type="text" name="p19"></div>
                 <div class="campo-grupo"><label>20. Prazo Estimado para Implementação</label><input type="text" name="p20"></div>
-                
-                <div class="check-container">
+                <div class="check-container" style="margin-top:20px; font-size: 0.7em; opacity: 0.8;">
                     <input type="checkbox" id="check-resp" onchange="toggleFinalizar()">
-                    <span class="check-text">Declaro que as informações são fidedignas e representam a realidade atual dos ativos, sob pena de desqualificação do protocolo.</span>
+                    <span>Declaro que as informações são fidedignas.</span>
                 </div>
             </div>
 
@@ -254,46 +243,34 @@
         let blocoAtual = 1;
 
         window.onload = () => {
-            const rawName = localStorage.getItem('terrae_user_name') || "Danilo Lead";
+            const rawName = localStorage.getItem('terrae_user_name') || "Soberano";
             const formattedName = rawName.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
             document.getElementById('hud-nome-display').innerHTML = `<i>${formattedName}</i>`;
-            
-            const p1 = document.getElementById('p1-field');
-            p1.value = formattedName;
+            document.getElementById('p1-field').value = formattedName;
 
             setTimeout(() => {
-                document.getElementById('status-seguranca').innerText = "Criptografia 100% Ativada.";
+                document.getElementById('status-seguranca').innerText = "Ambiente Blindado.";
                 setTimeout(() => {
                     document.getElementById('loader-seguranca').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('loader-seguranca').style.display = 'none';
-                    }, 800);
+                    setTimeout(() => { document.getElementById('loader-seguranca').style.display = 'none'; }, 800);
                 }, 1000);
             }, 1500);
             atualizarProgresso();
         };
 
         function ativarP1() { document.getElementById('p1-field').classList.add('focado'); }
-        
-        function mostrarEnquadramento() {
-            if(document.getElementById('p2-field').value.trim() !== "") {
-                document.getElementById('wrapper-enquadramento').style.display = 'block';
-            }
-        }
-
+        function mostrarEnquadramento() { if(document.getElementById('p2-field').value.trim() !== "") document.getElementById('wrapper-enquadramento').style.display = 'block'; }
         function selectBtn(btn, field, val) {
-            const row = btn.parentElement;
-            row.querySelectorAll('.btn-seletor').forEach(b => b.classList.remove('selected'));
+            btn.parentElement.querySelectorAll('.btn-seletor').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             document.getElementById(`input-${field}`).value = val;
-            ativarP1(); // Ativa solidez da P1 ao interagir com qualquer outra
+            ativarP1();
         }
 
         let canais = [];
         function toggleMulti(btn, val) {
             btn.classList.toggle('selected');
-            if(canais.includes(val)) { canais = canais.filter(c => c !== val); }
-            else { canais.push(val); }
+            canais = canais.includes(val) ? canais.filter(c => c !== val) : [...canais, val];
             document.getElementById('input-p5').value = canais.join(', ');
             document.getElementById('lacuna-outros').style.display = canais.includes('Outros') ? 'block' : 'none';
             ativarP1();
@@ -305,33 +282,25 @@
             document.getElementById(`bloco-${blocoAtual}`).classList.add('active');
             document.getElementById('btn-voltar').disabled = (blocoAtual === 1);
             document.getElementById('btn-proximo').innerText = (blocoAtual === 4) ? "Finalizar" : "Próxima Etapa";
-            atualizarProgresso();
-            window.scrollTo(0,0);
+            atualizarProgresso(); window.scrollTo(0,0);
         }
 
-        function atualizarProgresso() {
-            for(let i=1; i<=4; i++) {
-                document.getElementById(`seg-${i}`).classList.toggle('ativo', i <= blocoAtual);
-            }
-        }
-
-        function toggleFinalizar() {
-            const btn = document.getElementById('btn-proximo');
-            if(blocoAtual === 4) {
-                btn.disabled = !document.getElementById('check-resp').checked;
-            }
-        }
+        function atualizarProgresso() { for(let i=1; i<=4; i++) document.getElementById(`seg-${i}`).classList.toggle('ativo', i <= blocoAtual); }
+        function toggleFinalizar() { if(blocoAtual === 4) document.getElementById('btn-proximo').disabled = !document.getElementById('check-resp').checked; }
 
         async function processarAvanco() {
             enviarDadosParciais();
-            if(blocoAtual < 4) { mudarBloco(1); } 
-            else { finalizar(); }
+            if(blocoAtual < 4) mudarBloco(1); else finalizar();
         }
 
         function enviarDadosParciais() {
             const form = document.getElementById('formAegis');
             const dados = Object.fromEntries(new FormData(form).entries());
             dados.p5_obs = document.getElementById('p5-obs').value;
+            // CONVERSA COM O SCRIPT: IDENTIDADE
+            dados.email = localStorage.getItem('terrae_user_email');
+            dados.token = localStorage.getItem('terrae_user_token');
+            dados.origem = "Enquadramento";
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
         }
 
@@ -341,9 +310,8 @@
                     <h2 style="color: var(--dourado-brilhante); letter-spacing: 5px; text-transform: uppercase;">DADOS RECEBIDOS.</h2>
                     <p style="font-style: italic; opacity: 0.8;">Análise iniciada pelo Núcleo Étera IA®.</p>
                     <p style="font-size: 0.9em; margin-top: 30px; border: 1px solid var(--dourado-fosco); padding: 20px;">Retorno oficial em até 72 horas.</p>
-                </div>
-            `;
-            setTimeout(() => { window.location.href = "index.html"; }, 4000);
+                </div>`;
+            setTimeout(() => { window.location.href = "../index.html"; }, 5000);
         }
     </script>
 </body>
