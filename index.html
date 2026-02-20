@@ -45,7 +45,7 @@
 
         .divisor-trindade { color: var(--dourado-brilhante); padding-top: 13px; opacity: 0.8; }
 
-        /* MOLDURA TRINDADE (VIDRO FUMÊ 90% - SEM BLUR - ABSOLUTE) */
+        /* MOLDURA TRINDADE */
         .moldura-texto {
             position: absolute;
             top: 60px;
@@ -56,12 +56,12 @@
             padding: 30px;
             border: 1px solid var(--dourado-fosco);
             display: none;
-            background: rgba(10, 25, 47, 0.90); /* FUMÊ 90% para legibilidade */
+            background: rgba(10, 25, 47, 0.90);
             text-align: center;
             z-index: 1500;
         }
 
-        /* MOLDURA SETORES (MODAL COM IFRAME) */
+        /* MOLDURA SETORES */
         .moldura-setor {
             position: fixed;
             top: 50%;
@@ -70,7 +70,7 @@
             width: 90%;
             height: 80%;
             max-width: 1000px;
-            border: 1px solid var(--dourado-fosco); box-shadow: 0 0 15px rgba(197, 160, 89, 0.2); /* Moldura mais presente */
+            border: 1px solid var(--dourado-fosco); box-shadow: 0 0 15px rgba(197, 160, 89, 0.2);
             display: none;
             background: rgba(10, 25, 47, 0.95);
             z-index: 3000;
@@ -105,7 +105,7 @@
         }
         #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
 
-        /* LOGIN MINIMALISTA VERTICAL */
+        /* LOGIN MINIMALISTA */
         .login-topo-minimalista {
             position: absolute;
             top: 65px;
@@ -144,6 +144,14 @@
             text-transform: uppercase;
             cursor: pointer;
         }
+        .btn-recuperar {
+            font-size: 0.55em;
+            color: var(--dourado-fosco);
+            text-decoration: none;
+            text-align: right;
+            opacity: 0.7;
+            cursor: pointer;
+        }
 
         header { padding: 100px 5% 10px; display: flex; flex-direction: column; align-items: center; }
         .logo img { height: 280px; width: auto; max-width: 95%; margin-bottom: 20px; }
@@ -151,7 +159,6 @@
         .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 20px; flex-wrap: wrap; }
         .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
 
-        /* HERO COMPACTO EM LINHA ÚNICA */
         .hero { padding: 20px 10% 40px; text-align: center; }
         .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; white-space: nowrap; }
         .hero p { max-width: 800px; font-size: 1.1em; margin: 0 auto; opacity: 0.8; }
@@ -160,17 +167,14 @@
         .form-contato { max-width: 600px; margin: 0 auto; }
         .form-contato input { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; box-sizing: border-box; outline: none; }
         
-        /* Ajuste Telefone */
         .iti { width: 100%; margin-bottom: 15px; }
-        .iti__placeholder { color: rgba(255,255,255,0.3); }
 
-        /* ASSINATURA PRATEADA DISCRETA */
         .assinatura-dev {
             position: fixed;
             bottom: 10px;
             right: 20px;
             font-size: 0.6em;
-            color: #C0C0C0; /* Prata */
+            color: #C0C0C0;
             font-weight: 200;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -181,8 +185,6 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 1.6em; white-space: normal; }
             .login-topo-minimalista { position: relative; top: 80px; width: 90%; right: auto; margin: 0 auto; }
-            
-            /* Ajuste para a Trindade não cortar no mobile vertical */
             .item-trindade-container { padding: 15px 8px; }
             .item-trindade { font-size: 0.65em; letter-spacing: 1px; }
         }
@@ -203,6 +205,7 @@
         <input type="email" id="email_restrito" placeholder="E-MAIL">
         <input type="text" id="token_restrito" placeholder="TOKEN">
         <button onclick="validarTokenRestrito()">Acessar</button>
+        <a class="btn-recuperar" onclick="recuperarToken()">Esqueci meu Token</a>
     </div>
 
     <div id="moldura" class="moldura-texto">
@@ -251,7 +254,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <script>
-        // Inicialização Telefone Inteligente
         const phoneInput = document.querySelector("#telefone_contato");
         const iti = window.intlTelInput(phoneInput, {
             initialCountry: "auto",
@@ -266,26 +268,46 @@
         async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
             const email = document.getElementById('email_contato').value;
+            const nome = document.getElementById('nome_contato').value;
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
             const hash = CryptoJS.MD5(email.trim().toLowerCase()).toString();
             const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
             const dadosGAS = {
-                nome: document.getElementById('nome_contato').value,
+                nome: nome,
                 email: email,
                 telefone: iti.getNumber(),
-                mensagem: "Cadastramento Área Restrita",
-                token: tokenGerado
+                token: tokenGerado,
+                origem: "Index"
             };
 
-            fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) });
-
+            // QUADRANGULAÇÃO: DISPARO PARALELO
             try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dadosGAS) });
-                alert("Cadastramento realizado! Sua Credencial: " + tokenGerado);
-            } catch (e) { alert("Erro na sincronia."); }
+                const disparoWeb3 = fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) });
+                const disparoGAS = fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dadosGAS) });
+
+                await Promise.all([disparoWeb3, disparoGAS]);
+                
+                alert("Protocolo Ativado! Sua Credencial enviada por e-mail: " + tokenGerado);
+                form.reset();
+            } catch (e) {
+                alert("Credencial Gerada: " + tokenGerado + "\nVerifique seu e-mail.");
+            }
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
+        }
+
+        async function recuperarToken() {
+            const email = document.getElementById('email_restrito').value.trim().toLowerCase();
+            if (!email) return alert("Insira seu e-mail no campo de login.");
+            
+            const hash = CryptoJS.MD5(email).toString();
+            const tokenRecuperado = btoa(hash).substring(0, 6).toUpperCase();
+
+            const dadosRecuperacao = { email: email, token: tokenRecuperado, origem: "Recuperacao" };
+
+            alert("Solicitação enviada. O token será reenviado para sua caixa de entrada.");
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dadosRecuperacao) });
         }
 
         function validarTokenRestrito() {
@@ -294,7 +316,6 @@
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
             const hash = CryptoJS.MD5(email).toString();
             if (tokenDigitado === btoa(hash).substring(0, 6).toUpperCase()) {
-                // CORREÇÃO: SALVAR ANTES DE PULAR
                 localStorage.setItem('terrae_user_email', email);
                 localStorage.setItem('terrae_user_token', tokenDigitado);
                 window.location.href = "enquadramento/index.html";
@@ -319,33 +340,14 @@
         }
 
         function fecharMoldura() { document.getElementById('moldura').style.display = 'none'; }
+        function abrirSetor(url) { document.getElementById('iframeSetor').src = url; document.getElementById('molduraSetor').style.display = 'block'; }
+        function fecharSetor() { document.getElementById('iframeSetor').src = ""; document.getElementById('molduraSetor').style.display = 'none'; }
 
-        // Funções para a Moldura de Setores
-        function abrirSetor(url) {
-            const moldura = document.getElementById('molduraSetor');
-            const iframe = document.getElementById('iframeSetor');
-            iframe.src = url;
-            moldura.style.display = 'block';
-        }
-
-        function fecharSetor() {
-            const moldura = document.getElementById('molduraSetor');
-            const iframe = document.getElementById('iframeSetor');
-            iframe.src = "";
-            moldura.style.display = 'none';
-        }
-
-        // Fechar ao clicar fora
         document.addEventListener('mousedown', function(e) {
             const mText = document.getElementById('moldura');
             const mSetor = document.getElementById('molduraSetor');
-            
-            if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) {
-                fecharMoldura();
-            }
-            if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) {
-                fecharSetor();
-            }
+            if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) fecharMoldura();
+            if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) fecharSetor();
         });
     </script>
 </body>
