@@ -76,7 +76,7 @@
             padding-bottom: 10px; text-align: center;
         }
 
-        .campo-grupo { margin-bottom: 30px; position: relative; }
+        .campo-grupo { margin-bottom: 30px; position: relative; transition: 0.3s; }
         label { display: block; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; color: var(--dourado-brilhante); }
         
         input[type="text"], input[type="number"], select {
@@ -87,10 +87,14 @@
         }
         input:focus, select:focus { border-color: var(--azul-neon); background: rgba(0, 255, 255, 0.05); }
 
+        /* BLOQUEIO E VISUAL */
+        .campo-bloqueado { opacity: 0.15; pointer-events: none; filter: grayscale(1); }
+        .campo-bloqueado::after { content: "NÃO REQUERIDO"; position: absolute; top: 40px; right: 0; font-size: 0.6em; color: var(--dourado-fosco); letter-spacing: 2px; }
+
         #p1-field { opacity: 0.25; }
         #p1-field.focado { opacity: 1; }
 
-        .grid-seletores { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; }
+        .grid-seletores { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-top: 10px; }
         .btn-seletor {
             padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(197, 160, 89, 0.3);
             color: var(--branco-marfim); font-size: 0.8em; text-transform: uppercase; cursor: pointer; transition: 0.3s;
@@ -142,7 +146,7 @@
     <div class="wrapper">
         <form id="formAegis">
             <div class="bloco-pergunta active" id="bloco-1">
-                <div class="titulo-bloco">IDENTIFICAÇÃO</div>
+                <div class="titulo-bloco">I. IDENTIFICAÇÃO</div>
                 <div class="campo-grupo">
                     <label>1. Titular do Grupo Econômico</label>
                     <input type="text" name="p1" id="p1-field" onfocus="ativarP1()" oninput="ativarP1()">
@@ -153,16 +157,12 @@
                     <div id="wrapper-enquadramento" style="display:none; margin-top:15px;">
                         <label style="font-size: 0.6em;">Enquadramento Societário</label>
                         <select name="p2_tipo" id="p2-tipo">
-                            <option value="">Selecione o enquadramento...</option>
+                            <option value="">Selecione...</option>
                             <option value="SA_ABERTO">S/A - Capital Aberto</option>
                             <option value="SA_FECHADO">S/A - Capital Fechado</option>
                             <option value="LTDA">Limitada (LTDA)</option>
-                            <option value="COLETIVO">Sociedade em Nome Coletivo</option>
-                            <option value="COMANDITA">Sociedade em Comandita</option>
                             <option value="EIRELI_SLU">EIRELI / SLU</option>
-                            <option value="COOPERATIVA">Cooperativa</option>
-                            <option value="CONSORCIO">Consórcio / SCP</option>
-                            <option value="OUTROS">Outros (Pessoa Física / Estruturas Atípicas)</option>
+                            <option value="OUTROS">Outros / PF</option>
                         </select>
                     </div>
                 </div>
@@ -180,7 +180,7 @@
                 <div class="campo-grupo">
                     <label>4. Sucessores Diretos</label>
                     <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', 'Nenhum')">Nenhum</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', '0')">0</div>
                         <div class="btn-seletor" onclick="selectBtn(this, 'p4', '1 a 5')">1 a 5</div>
                         <div class="btn-seletor" onclick="selectBtn(this, 'p4', '5 a 10')">5 a 10</div>
                         <div class="btn-seletor" onclick="selectBtn(this, 'p4', '10+')">10+</div>
@@ -191,40 +191,93 @@
                     <label>5. Canal de Comunicação Principal</label>
                     <div class="grid-seletores">
                         <div class="btn-seletor" onclick="toggleMulti(this, 'E-mail')">E-mail</div>
-                        <div class="btn-seletor" onclick="toggleMulti(this, 'Telefone')">Telefone</div>
                         <div class="btn-seletor" onclick="toggleMulti(this, 'WhatsApp')">WhatsApp</div>
                         <div class="btn-seletor" onclick="toggleMulti(this, 'Outros')">Outros</div>
                     </div>
                     <input type="hidden" name="p5" id="input-p5">
-                    <div id="lacuna-outros"><input type="text" id="p5-obs" placeholder="Especifique o canal" maxlength="50"></div>
                 </div>
             </div>
 
             <div class="bloco-pergunta" id="bloco-2">
-                <div class="titulo-bloco">II. Dimensionamento de Ativos</div>
-                <div class="campo-grupo"><label>6. Jurisdição Principal dos Ativos</label><input type="text" name="p6"></div>
-                <div class="campo-grupo"><label>7. Extensão Territorial (Hectares)</label><input type="text" name="p7"></div>
-                <div class="campo-grupo"><label>8. Ativos Minerários (DNPM/PLG)?</label><input type="text" name="p8"></div>
-                <div class="campo-grupo"><label>9. Faturamento Bruto Anual Consolidado</label><input type="text" name="p9"></div>
-                <div class="campo-grupo"><label>10. Patrimônio Líquido Estimado (BRL)</label><input type="text" name="p10"></div>
+                <div class="titulo-bloco">II. DIMENSIONAMENTO DE ATIVOS</div>
+                <div class="campo-grupo">
+                    <label>6. Jurisdição Principal dos Ativos</label>
+                    <input type="text" name="p6" placeholder="Ex: BR / SP / São Paulo">
+                </div>
+                <div class="campo-grupo" id="grupo-p7">
+                    <label>7. Média de Extensão Territorial (Hectares)</label>
+                    <input type="text" name="p7" id="p7-field">
+                </div>
+                <div class="campo-grupo" id="grupo-p8">
+                    <label>8. Ativos Minerários (ANM / Antigo DNPM)</label>
+                    <input type="text" name="p8" id="p8-field" placeholder="Ex: n° processo ou quantidade de áreas">
+                </div>
+                <div class="campo-grupo">
+                    <label>9. Média de Faturamento Bruto Anual Consolidado</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '0-5M')">0-5M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '5-10M')">5-10M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '10-15M')">10-15M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '15-20M')">15-20M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '20-50M')">20-50M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '50M+')">50M+</div>
+                    </div>
+                    <input type="hidden" name="p9" id="input-p9">
+                </div>
+                <div class="campo-grupo">
+                    <label>10. Média de Patrimônio Líquido Estimado</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', '0-5M')">0-5M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', '5-10M')">5-10M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', '10-15M')">10-15M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', '15-20M')">15-20M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', '20-50M')">20-50M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', '50M+')">50M+</div>
+                    </div>
+                    <input type="hidden" name="p10" id="input-p10">
+                </div>
             </div>
 
             <div class="bloco-pergunta" id="bloco-3">
-                <div class="titulo-bloco">III. Vulnerabilidade e Governança</div>
-                <div class="campo-grupo"><label>11. Passivo Estrutural / Endividamento</label><input type="text" name="p11"></div>
-                <div class="campo-grupo"><label>12. Histórico de Contingências Judiciais?</label><input type="text" name="p12"></div>
-                <div class="campo-grupo"><label>13. Principal Ameaça ao Patrimônio hoje</label><input type="text" name="p13"></div>
-                <div class="campo-grupo"><label>14. Nível de Sigilo Requerido (0-10)</label><input type="number" name="p14" min="0" max="10"></div>
-                <div class="campo-grupo"><label>15. Urgência Operacional (1 a 10)</label><input type="number" name="p15" min="1" max="10"></div>
-            </div>
-
-            <div class="bloco-pergunta" id="bloco-4">
-                <div class="titulo-bloco">IV. Estruturação e Liquidez</div>
-                <div class="campo-grupo"><label>16. Prioridade: Blindagem ou Liquidez?</label><input type="text" name="p16"></div>
-                <div class="campo-grupo"><label>17. Estrutura Internacional Existente?</label><input type="text" name="p17"></div>
-                <div class="campo-grupo"><label>18. Apetite para Domicílio Suíço (0-10)</label><input type="number" name="p18" min="0" max="10"></div>
-                <div class="campo-grupo"><label>19. Bancarização Internacional Ativa?</label><input type="text" name="p19"></div>
-                <div class="campo-grupo"><label>20. Prazo Estimado para Implementação</label><input type="text" name="p20"></div>
+                <div class="titulo-bloco">III. VULNERABILIDADE E GOVERNANÇA</div>
+                <div class="campo-grupo">
+                    <label>11. Passivo Estrutural / Endividamento</label>
+                    <input type="text" name="p11" placeholder="Ex: 25%">
+                </div>
+                <div class="campo-grupo">
+                    <label>12. Contingências Judiciais Ativas?</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p12', 'Sim')">Sim</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p12', 'Não')">Não</div>
+                    </div>
+                    <input type="hidden" name="p12" id="input-p12">
+                </div>
+                <div class="campo-grupo">
+                    <label>13. Maior Necessidade Reconhecida Hoje</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', 'Blindagem Patrimonial')">Blindagem Patrimonial</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', 'Fluxo Financeiro / Taxas')">Fluxo Financeiro</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', 'Governança')">Governança</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', 'Outros')">Outros</div>
+                    </div>
+                    <input type="hidden" name="p13" id="input-p13">
+                    <div id="lacuna-outros-13" style="display:none; margin-top:10px;">
+                        <input type="text" id="p13-obs" placeholder="Especifique (máx 50 caracteres)" maxlength="50">
+                    </div>
+                </div>
+                <div class="campo-grupo">
+                    <label>14. Prioridade de Resolução (Governança, Finanças e Segurança)</label>
+                    <input type="number" name="p14" min="1" max="10" placeholder="Escala de 1 a 10 (10 = Imediata)">
+                </div>
+                <div class="campo-grupo">
+                    <label>15. Estrutura Internacional Existente?</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p15', 'Sim')">Sim</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p15', 'Não')">Não</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p15', 'Em Andamento')">Em Andamento</div>
+                    </div>
+                    <input type="hidden" name="p15" id="input-p15">
+                </div>
                 <div class="check-container" style="margin-top:20px; font-size: 0.7em; opacity: 0.8;">
                     <input type="checkbox" id="check-resp" onchange="toggleFinalizar()">
                     <span>Declaro que as informações são fidedignas.</span>
@@ -260,10 +313,41 @@
 
         function ativarP1() { document.getElementById('p1-field').classList.add('focado'); }
         function mostrarEnquadramento() { if(document.getElementById('p2-field').value.trim() !== "") document.getElementById('wrapper-enquadramento').style.display = 'block'; }
+        
         function selectBtn(btn, field, val) {
             btn.parentElement.querySelectorAll('.btn-seletor').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             document.getElementById(`input-${field}`).value = val;
+
+            // Lógica de Trava Dinâmica
+            if(field === 'p3') {
+                const gp7 = document.getElementById('grupo-p7');
+                const gp8 = document.getElementById('grupo-p8');
+                
+                // Trava Hectares (P7) se for Indústria
+                if(val === 'Indústria') {
+                    gp7.classList.add('campo-bloqueado');
+                    document.getElementById('p7-field').value = "N/A - Não se aplica";
+                } else {
+                    gp7.classList.remove('campo-bloqueado');
+                    if(document.getElementById('p7-field').value.includes("N/A")) document.getElementById('p7-field').value = "";
+                }
+
+                // Trava ANM (P8) - Só libera se for Mineração
+                if(val !== 'Mineração') {
+                    gp8.classList.add('campo-bloqueado');
+                    document.getElementById('p8-field').value = "N/A - Não se aplica";
+                } else {
+                    gp8.classList.remove('campo-bloqueado');
+                    if(document.getElementById('p8-field').value.includes("N/A")) document.getElementById('p8-field').value = "";
+                }
+            }
+
+            // Exibir OBS se "Outros" em Necessidades (P13)
+            if(field === 'p13') {
+                document.getElementById('lacuna-outros-13').style.display = (val === 'Outros') ? 'block' : 'none';
+            }
+
             ativarP1();
         }
 
@@ -272,7 +356,6 @@
             btn.classList.toggle('selected');
             canais = canais.includes(val) ? canais.filter(c => c !== val) : [...canais, val];
             document.getElementById('input-p5').value = canais.join(', ');
-            document.getElementById('lacuna-outros').style.display = canais.includes('Outros') ? 'block' : 'none';
             ativarP1();
         }
 
@@ -281,35 +364,34 @@
             blocoAtual += dir;
             document.getElementById(`bloco-${blocoAtual}`).classList.add('active');
             document.getElementById('btn-voltar').disabled = (blocoAtual === 1);
-            document.getElementById('btn-proximo').innerText = (blocoAtual === 4) ? "Finalizar" : "Próxima Etapa";
+            document.getElementById('btn-proximo').innerText = (blocoAtual === 3) ? "Finalizar" : "Próxima Etapa";
             atualizarProgresso(); window.scrollTo(0,0);
         }
 
-        function atualizarProgresso() { for(let i=1; i<=4; i++) document.getElementById(`seg-${i}`).classList.toggle('ativo', i <= blocoAtual); }
-        function toggleFinalizar() { if(blocoAtual === 4) document.getElementById('btn-proximo').disabled = !document.getElementById('check-resp').checked; }
+        function atualizarProgresso() { for(let i=1; i<=3; i++) document.getElementById(`seg-${i}`).classList.toggle('ativo', i <= blocoAtual); }
+        function toggleFinalizar() { if(blocoAtual === 3) document.getElementById('btn-proximo').disabled = !document.getElementById('check-resp').checked; }
 
         async function processarAvanco() {
             enviarDadosParciais();
-            if(blocoAtual < 4) mudarBloco(1); else finalizar();
+            if(blocoAtual < 3) mudarBloco(1); else finalizar();
         }
 
         function enviarDadosParciais() {
             const form = document.getElementById('formAegis');
             const dados = Object.fromEntries(new FormData(form).entries());
-            dados.p5_obs = document.getElementById('p5-obs').value;
-            // CONVERSA COM O SCRIPT: IDENTIDADE
+            if(document.getElementById('p13-obs')) dados.p13_obs = document.getElementById('p13-obs').value;
             dados.email = localStorage.getItem('terrae_user_email');
             dados.token = localStorage.getItem('terrae_user_token');
-            dados.origem = "Enquadramento";
+            dados.origem = "Enquadramento_V2";
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dados) });
         }
 
         function finalizar() {
             document.querySelector('.wrapper').innerHTML = `
                 <div style="text-align: center; animation: fadeIn 1s ease;">
-                    <h2 style="color: var(--dourado-brilhante); letter-spacing: 5px; text-transform: uppercase;">DADOS RECEBIDOS.</h2>
-                    <p style="font-style: italic; opacity: 0.8;">Análise iniciada pelo Núcleo Étera IA®.</p>
-                    <p style="font-size: 0.9em; margin-top: 30px; border: 1px solid var(--dourado-fosco); padding: 20px;">Retorno oficial em até 72 horas.</p>
+                    <h2 style="color: var(--dourado-brilhante); letter-spacing: 5px; text-transform: uppercase;">ANÁLISE INICIADA.</h2>
+                    <p style="font-style: italic; opacity: 0.8;">Sincronizando dados com o Núcleo Étera®.</p>
+                    <p style="font-size: 0.9em; margin-top: 30px; border: 1px solid var(--dourado-fosco); padding: 20px;">Protocolo de segurança ativo. Retorno oficial em breve.</p>
                 </div>`;
             setTimeout(() => { window.location.href = "../index.html"; }, 5000);
         }
