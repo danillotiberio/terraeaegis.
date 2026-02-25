@@ -23,7 +23,7 @@
             min-height: 100vh;
         }
 
-        /* BARRA DA TRINDADE (ALINHADA COM RAIZ) */
+        /* BARRA DA TRINDADE */
         .barra-trindade {
             width: 100%;
             display: flex;
@@ -44,7 +44,6 @@
         }
         .divisor-trindade { color: var(--dourado-brilhante); padding-top: 13px; opacity: 0.8; }
 
-        /* MOLDURA TRINDADE (IDENTIDADE RAIZ) */
         .moldura-texto {
             position: fixed;
             top: 80px;
@@ -67,7 +66,6 @@
             color: var(--dourado-fosco);
             cursor: pointer;
             font-size: 1.5em;
-            line-height: 1;
         }
         #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
         .titulo-moldura {
@@ -123,11 +121,12 @@
         .campo-grupo { margin-bottom: 30px; position: relative; transition: 0.3s; }
         label { display: block; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; color: var(--dourado-brilhante); }
         
-        input[type="text"], input[type="number"], select {
+        input[type="text"], input[type="number"], select, textarea {
             width: 100%; background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(197, 160, 89, 0.2);
             padding: 15px; color: #fff; font-size: 1em; outline: none; box-sizing: border-box;
         }
+        textarea { height: 120px; resize: none; font-family: inherit; }
         
         .grid-seletores { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-top: 10px; }
         .btn-seletor {
@@ -148,8 +147,6 @@
         }
         .btn-nav:hover:not(:disabled) { background: var(--dourado-fosco); color: var(--azul-profundo); }
         .btn-nav:disabled { opacity: 0.2; cursor: not-allowed; }
-
-        .assinatura-dev { position: fixed; bottom: 10px; right: 20px; font-size: 0.5em; color: #C0C0C0; opacity: 0.4; letter-spacing: 2px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -190,137 +187,153 @@
     <div class="wrapper">
         <form id="formAegis">
             <div class="bloco-pergunta active" id="bloco-1">
-                <div class="titulo-bloco">I. IDENTIFICAÇÃO</div>
+                <div class="titulo-bloco">I. IDENTIFICAÇÃO E ESTRUTURA</div>
                 <div class="campo-grupo">
                     <label>1. Titular do Grupo Econômico</label>
                     <input type="text" name="p1" id="p1-field" readonly>
                 </div>
                 <div class="campo-grupo">
                     <label>2. Razão Social do Grupo Econômico</label>
-                    <input type="text" name="p2" id="p2-field" onblur="mostrarEnquadramento()">
-                    <div id="wrapper-enquadramento" style="display:none; margin-top:15px;">
-                        <label style="font-size: 0.6em;">Enquadramento Societário</label>
-                        <select name="p2_tipo" id="p2-tipo">
-                            <option value="">Selecione...</option>
-                            <option value="SA_ABERTO">S/A - Capital Aberto</option>
-                            <option value="SA_FECHADO">S/A - Capital Fechado</option>
-                            <option value="LTDA">Limitada (LTDA)</option>
-                            <option value="EIRELI_SLU">EIRELI / SLU</option>
-                            <option value="OUTROS">Outros / PF</option>
-                        </select>
-                    </div>
+                    <input type="text" name="p2" id="p2-field">
                 </div>
                 <div class="campo-grupo">
                     <label>3. Tipo da Empresa (Enquadramento Societário)</label>
                     <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'LTDA')">LTDA</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'SLU')">SLU</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'Sociedade Simples (S/S)')">S/S</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'S/A Capital Aberto')">S/A Aberta</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'S/A Capital Fechado')">S/A Fechada</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'Comandita por Ações')">Comandita</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'SCP - Sociedade em Conta de Participação')">SCP</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'Empresário Individual (EI)')">Empresário Ind.</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3_tipo', 'Sociedade em Nome Coletivo')">Nome Coletivo</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'LTDA')">LTDA</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'S/A Aberta')">S/A Aberta</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'S/A Fechada')">S/A Fechada</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'SCP')">SCP</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Holding')">Holding</div>
                     </div>
-                    <input type="hidden" name="p3_tipo" id="input-p3_tipo">
+                    <input type="hidden" name="p3" id="input-p3">
                 </div>
                 <div class="campo-grupo">
                     <label>4. Regime Tributário</label>
                     <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p4_regime', 'Simples Nacional')">Simples Nacional</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p4_regime', 'Lucro Presumido')">Lucro Presumido</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p4_regime', 'Lucro Real')">Lucro Real</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', 'Simples Nacional')">Simples</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', 'Lucro Presumido')">Presumido</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', 'Lucro Real')">Lucro Real</div>
                     </div>
-                    <input type="hidden" name="p4_regime" id="input-p4_regime">
+                    <input type="hidden" name="p4" id="input-p4">
                 </div>
                 <div class="campo-grupo">
                     <label>5. Percentual de cotas do grupo societário</label>
-                    <input type="number" name="p5_cotas" id="p5-cotas" placeholder="%" oninput="checkCotasSocios(this.value)">
-                    <div id="wrapper-num-socios" style="display:none; margin-top:15px;">
+                    <input type="number" name="p5" id="p5-cotas" placeholder="%" oninput="checkCotas(this.value)">
+                    <div id="wrapper-socios" style="display:none; margin-top:15px;">
                         <label style="font-size: 0.6em;">Número de sócios</label>
                         <div class="grid-seletores">
-                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_num_socios', '2')">2</div>
-                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_num_socios', '3 à 5')">3 à 5</div>
-                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_num_socios', '5 à 10')">5 à 10</div>
-                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_num_socios', '10+')">10+</div>
+                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_socios', '2')">2</div>
+                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_socios', '3-5')">3-5</div>
+                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_socios', '5-10')">5-10</div>
+                            <div class="btn-seletor" onclick="selectBtn(this, 'p5_socios', '10+')">10+</div>
                         </div>
-                        <input type="hidden" name="p5_num_socios" id="input-p5_num_socios">
+                        <input type="hidden" name="p5_socios" id="input-p5_socios">
                     </div>
                 </div>
             </div>
 
             <div class="bloco-pergunta" id="bloco-2">
-                <div class="titulo-bloco">II. DIMENSIONAMENTO DE ATIVOS</div>
+                <div class="titulo-bloco">II. DIMENSIONAMENTO OPERACIONAL</div>
                 <div class="campo-grupo">
                     <label>6. Segmento</label>
                     <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Agro')">Agro</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Mineração')">Mineração</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Indústria')">Indústria</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Novos Negócios')">Novos Negócios</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p6', 'Agro')">Agro</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p6', 'Mineração')">Mineração</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p6', 'Indústria')">Indústria</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p6', 'Novos Negócios')">Novos Negócios</div>
                     </div>
-                    <input type="hidden" name="p3" id="input-p3">
+                    <input type="hidden" name="p6" id="input-p6">
                 </div>
                 <div class="campo-grupo">
                     <label>7. Sucessores Diretos</label>
                     <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', '0')">0</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', '1 a 5')">1 a 5</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p4', '5 a 10')">5 a 10</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p7', '0')">0</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p7', '1 a 5')">1 a 5</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p7', '5 a 10')">5 a 10</div>
                     </div>
-                    <input type="hidden" name="p4" id="input-p4">
+                    <input type="hidden" name="p7" id="input-p7">
                 </div>
                 <div class="campo-grupo">
-                    <label>8. Jurisdição Principal dos Ativos</label>
-                    <input type="text" name="p6" placeholder="Ex: BR / SP / São Paulo">
+                    <label>8. Tempo de Existência do Grupo (Anos)</label>
+                    <input type="number" name="p8" placeholder="Ex: 15">
                 </div>
-                <div class="campo-grupo" id="grupo-p7">
-                    <label>9. Média de Extensão Territorial (Hectares)</label>
-                    <input type="text" name="p7" id="p7-field">
+                <div class="campo-grupo">
+                    <label>9. Jurisdição Principal dos Ativos</label>
+                    <input type="text" name="p9" placeholder="Ex: BR / SP / São Paulo">
                 </div>
-                <div class="campo-grupo" id="grupo-p8">
-                    <label>10. Ativos Minerários (ANM / Antigo DNPM)</label>
-                    <input type="text" name="p8" id="p8-field">
+                <div class="campo-grupo">
+                    <label>10. Canal de Comunicação Principal</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', 'E-mail')">E-mail</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', 'WhatsApp')">WhatsApp</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p10', 'Outros')">Outros</div>
+                    </div>
+                    <input type="hidden" name="p10" id="input-p10">
+                    <div id="obs-comunicacao" style="display:none; margin-top:10px;">
+                        <input type="text" id="p10-obs" placeholder="Especifique (máx 50 caracteres)" maxlength="50">
+                    </div>
                 </div>
             </div>
 
             <div class="bloco-pergunta" id="bloco-3">
-                <div class="titulo-bloco">III. VULNERABILIDADE E GOVERNANÇA</div>
-                <div class="campo-grupo">
-                    <label>11. Média de Faturamento Bruto Anual Consolidado</label>
-                    <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '0-5M')">0-5M</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '5-10M')">5-10M</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p9', '50M+')">50M+</div>
-                    </div>
-                    <input type="hidden" name="p9" id="input-p9">
+                <div class="titulo-bloco">III. ANÁLISE DE ATIVOS E RISCOS</div>
+                <div class="campo-grupo" id="grupo-p11">
+                    <label>11. Média de Extensão Territorial (Hectares)</label>
+                    <input type="text" name="p11" id="p11-field">
+                </div>
+                <div class="campo-grupo" id="grupo-p12">
+                    <label>12. Ativos Minerários (ANM / Antigo DNPM)</label>
+                    <input type="text" name="p12" id="p12-field">
                 </div>
                 <div class="campo-grupo">
-                    <label>12. Canal de Comunicação Principal</label>
+                    <label>13. Média de Faturamento Bruto Anual Consolidado</label>
                     <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="toggleMulti(this, 'E-mail')">E-mail</div>
-                        <div class="btn-seletor" onclick="toggleMulti(this, 'WhatsApp')">WhatsApp</div>
-                    </div>
-                    <input type="hidden" name="p5" id="input-p5">
-                </div>
-                <div class="campo-grupo">
-                    <label>13. Maior Necessidade Reconhecida Hoje</label>
-                    <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', 'Blindagem Patrimonial')">Blindagem Patrimonial</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', 'Fluxo Financeiro')">Fluxo Financeiro</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', 'Governança')">Governança</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', '0-5M')">0-5M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', '5-15M')">5-15M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', '15-50M')">15-50M</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p13', '50M+')">50M+</div>
                     </div>
                     <input type="hidden" name="p13" id="input-p13">
                 </div>
                 <div class="campo-grupo">
-                    <label>14. Prioridade de Resolução</label>
-                    <select name="p14" id="p14-prioridade">
-                        <option value="">Selecione...</option>
-                        <option value="Gov-Fin-Seg">Governança | Finanças | Segurança</option>
-                        <option value="Seg-Fin-Gov">Segurança | Finanças | Governança</option>
-                        <option value="Equivalencia">Igual equivalência</option>
+                    <label>14. Média de Patrimônio Líquido Estimado</label>
+                    <input type="text" name="p14" placeholder="Ex: 25.000.000,00">
+                </div>
+                <div class="campo-grupo">
+                    <label>15. Passivo Estrutural / Endividamento (%)</label>
+                    <input type="number" name="p15" placeholder="Ex: 30">
+                </div>
+            </div>
+
+            <div class="bloco-pergunta" id="bloco-4">
+                <div class="titulo-bloco">IV. PRIORIDADES ESTRATÉGICAS</div>
+                <div class="campo-grupo">
+                    <label>16. Maior Necessidade Reconhecida Hoje</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p16', 'Blindagem')">Blindagem</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p16', 'Fluxo Fin.')">Fluxo Fin.</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p16', 'Governança')">Governança</div>
+                    </div>
+                    <input type="hidden" name="p16" id="input-p16">
+                </div>
+                <div class="campo-grupo">
+                    <label>17. Prioridade de Resolução (Trindade)</label>
+                    <select name="p17">
+                        <option value="">Selecione a ordem...</option>
+                        <option value="S-F-G">Segurança > Finanças > Governança</option>
+                        <option value="G-F-S">Governança > Finanças > Segurança</option>
+                        <option value="EQUIV">Igual Equivalência</option>
                     </select>
+                </div>
+                <div class="campo-grupo">
+                    <label>18. Deseja adicionar alguma informação adicional?</label>
+                    <div class="grid-seletores">
+                        <div class="btn-seletor" onclick="toggleInfoAdicional(true)">Sim</div>
+                        <div class="btn-seletor" onclick="toggleInfoAdicional(false)">Não</div>
+                    </div>
+                    <div id="wrapper-adicional" style="display:none; margin-top:15px;">
+                        <textarea name="p18_texto" id="p18-texto" maxlength="3000" placeholder="Espaço para detalhes estratégicos (máx 3.000 caracteres)..."></textarea>
+                    </div>
                 </div>
                 <div class="check-container" style="margin-top:20px; font-size: 0.7em; opacity: 0.8;">
                     <input type="checkbox" id="check-resp">
@@ -349,17 +362,12 @@
             moldura.style.display = 'block';
             box.innerHTML = "";
             let i = 0; const texto = info[tipo];
-            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 2000 / texto.length); } }
+            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 20); } }
             type();
         }
 
         function fecharMoldura() { document.getElementById('moldura').style.display = 'none'; }
-
-        document.addEventListener('mousedown', function(e) {
-            const mText = document.getElementById('moldura');
-            if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) fecharMoldura();
-        });
-
+        
         let blocoAtual = 1;
 
         window.onload = () => {
@@ -367,39 +375,36 @@
             const formattedName = rawName.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
             document.getElementById('hud-nome-display').innerHTML = `<i>${formattedName}</i>`;
             document.getElementById('p1-field').value = formattedName;
-            setTimeout(() => {
-                document.getElementById('loader-seguranca').style.opacity = '0';
-                setTimeout(() => { document.getElementById('loader-seguranca').style.display = 'none'; }, 800);
-            }, 1000);
+            setTimeout(() => { document.getElementById('loader-seguranca').style.display = 'none'; }, 1000);
             atualizarProgresso();
         };
 
-        function mostrarEnquadramento() { if(document.getElementById('p2-field').value !== "") document.getElementById('wrapper-enquadramento').style.display = 'block'; }
-        function checkCotasSocios(val) { document.getElementById('wrapper-num-socios').style.display = (val && parseInt(val) < 100) ? 'block' : 'none'; }
+        function checkCotas(val) { document.getElementById('wrapper-socios').style.display = (val && parseInt(val) < 100) ? 'block' : 'none'; }
+        
+        function toggleInfoAdicional(show) {
+            document.getElementById('wrapper-adicional').style.display = show ? 'block' : 'none';
+        }
 
         function selectBtn(btn, field, val) {
             btn.parentElement.querySelectorAll('.btn-seletor').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             document.getElementById(`input-${field}`).value = val;
 
-            if(field === 'p3') {
-                const gp7 = document.getElementById('grupo-p7');
-                const gp8 = document.getElementById('grupo-p8');
+            if(field === 'p6') {
+                const gp11 = document.getElementById('grupo-p11');
+                const gp12 = document.getElementById('grupo-p12');
                 if(val === 'Indústria') {
-                    gp7.classList.add('campo-bloqueado');
-                    document.getElementById('p7-field').value = "N/A - Não se aplica";
-                } else {
-                    gp7.classList.remove('campo-bloqueado');
-                    if(document.getElementById('p7-field').value.includes("N/A")) document.getElementById('p7-field').value = "";
-                }
+                    gp11.classList.add('campo-bloqueado');
+                    document.getElementById('p11-field').value = "N/A";
+                } else gp11.classList.remove('campo-bloqueado');
+                
                 if(val !== 'Mineração') {
-                    gp8.classList.add('campo-bloqueado');
-                    document.getElementById('p8-field').value = "N/A - Não se aplica";
-                } else {
-                    gp8.classList.remove('campo-bloqueado');
-                    if(document.getElementById('p8-field').value.includes("N/A")) document.getElementById('p8-field').value = "";
-                }
+                    gp12.classList.add('campo-bloqueado');
+                    document.getElementById('p12-field').value = "N/A";
+                } else gp12.classList.remove('campo-bloqueado');
             }
+
+            if(field === 'p10') document.getElementById('obs-comunicacao').style.display = (val === 'Outros') ? 'block' : 'none';
         }
 
         function mudarBloco(dir) {
@@ -407,7 +412,7 @@
             blocoAtual += dir;
             document.getElementById(`bloco-${blocoAtual}`).classList.add('active');
             document.getElementById('btn-voltar').disabled = (blocoAtual === 1);
-            document.getElementById('btn-proximo').innerText = (blocoAtual === 3) ? 'Finalizar' : 'Próxima Etapa';
+            document.getElementById('btn-proximo').innerText = (blocoAtual === 4) ? 'Finalizar' : 'Próxima Etapa';
             atualizarProgresso();
             window.scrollTo(0,0);
         }
@@ -416,7 +421,7 @@
             document.querySelectorAll('.segmento').forEach((s, idx) => s.classList.toggle('ativo', idx < blocoAtual));
         }
 
-        function processarAvanco() { if(blocoAtual < 3) mudarBloco(1); }
+        function processarAvanco() { if(blocoAtual < 4) mudarBloco(1); else alert("Análise em processamento pelo Núcleo Étera."); }
     </script>
 </body>
 </html>
