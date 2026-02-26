@@ -215,10 +215,13 @@
         <form id="formAegis">
             <div class="bloco-pergunta active" id="bloco-1">
                 <div class="titulo-bloco">I. IDENTIFICAÇÃO E ESTRUTURA</div>
+                
                 <div class="campo-grupo">
                     <label>1. Titular do Grupo Econômico</label>
-                    <input type="text" name="p1" id="p1-field" readonly>
+                    <input type="text" name="p1_nome" id="p1-nome" placeholder="EX: DIGITE SEU NOME COMPLETO AQUI" maxlength="50" required style="margin-bottom: 8px;">
+                    <input type="text" name="p1_email" id="p1-field" readonly style="background: rgba(255, 255, 255, 0.01); border-color: rgba(197, 160, 89, 0.1); color: var(--dourado-fosco); font-size: 0.82em; opacity: 0.6; cursor: not-allowed;">
                 </div>
+
                 <div class="campo-grupo">
                     <label>2. Razão Social do Grupo Econômico</label>
                     <input type="text" name="p2" id="p2-field">
