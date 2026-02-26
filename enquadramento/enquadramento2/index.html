@@ -435,11 +435,18 @@
         let blocoAtual = 1;
 
         window.onload = () => {
-            const rawName = localStorage.getItem('user_full_name');
-            if(rawName) {
-                document.getElementById('hud-nome-display').innerHTML = `<i>${rawName}</i>`;
-                document.getElementById('p1-field').value = rawName;
+            const token = localStorage.getItem('terrae_user_token');
+            const email = localStorage.getItem('terrae_user_email');
+
+            if (!token || !email) {
+                alert("ACESSO NEGADO: IDENTIFICAÇÃO REQUERIDA NO PORTAL.");
+                window.location.href = "../index.html";
+                return;
             }
+
+            document.getElementById('hud-nome-display').innerHTML = `OPERADOR: <i>${token}</i>`;
+            document.getElementById('p1-field').value = email;
+
             setTimeout(() => { document.getElementById('loader-seguranca').style.display = 'none'; }, 1000);
             atualizarProgresso();
         };
