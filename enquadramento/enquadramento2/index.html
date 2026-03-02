@@ -527,9 +527,9 @@
             document.querySelectorAll('.segmento').forEach((s, idx) => s.classList.toggle('ativo', idx < blocoAtual));
         }
 
-        function processarAvanco() {
-            // ALIMENTAÇÃO MODULAR - TERRAE AEGIS
-            const WEB_APP_URL = "SUA_URL_DO_SCRIPT_ABS_AQUI";
+                function processarAvanco() {
+            // ALIMENTAÇÃO MODULAR - TERRAE AEGIS (URL INTEGRADA)
+            const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz96bq1ngrjZoBzTGGr0GdCiVpA7Anzq_QW8eAwI-KNAO7PbYoMnUuM_RXf-yPX3CySVA/exec";
             const formData = new FormData(document.getElementById('formAegis'));
             const data = {
                 token: localStorage.getItem('terrae_user_token'),
@@ -543,7 +543,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 body: JSON.stringify(data)
-            }).catch(err => console.log("Erro de conexão com o banco de dados."));
+            }).catch(err => console.log("Erro de conexão."));
 
             if(blocoAtual < 4) mudarBloco(1); 
             else {
@@ -551,13 +551,8 @@
                     alert("Por favor, declare a fidedignidade das informações.");
                     return;
                 }
-                
-                // Ativar Modal de Criptografia antes de finalizar
                 document.getElementById('modal-finalizacao').style.display = 'flex';
-                
-                setTimeout(() => { 
-                    window.location.href = "../index.html"; 
-                }, 4000);
+                setTimeout(() => { window.location.href = "../index.html"; }, 4000);
             }
         }
     </script>
