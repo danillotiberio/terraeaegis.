@@ -319,7 +319,8 @@
 
             alert("Solicitação enviada. Verifique sua caixa de entrada em instantes.");
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: dadosRecuperacao });
-
+        }
+        
         // VALIDAÇÃO DE ACESSO LOCAL
         function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
