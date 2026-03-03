@@ -274,9 +274,9 @@
             
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
-            // CÁLCULO DO TOKEN (LÓGICA MD5 TRAVADA EM 6 CARACTERES)
+            // CÁLCULO DO TOKEN (LÓGICA MD5 TRAVADA EM 6 CARACTERES COM LIMPEZA)
             const hash = CryptoJS.MD5(email).toString();
-            const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
+            const tokenGerado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
 
             // PAYLOAD ESTRUTURADO PARA O CÉREBRO (GFM)
             const payload = {
@@ -310,7 +310,7 @@
             if (!email) return alert("Insira seu e-mail no campo de login.");
             
             const hash = CryptoJS.MD5(email).toString();
-            const tokenRecuperado = btoa(hash).substring(0, 6).toUpperCase();
+            const tokenRecuperado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
 
             const payloadRecuperacao = {
                 nome: "Recuperação",
@@ -329,7 +329,7 @@
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
             
             const hash = CryptoJS.MD5(email).toString();
-            const tokenCorreto = btoa(hash).substring(0, 6).toUpperCase();
+            const tokenCorreto = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
 
             if (tokenDigitado === tokenCorreto) {
                 localStorage.setItem('terrae_user_email', email);
