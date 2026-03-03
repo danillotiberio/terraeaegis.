@@ -264,7 +264,7 @@
         });
 
         // URL MESTRE DO GESTOR DE FLUXO (GFM) - TERRAE AEGIS
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKhaT-ZhkYgorxsUbrdZhltp-g_T3UX5ZaQvnF2FGAQhmHV5_7hilEYvUINMvqlPTx/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNxGsOqgRn8wgqnWDteyIIS3outdpPTbv-ce3cpC0mss2hHwgLfE527Ht-1dqxpUeu/exec';
 
         // FUNÇÃO DE CADASTRO E DISPARO DE TOKEN (BOAS-VINDAS)
         async function enviarParaGoogle(form) {
@@ -274,28 +274,29 @@
             
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
-            // CÁLCULO DO TOKEN (LÓGICA M5)
+            // CÁLCULO DO TOKEN (LÓGICA MD5 TRAVADA EM 6 CARACTERES)
             const hash = CryptoJS.MD5(email).toString();
             const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
             // PAYLOAD ESTRUTURADO PARA O CÉREBRO (GFM)
-            const dadosGAS = new URLSearchParams({
+            const payload = {
                 nome: nome,
                 email: email,
-                telefone: iti.getNumber(),
-                token: tokenGerado,
-                evento: "boas_vindas" // Gatilho para remetente token@terraeaegis.com
-            });
+                telefone: iti.getNumber()
+            };
 
             try {
                 // DISPARO ÚNICO PARA O GESTOR CENTRAL
                 await fetch(SCRIPT_URL, { 
                     method: 'POST', 
                     mode: 'no-cors', 
-                    body: dadosGAS 
+                    body: JSON.stringify(payload) 
                 });
                 
-                alert("Protocolo Ativado! Sua Credencial foi enviada para: " + email);
+                alert("Protocolo Ativado! Sua Credencial foi enviada para: " + email + "\nSeu Token: " + tokenGerado);
+                
+                // AUTO-PREENCHIMENTO DO LOGIN
+                document.getElementById('email_restrito').value = email;
                 form.reset();
             } catch (e) {
                 alert("Erro na conexão. Guarde seu Token: " + tokenGerado);
@@ -311,14 +312,14 @@
             const hash = CryptoJS.MD5(email).toString();
             const tokenRecuperado = btoa(hash).substring(0, 6).toUpperCase();
 
-            const dadosRecuperacao = new URLSearchParams({ 
-                email: email, 
-                token: tokenRecuperado, 
-                evento: "recuperacao" // Gatilho para remetente seguranca@terraeaegis.com
-            });
+            const payloadRecuperacao = {
+                nome: "Recuperação",
+                email: email,
+                telefone: "N/A"
+            };
 
             alert("Solicitação enviada. Verifique sua caixa de entrada em instantes.");
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: dadosRecuperacao });
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadRecuperacao) });
         }
         
         // VALIDAÇÃO DE ACESSO LOCAL
@@ -328,7 +329,9 @@
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
             
             const hash = CryptoJS.MD5(email).toString();
-            if (tokenDigitado === btoa(hash).substring(0, 6).toUpperCase()) {
+            const tokenCorreto = btoa(hash).substring(0, 6).toUpperCase();
+
+            if (tokenDigitado === tokenCorreto) {
                 localStorage.setItem('terrae_user_email', email);
                 localStorage.setItem('terrae_user_token', tokenDigitado);
                 window.location.href = "enquadramento/index.html";
