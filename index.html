@@ -11,14 +11,14 @@
             --azul-profundo: #0A192F;
             --dourado-fosco: #C5A059;
             --dourado-brilhante: #FFD700;
-            --branco-marfim: #E6E6E6;
+            --branco-marfum: #E6E6E6;
         }
 
         body {
             margin: 0;
             font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--azul-profundo);
-            color: var(--branco-marfim);
+            color: var(--branco-marfum);
             overflow-x: hidden;
         }
 
@@ -103,7 +103,7 @@
             margin-bottom: 15px;
             display: block;
         }
-        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
+        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfum); font-size: 1.1em; }
 
         /* LOGIN MINIMALISTA */
         .login-topo-minimalista {
@@ -129,7 +129,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: none;
             border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            color: var(--branco-marfim);
+            color: var(--branco-marfum);
             font-size: 0.7em;
             padding: 6px;
             outline: none;
@@ -304,21 +304,19 @@
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
-        // FUNÇÃO DE RECUPERAÇÃO DE TOKEN (SEGURANÇA)
+        // FUNÇÃO DE RECUPERAÇÃO DE TOKEN (SEGURANÇA) - ATUALIZADA POR ÉTERA
         async function recuperarToken() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             if (!email) return alert("Insira seu e-mail no campo de login.");
             
-            const hash = CryptoJS.MD5(email).toString();
-            const tokenRecuperado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
-
+            // Payload ajustado para acionar o Check-in no Motor Central
             const payloadRecuperacao = {
-                nome: "Recuperação",
+                nome: "Soberano (Recuperação)",
                 email: email,
-                telefone: "N/A"
+                telefone: "Solicitado via Portal"
             };
 
-            alert("Solicitação enviada. Verifique sua caixa de entrada em instantes.");
+            alert("Solicitação enviada. Se este e-mail estiver em nossa base, as instruções de acesso chegarão em instantes.");
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadRecuperacao) });
         }
         
