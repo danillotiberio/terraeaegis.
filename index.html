@@ -239,7 +239,6 @@
         <div class="form-contato">
             <h3 style="color: var(--dourado-fosco); text-transform: uppercase; text-align: center; margin-bottom: 20px; font-weight: 300;">Cadastramento Área Restrita</h3>
             <form id="form_contato_principal" onsubmit="event.preventDefault(); enviarParaGoogle(this);">
-                <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
                 <input type="text" id="nome_contato" name="name" placeholder="Nome Completo" required>
                 <input type="email" id="email_contato" name="email" placeholder="E-mail" required>
                 <input type="tel" id="telefone_contato" name="phone" required>
@@ -254,6 +253,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <script>
+        // CONFIGURAÇÃO DO INPUT DE TELEFONE
         const phoneInput = document.querySelector("#telefone_contato");
         const iti = window.intlTelInput(phoneInput, {
             initialCountry: "auto",
@@ -263,40 +263,47 @@
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
         });
 
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz96bq1ngrjZoBzTGGr0GdCiVpA7Anzq_QW8eAwI-KNAO7PbYoMnUuM_RXf-yPX3CySVA/exec';
+        // URL MESTRE DO GESTOR DE FLUXO (GFM) - TERRAE AEGIS
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKhaT-ZhkYgorxsUbrdZhltp-g_T3UX5ZaQvnF2FGAQhmHV5_7hilEYvUINMvqlPTx/exec';
 
+        // FUNÇÃO DE CADASTRO E DISPARO DE TOKEN (BOAS-VINDAS)
         async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
-            const email = document.getElementById('email_contato').value;
+            const email = document.getElementById('email_contato').value.trim().toLowerCase();
             const nome = document.getElementById('nome_contato').value;
+            
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
-            const hash = CryptoJS.MD5(email.trim().toLowerCase()).toString();
+            // CÁLCULO DO TOKEN (LÓGICA M5)
+            const hash = CryptoJS.MD5(email).toString();
             const tokenGerado = btoa(hash).substring(0, 6).toUpperCase();
 
-            const dadosGAS = {
+            // PAYLOAD ESTRUTURADO PARA O CÉREBRO (GFM)
+            const dadosGAS = new URLSearchParams({
                 nome: nome,
                 email: email,
                 telefone: iti.getNumber(),
                 token: tokenGerado,
-                origem: "Index"
-            };
+                evento: "boas_vindas" // Gatilho para remetente token@terraeaegis.com
+            });
 
-            // QUADRANGULAÇÃO: DISPARO PARALELO
             try {
-                const disparoWeb3 = fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) });
-                const disparoGAS = fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dadosGAS) });
-
-                await Promise.all([disparoWeb3, disparoGAS]);
+                // DISPARO ÚNICO PARA O GESTOR CENTRAL
+                await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    body: dadosGAS 
+                });
                 
-                alert("Protocolo Ativado! Sua Credencial enviada por e-mail: " + tokenGerado);
+                alert("Protocolo Ativado! Sua Credencial foi enviada para: " + email);
                 form.reset();
             } catch (e) {
-                alert("Credencial Gerada: " + tokenGerado + "\nVerifique seu e-mail.");
+                alert("Erro na conexão. Guarde seu Token: " + tokenGerado);
             }
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
+        // FUNÇÃO DE RECUPERAÇÃO DE TOKEN (SEGURANÇA)
         async function recuperarToken() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             if (!email) return alert("Insira seu e-mail no campo de login.");
@@ -304,16 +311,22 @@
             const hash = CryptoJS.MD5(email).toString();
             const tokenRecuperado = btoa(hash).substring(0, 6).toUpperCase();
 
-            const dadosRecuperacao = { email: email, token: tokenRecuperado, origem: "Recuperacao" };
+            const dadosRecuperacao = new URLSearchParams({ 
+                email: email, 
+                token: tokenRecuperado, 
+                evento: "recuperacao" // Gatilho para remetente seguranca@terraeaegis.com
+            });
 
-            alert("Solicitação enviada. O token será reenviado para sua caixa de entrada.");
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dadosRecuperacao) });
+            alert("Solicitação enviada. Verifique sua caixa de entrada em instantes.");
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: dadosRecuperacao });
         }
 
+        // VALIDAÇÃO DE ACESSO LOCAL
         function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
+            
             const hash = CryptoJS.MD5(email).toString();
             if (tokenDigitado === btoa(hash).substring(0, 6).toUpperCase()) {
                 localStorage.setItem('terrae_user_email', email);
@@ -322,6 +335,7 @@
             } else { alert("Token inválido."); }
         }
 
+        // LÓGICA DE INTERFACE E MOLDURAS
         const info = {
             'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
             'financas': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
@@ -335,7 +349,7 @@
             moldura.style.display = 'block';
             box.innerHTML = "";
             let i = 0; const texto = info[tipo];
-            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 2000 / texto.length); } }
+            function type() { if (i < texto.length) { box.innerHTML += texto.charAt(i); i++; setTimeout(type, 30); } }
             type();
         }
 
