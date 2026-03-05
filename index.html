@@ -263,10 +263,9 @@
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
         });
 
-        // URL MESTRE DO GESTOR DE FLUXO (GFM) - TERRAE AEGIS
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNxGsOqgRn8wgqnWDteyIIS3outdpPTbv-ce3cpC0mss2hHwgLfE527Ht-1dqxpUeu/exec';
 
-        // FUNÇÃO DE CADASTRO E DISPARO DE TOKEN (BOAS-VINDAS)
+        // FUNÇÃO DE CADASTRO COM TRAVA DE EXPOSIÇÃO ÚNICA (ATUALIZADO ÉTERA)
         async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
             const email = document.getElementById('email_contato').value.trim().toLowerCase();
@@ -274,28 +273,29 @@
             
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
-            // CÁLCULO DO TOKEN (LÓGICA MD5 TRAVADA EM 6 CARACTERES COM LIMPEZA)
             const hash = CryptoJS.MD5(email).toString();
             const tokenGerado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
 
-            // PAYLOAD ESTRUTURADO PARA O CÉREBRO (GFM)
             const payload = {
+                acao: "cadastro",
                 nome: nome,
                 email: email,
-                telefone: iti.getNumber()
+                telefone: iti.getNumber(),
+                token: tokenGerado
             };
 
             try {
-                // DISPARO ÚNICO PARA O GESTOR CENTRAL
+                // Disparo para o motor central (GS)
                 await fetch(SCRIPT_URL, { 
                     method: 'POST', 
                     mode: 'no-cors', 
                     body: JSON.stringify(payload) 
                 });
                 
-                alert("Protocolo Ativado! Sua Credencial foi enviada para: " + email + "\nSeu Token: " + tokenGerado);
+                // Lógica de Balão Único: O Token é exibido apenas aqui.
+                // Se já existir no banco, o motor de e-mail não enviará duplicado.
+                alert("Protocolo Recebido! Se este for seu primeiro acesso, anote sua credencial abaixo.\n\nCaso já possua cadastro, utilize a Recuperação de Token.\n\nTOKEN: " + tokenGerado);
                 
-                // AUTO-PREENCHIMENTO DO LOGIN
                 document.getElementById('email_restrito').value = email;
                 form.reset();
             } catch (e) {
@@ -304,19 +304,21 @@
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
-        // FUNÇÃO DE RECUPERAÇÃO DE TOKEN (SEGURANÇA) - ATUALIZADA POR ÉTERA
+        // FUNÇÃO DE RECUPERAÇÃO VIA TEMPLATE (ATUALIZADO ÉTERA)
         async function recuperarToken() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             if (!email) return alert("Insira seu e-mail no campo de login.");
             
-            // Payload ajustado para acionar o Check-in no Motor Central
+            const hash = CryptoJS.MD5(email).toString();
+            const tokenGerado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
+
             const payloadRecuperacao = {
-                nome: "Soberano (Recuperação)",
+                acao: "recuperacao",
                 email: email,
-                telefone: "Solicitado via Portal"
+                token: tokenGerado
             };
 
-            alert("Solicitação enviada. Se este e-mail estiver em nossa base, as instruções de acesso chegarão em instantes.");
+            alert("Solicitação enviada. As instruções chegarão no e-mail: " + email);
             fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadRecuperacao) });
         }
         
@@ -336,7 +338,6 @@
             } else { alert("Token inválido."); }
         }
 
-        // LÓGICA DE INTERFACE E MOLDURAS
         const info = {
             'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
             'financas': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
