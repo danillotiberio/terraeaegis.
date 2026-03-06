@@ -250,8 +250,6 @@
 
     <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
     <script>
         // CONFIGURAÇÃO DO INPUT DE TELEFONE
         const phoneInput = document.querySelector("#telefone_contato");
@@ -265,7 +263,7 @@
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNxGsOqgRn8wgqnWDteyIIS3outdpPTbv-ce3cpC0mss2hHwgLfE527Ht-1dqxpUeu/exec';
 
-        // FUNÇÃO DE CADASTRO COM TRAVA DE EXPOSIÇÃO ÚNICA (ATUALIZADO ÉTERA)
+        // FUNÇÃO DE CADASTRO - COMANDO ÚNICO AO SCRIPT
         async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
             const email = document.getElementById('email_contato').value.trim().toLowerCase();
@@ -273,69 +271,72 @@
             
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
-            const hash = CryptoJS.MD5(email).toString();
-            const tokenGerado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
-
             const payload = {
                 acao: "cadastro",
                 nome: nome,
                 email: email,
-                telefone: iti.getNumber(),
-                token: tokenGerado
+                telefone: iti.getNumber()
+                // Token removido: O Script calculará e enviará por e-mail.
             };
 
             try {
-                // Disparo para o motor central (GS)
-                await fetch(SCRIPT_URL, { 
+                const response = await fetch(SCRIPT_URL, { 
                     method: 'POST', 
-                    mode: 'no-cors', 
                     body: JSON.stringify(payload) 
                 });
+                const result = await response.json();
                 
-                // Lógica de Balão Único: O Token é exibido apenas aqui.
-                // Se já existir no banco, o motor de e-mail não enviará duplicado.
-                alert("Protocolo Recebido! Se este for seu primeiro acesso, anote sua credencial abaixo.\n\nCaso já possua cadastro, utilize a Recuperação de Token.\n\nTOKEN: " + tokenGerado);
+                // O Script agora devolve a mensagem personalizada (Ex: Soberano Danillo...)
+                alert(result.mensagem || "Protocolo Iniciado. Verifique sua credencial no e-mail informado.");
                 
                 document.getElementById('email_restrito').value = email;
                 form.reset();
             } catch (e) {
-                alert("Erro na conexão. Guarde seu Token: " + tokenGerado);
+                alert("Protocolo em processamento. Por favor, valide sua caixa de entrada em instantes.");
             }
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
-        // FUNÇÃO DE RECUPERAÇÃO VIA TEMPLATE (ATUALIZADO ÉTERA)
+        // FUNÇÃO DE RECUPERAÇÃO - SOLICITAÇÃO DIRETA AO SCRIPT
         async function recuperarToken() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             if (!email) return alert("Insira seu e-mail no campo de login.");
             
-            const hash = CryptoJS.MD5(email).toString();
-            const tokenGerado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
-
             const payloadRecuperacao = {
                 acao: "recuperacao",
-                email: email,
-                token: tokenGerado
+                email: email
             };
 
-            alert("Solicitação enviada. As instruções chegarão no e-mail: " + email);
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadRecuperacao) });
+            alert("Solicitação de segurança enviada para: " + email);
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadRecuperacao) });
         }
         
-        // VALIDAÇÃO DE ACESSO LOCAL
-        function validarTokenRestrito() {
+        // VALIDAÇÃO DE ACESSO - CONSULTA A VERDADE BRUTA NO SCRIPT
+        async function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
             
-            const hash = CryptoJS.MD5(email).toString();
-            const tokenCorreto = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
+            const payloadLogin = {
+                acao: "login",
+                email: email,
+                token: tokenDigitado
+            };
 
-            if (tokenDigitado === tokenCorreto) {
-                localStorage.setItem('terrae_user_email', email);
-                localStorage.setItem('terrae_user_token', tokenDigitado);
-                window.location.href = "enquadramento/index.html";
-            } else { alert("Token inválido."); }
+            try {
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadLogin) });
+                const result = await response.json();
+
+                if (result.status === "sucesso") {
+                    localStorage.setItem('terrae_user_email', email);
+                    localStorage.setItem('terrae_user_token', tokenDigitado);
+                    window.location.href = "enquadramento/index.html";
+                } else { 
+                    alert(result.mensagem || "Token inválido."); 
+                }
+            } catch (e) {
+                alert("Erro na conexão com o servidor de segurança.");
+            }
         }
 
         const info = {
