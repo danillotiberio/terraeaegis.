@@ -159,9 +159,36 @@
         .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 20px; flex-wrap: wrap; }
         .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
 
-        .hero { padding: 20px 10% 40px; text-align: center; }
-        .hero h1 { color: var(--dourado-fosco); font-size: 2.4em; font-weight: 300; margin-bottom: 10px; white-space: nowrap; }
-        .hero p { max-width: 800px; font-size: 1.1em; margin: 0 auto; opacity: 0.8; }
+        .hero { padding: 20px 10% 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* ESTILOS DO ORÁCULO - INDEX RAIZ */
+        .frase-pg {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1.6em;
+            letter-spacing: 1px;
+            line-height: 1.6;
+            background: linear-gradient(180deg, #FFFFFF 0%, #D1D1D1 50%, #AFAFAF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            display: none;
+            max-width: 900px;
+        }
+
+        @keyframes cortinaRevelacao {
+            from { clip-path: inset(0 100% 0 0); opacity: 1; }
+            to { clip-path: inset(0 0 0 0); opacity: 1; }
+        }
+
+        @keyframes fadeOutLento {
+            from { opacity: 1; filter: blur(0px); }
+            to { opacity: 0; filter: blur(10px); }
+        }
+
+        .animar-entrada { display: block !important; animation: cortinaRevelacao 2s ease-out forwards; }
+        .animar-saida { display: block !important; animation: fadeOutLento 2.5s ease-in forwards; }
 
         .footer { padding: 40px 10%; border-top: 1px solid rgba(197, 160, 89, 0.3); }
         .form-contato { max-width: 600px; margin: 0 auto; }
@@ -183,7 +210,7 @@
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 1.6em; white-space: normal; }
+            .frase-pg { font-size: 1.1em; }
             .login-topo-minimalista { position: relative; top: 80px; width: 90%; right: auto; margin: 0 auto; }
             .item-trindade-container { padding: 15px 8px; }
             .item-trindade { font-size: 0.65em; letter-spacing: 1px; }
@@ -231,8 +258,7 @@
     </section>
 
     <section class="hero">
-        <h1>Onde a Estratégia Esculpe o Patrimônio.</h1>
-        <p>Convergência entre Segurança Patrimonial e Financeira com aceleração de crescimento exponencial.</p>
+        <div id="oraculo-frase" class="frase-pg"></div>
     </section>
 
     <footer class="footer">
@@ -263,6 +289,35 @@
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNxGsOqgRn8wgqnWDteyIIS3outdpPTbv-ce3cpC0mss2hHwgLfE527Ht-1dqxpUeu/exec';
 
+        // LÓGICA DO ORÁCULO - FRASES LAPIDADAS
+        const frasesEstrategicas = [
+            '"Rompa o ciclo da instabilidade sistêmica e garanta a autonomia absoluta do seu patrimônio."',
+            '"Eleve seu legado a um patamar de proteção inalcançável pela voracidade estatal e pelas taxas abusivas do sistema financeiro."',
+            '"Elimine a dependência bancária nacional com canais de crédito internacional a partir de 4% ao ano."',
+            '"Consolide sua força como uma potência única e verticalizada no mercado."',
+            '"Estabeleça a soberania absoluta da sua estrutura patrimonial e torne o seu legado eterno."'
+        ];
+
+        let indiceAtual = 0;
+        const elementoFrase = document.getElementById('oraculo-frase');
+
+        function cicloOraculo() {
+            elementoFrase.innerText = frasesEstrategicas[indiceAtual];
+            elementoFrase.classList.remove('animar-saida');
+            elementoFrase.classList.add('animar-entrada');
+
+            setTimeout(() => {
+                elementoFrase.classList.remove('animar-entrada');
+                elementoFrase.classList.add('animar-saida');
+
+                setTimeout(() => {
+                    elementoFrase.style.display = 'none';
+                    indiceAtual = (indiceAtual + 1) % frasesEstrategicas.length;
+                    setTimeout(cicloOraculo, 1500); 
+                }, 2500); 
+            }, 10000); 
+        }
+
         // FUNÇÃO DE CADASTRO - COMANDO ÚNICO AO SCRIPT
         async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
@@ -276,7 +331,6 @@
                 nome: nome,
                 email: email,
                 telefone: iti.getNumber()
-                // Token removido: O Script calculará e enviará por e-mail.
             };
 
             try {
@@ -285,10 +339,7 @@
                     body: JSON.stringify(payload) 
                 });
                 const result = await response.json();
-                
-                // O Script agora devolve a mensagem personalizada (Ex: Soberano Danillo...)
                 alert(result.mensagem || "Protocolo Iniciado. Verifique sua credencial no e-mail informado.");
-                
                 document.getElementById('email_restrito').value = email;
                 form.reset();
             } catch (e) {
@@ -297,46 +348,29 @@
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
-        // FUNÇÃO DE RECUPERAÇÃO - SOLICITAÇÃO DIRETA AO SCRIPT
         async function recuperarToken() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             if (!email) return alert("Insira seu e-mail no campo de login.");
-            
-            const payloadRecuperacao = {
-                acao: "recuperacao",
-                email: email
-            };
-
+            const payloadRecuperacao = { acao: "recuperacao", email: email };
             alert("Solicitação de segurança enviada para: " + email);
             fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadRecuperacao) });
         }
         
-        // VALIDAÇÃO DE ACESSO - CONSULTA A VERDADE BRUTA NO SCRIPT
         async function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
-            
-            const payloadLogin = {
-                acao: "login",
-                email: email,
-                token: tokenDigitado
-            };
+            const payloadLogin = { acao: "login", email: email, token: tokenDigitado };
 
             try {
                 const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadLogin) });
                 const result = await response.json();
-
                 if (result.status === "sucesso") {
                     localStorage.setItem('terrae_user_email', email);
                     localStorage.setItem('terrae_user_token', tokenDigitado);
                     window.location.href = "enquadramento/index.html";
-                } else { 
-                    alert(result.mensagem || "Token inválido."); 
-                }
-            } catch (e) {
-                alert("Erro na conexão com o servidor de segurança.");
-            }
+                } else { alert(result.mensagem || "Token inválido."); }
+            } catch (e) { alert("Erro na conexão com o servidor de segurança."); }
         }
 
         const info = {
@@ -366,6 +400,9 @@
             if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) fecharMoldura();
             if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) fecharSetor();
         });
+
+        // INICIALIZAÇÃO DO ORÁCULO AO CARREGAR
+        window.onload = cicloOraculo;
     </script>
 </body>
 </html>
