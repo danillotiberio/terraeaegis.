@@ -11,14 +11,14 @@
             --azul-profundo: #0A192F;
             --dourado-fosco: #C5A059;
             --dourado-brilhante: #FFD700;
-            --branco-marfim: #E6E6E6;
+            --branco-marfum: #E6E6E6;
         }
 
         body {
             margin: 0;
             font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--azul-profundo);
-            color: var(--branco-marfim);
+            color: var(--branco-marfum);
             overflow-x: hidden;
         }
 
@@ -103,7 +103,7 @@
             margin-bottom: 15px;
             display: block;
         }
-        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfim); font-size: 1.1em; }
+        #escrita { font-style: italic; line-height: 1.6; color: var(--branco-marfum); font-size: 1.1em; }
 
         /* LOGIN MINIMALISTA */
         .login-topo-minimalista {
@@ -129,7 +129,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: none;
             border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            color: var(--branco-marfim);
+            color: var(--branco-marfum);
             font-size: 0.7em;
             padding: 6px;
             outline: none;
@@ -250,8 +250,6 @@
 
     <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
     <script>
         // CONFIGURAÇÃO DO INPUT DE TELEFONE
         const phoneInput = document.querySelector("#telefone_contato");
@@ -263,10 +261,9 @@
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
         });
 
-        // URL MESTRE DO GESTOR DE FLUXO (GFM) - TERRAE AEGIS
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNxGsOqgRn8wgqnWDteyIIS3outdpPTbv-ce3cpC0mss2hHwgLfE527Ht-1dqxpUeu/exec';
 
-        // FUNÇÃO DE CADASTRO E DISPARO DE TOKEN (BOAS-VINDAS)
+        // FUNÇÃO DE CADASTRO - COMANDO ÚNICO AO SCRIPT
         async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
             const email = document.getElementById('email_contato').value.trim().toLowerCase();
@@ -274,71 +271,74 @@
             
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
 
-            // CÁLCULO DO TOKEN (LÓGICA MD5 TRAVADA EM 6 CARACTERES COM LIMPEZA)
-            const hash = CryptoJS.MD5(email).toString();
-            const tokenGerado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
-
-            // PAYLOAD ESTRUTURADO PARA O CÉREBRO (GFM)
             const payload = {
+                acao: "cadastro",
                 nome: nome,
                 email: email,
                 telefone: iti.getNumber()
+                // Token removido: O Script calculará e enviará por e-mail.
             };
 
             try {
-                // DISPARO ÚNICO PARA O GESTOR CENTRAL
-                await fetch(SCRIPT_URL, { 
+                const response = await fetch(SCRIPT_URL, { 
                     method: 'POST', 
-                    mode: 'no-cors', 
                     body: JSON.stringify(payload) 
                 });
+                const result = await response.json();
                 
-                alert("Protocolo Ativado! Sua Credencial foi enviada para: " + email + "\nSeu Token: " + tokenGerado);
+                // O Script agora devolve a mensagem personalizada (Ex: Soberano Danillo...)
+                alert(result.mensagem || "Protocolo Iniciado. Verifique sua credencial no e-mail informado.");
                 
-                // AUTO-PREENCHIMENTO DO LOGIN
                 document.getElementById('email_restrito').value = email;
                 form.reset();
             } catch (e) {
-                alert("Erro na conexão. Guarde seu Token: " + tokenGerado);
+                alert("Protocolo em processamento. Por favor, valide sua caixa de entrada em instantes.");
             }
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
-        // FUNÇÃO DE RECUPERAÇÃO DE TOKEN (SEGURANÇA)
+        // FUNÇÃO DE RECUPERAÇÃO - SOLICITAÇÃO DIRETA AO SCRIPT
         async function recuperarToken() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             if (!email) return alert("Insira seu e-mail no campo de login.");
             
-            const hash = CryptoJS.MD5(email).toString();
-            const tokenRecuperado = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
-
             const payloadRecuperacao = {
-                nome: "Recuperação",
-                email: email,
-                telefone: "N/A"
+                acao: "recuperacao",
+                email: email
             };
 
-            alert("Solicitação enviada. Verifique sua caixa de entrada em instantes.");
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadRecuperacao) });
+            alert("Solicitação de segurança enviada para: " + email);
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadRecuperacao) });
         }
         
-        // VALIDAÇÃO DE ACESSO LOCAL
-        function validarTokenRestrito() {
+        // VALIDAÇÃO DE ACESSO - CONSULTA A VERDADE BRUTA NO SCRIPT
+        async function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
             
-            const hash = CryptoJS.MD5(email).toString();
-            const tokenCorreto = btoa(hash).replace(/[^a-zA-Z0-9]/g, '').substring(0, 6).toUpperCase();
+            const payloadLogin = {
+                acao: "login",
+                email: email,
+                token: tokenDigitado
+            };
 
-            if (tokenDigitado === tokenCorreto) {
-                localStorage.setItem('terrae_user_email', email);
-                localStorage.setItem('terrae_user_token', tokenDigitado);
-                window.location.href = "enquadramento/index.html";
-            } else { alert("Token inválido."); }
+            try {
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadLogin) });
+                const result = await response.json();
+
+                if (result.status === "sucesso") {
+                    localStorage.setItem('terrae_user_email', email);
+                    localStorage.setItem('terrae_user_token', tokenDigitado);
+                    window.location.href = "enquadramento/index.html";
+                } else { 
+                    alert(result.mensagem || "Token inválido."); 
+                }
+            } catch (e) {
+                alert("Erro na conexão com o servidor de segurança.");
+            }
         }
 
-        // LÓGICA DE INTERFACE E MOLDURAS
         const info = {
             'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
             'financas': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
