@@ -613,9 +613,9 @@
         <section class="setores-operacionais">
             <div style="font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); margin-bottom: 5px; text-transform: uppercase; width: 100%; text-align: center;">Aprofundamento</div>
             <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
-            <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
-            <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
-            <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
+            <div class="setor-card" onclick="mineracao2/index.html')">Mineração</div>
+            <div class="setor-card" onclick="industria2/index.html')">Indústria</div>
+            <div class="setor-card" onclick="novos_negocios2/index.html')">Novos Negócios</div>
             <div class="setor-card btn-contato-trigger" onclick="abrirContato()">Contato</div>
         </section>
 
@@ -633,13 +633,18 @@
         
         <form id="formProtocolo">
             <input type="hidden" name="access_key" value="84c7be5a-a38d-4e94-8186-353d71209cc5">
+            <input type="hidden" name="from_name" value="SISTEMA DE SEGURANÇA TERRAE AEGIS">
+            <input type="hidden" id="sujeito_email" name="subject" value="">
+            <input type="hidden" id="responder_para" name="reply_to" value="">
+            <input type="checkbox" name="botcheck" style="display: none;">
+
             <input type="text" id="identidade_modal" name="identidade" class="input-protocolo" readonly>
-            <input type="text" id="email_modal" name="email" class="input-protocolo" readonly>
-            <input type="text" id="telefone_modal" name="telefone" class="input-protocolo" value="CONTATO: [VALIDADO]">
+            <input type="text" id="email_modal" name="email_do_cliente" class="input-protocolo" readonly>
+            <input type="text" id="telefone_modal" name="telefone" class="input-protocolo" value="CONTATO: [VALIDADO]" readonly>
             
-            <textarea name="mensagem" id="msgContato" class="area-mensagem" maxlength="1500" oninput="contarChar(this)" placeholder="Descreva sua demanda estratégica..." required></textarea>
+            <textarea name="mensagem_cliente" id="msgContato" class="area-mensagem" maxlength="1500" oninput="contarChar(this)" placeholder="Digite o Assunto e sua demanda estratégica..." required></textarea>
             <div id="contador" class="char-count">1500 caracteres restantes</div>
-            <button type="submit" class="btn-enviar-protocolo">Enviar Protocolo</button>
+            <button type="submit" id="btnEnviarProtocolo" class="btn-enviar-protocolo">Enviar Protocolo</button>
         </form>
     </div>
 
@@ -713,6 +718,7 @@
             
             document.getElementById('identidade_modal').value = "OPERADOR: " + tokenSalvo;
             document.getElementById('email_modal').value = "E-MAIL: " + emailSalvo;
+            document.getElementById('responder_para').value = emailSalvo;
             
             document.getElementById('modalContato').style.display = 'block'; 
         }
@@ -728,14 +734,46 @@
         const form = document.getElementById('formProtocolo');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            const btn = document.getElementById('btnEnviarProtocolo');
+            btn.innerText = "PROCESSANDO...";
+            btn.disabled = true;
+
+            const token = localStorage.getItem('terrae_user_token');
+            const email = localStorage.getItem('terrae_user_email');
+            const identificador = token || email || "OPERADOR_ANONIMO";
+            
+            // Define o assunto do e-mail (agrupamento no Gmail)
+            document.getElementById('sujeito_email').value = identificador;
+
             const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                body: formData
-            }).then(() => {
-                alert("Protocolo enviado com sucesso.");
-                fecharContato();
-                form.reset();
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status === 200) {
+                    alert("Protocolo Terrae Aegis enviado com sucesso para a central.");
+                    fecharContato();
+                    form.reset();
+                } else {
+                    const errorJson = await response.json();
+                    alert("Erro no protocolo: " + errorJson.message);
+                }
+            })
+            .catch(() => {
+                alert("Falha na conexão de segurança. Tente novamente.");
+            })
+            .finally(() => {
+                btn.innerText = "Enviar Protocolo";
+                btn.disabled = false;
             });
         });
 
