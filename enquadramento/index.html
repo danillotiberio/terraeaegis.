@@ -613,9 +613,9 @@
         <section class="setores-operacionais">
             <div style="font-size: 0.6em; letter-spacing: 4px; color: var(--dourado-fosco); margin-bottom: 5px; text-transform: uppercase; width: 100%; text-align: center;">Aprofundamento</div>
             <div class="setor-card" onclick="abrirSetor('agro2/index.html')">Agro</div>
-            <div class="setor-card" onclick="mineracao2/index.html')">Mineração</div>
-            <div class="setor-card" onclick="industria2/index.html')">Indústria</div>
-            <div class="setor-card" onclick="novos_negocios2/index.html')">Novos Negócios</div>
+            <div class="setor-card" onclick="abrirSetor('mineracao2/index.html')">Mineração</div>
+            <div class="setor-card" onclick="abrirSetor('industria2/index.html')">Indústria</div>
+            <div class="setor-card" onclick="abrirSetor('novos_negocios2/index.html')">Novos Negócios</div>
             <div class="setor-card btn-contato-trigger" onclick="abrirContato()">Contato</div>
         </section>
 
@@ -747,25 +747,22 @@
             document.getElementById('sujeito_email').value = identificador;
 
             const formData = new FormData(form);
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
 
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
+                body: formData,
                 headers: {
-                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                },
-                body: json
+                }
             })
             .then(async (response) => {
-                if (response.status === 200) {
+                const result = await response.json();
+                if (result.success) {
                     alert("Protocolo Terrae Aegis enviado com sucesso para a central.");
                     fecharContato();
                     form.reset();
                 } else {
-                    const errorJson = await response.json();
-                    alert("Erro no protocolo: " + errorJson.message);
+                    alert("Erro no protocolo: " + result.message);
                 }
             })
             .catch(() => {
