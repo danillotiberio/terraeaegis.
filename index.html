@@ -159,22 +159,35 @@
         .setores-operacionais { display: flex; justify-content: center; gap: 12px; padding: 20px 5% 20px; flex-wrap: wrap; }
         .setor-card { flex: 1; min-width: 160px; max-width: 220px; height: 60px; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; text-transform: uppercase; font-size: 0.8em; letter-spacing: 2px; color: var(--dourado-fosco); transition: 0.3s; }
 
-        .hero { padding: 20px 10% 40px; text-align: center; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        /* HERO - ORÁCULO COM COMPLEMENTO */
+        .hero { padding: 20px 10% 40px; text-align: center; min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        /* ESTILOS DO ORÁCULO - INDEX RAIZ */
-        .frase-pg {
+        #oraculo-container {
+            max-width: 900px;
+            opacity: 0;
+            display: none;
+        }
+
+        .frase-mae {
             font-family: 'Georgia', serif;
             font-style: italic;
             font-weight: 300;
-            font-size: 1.6em;
+            font-size: 1.8em;
             letter-spacing: 1px;
-            line-height: 1.6;
+            line-height: 1.4;
             background: linear-gradient(180deg, #FFFFFF 0%, #D1D1D1 50%, #AFAFAF 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            opacity: 0;
-            display: none;
-            max-width: 900px;
+            margin-bottom: 15px;
+        }
+
+        .complemento-filho {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1.1em;
+            color: var(--dourado-fosco);
+            letter-spacing: 1px;
+            opacity: 0.8;
+            font-weight: 300;
         }
 
         @keyframes cortinaRevelacao {
@@ -210,7 +223,9 @@
         }
 
         @media (max-width: 768px) {
-            .frase-pg { font-size: 1.1em; }
+            .frase-mae { font-size: 1.3em; }
+            .complemento-filho { font-size: 0.9em; }
+            .hero { min-height: 250px; }
             .login-topo-minimalista { position: relative; top: 80px; width: 90%; right: auto; margin: 0 auto; }
             .item-trindade-container { padding: 15px 8px; }
             .item-trindade { font-size: 0.65em; letter-spacing: 1px; }
@@ -258,7 +273,10 @@
     </section>
 
     <section class="hero">
-        <div id="oraculo-frase" class="frase-pg"></div>
+        <div id="oraculo-container">
+            <div id="frase-mae" class="frase-mae"></div>
+            <div id="complemento-filho" class="complemento-filho"></div>
+        </div>
     </section>
 
     <footer class="footer">
@@ -277,7 +295,6 @@
     <div class="assinatura-dev">Desenvolvido por Terrae Aegis</div>
 
     <script>
-        // CONFIGURAÇÃO DO INPUT DE TELEFONE
         const phoneInput = document.querySelector("#telefone_contato");
         const iti = window.intlTelInput(phoneInput, {
             initialCountry: "auto",
@@ -289,94 +306,97 @@
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNxGsOqgRn8wgqnWDteyIIS3outdpPTbv-ce3cpC0mss2hHwgLfE527Ht-1dqxpUeu/exec';
 
-        // LÓGICA DO ORÁCULO - FRASES LAPIDADAS
-        const frasesEstrategicas = [
-            '"Rompa o ciclo da instabilidade sistêmica e garanta a autonomia absoluta do seu patrimônio."',
-            '"Eleve seu legado a um patamar de proteção inalcançável pela voracidade estatal e pelas taxas abusivas do sistema financeiro."',
-            '"Elimine a dependência bancária nacional com canais de crédito internacional a partir de 4% ao ano."',
-            '"Consolide sua força como uma potência única e verticalizada no mercado."',
-            '"Estabeleça a soberania absoluta da sua estrutura patrimonial e torne o seu legado eterno."'
+        // LÓGICA DO ORÁCULO - ESTRUTURA MÃE E FILHO
+        const dadosEstrategicos = [
+            {
+                mae: '"Rompa o ciclo da instabilidade sistêmica e garanta a autonomia absoluta do seu patrimônio."',
+                filho: "Preservação de valor econômico operado fora das incertezas jurisdicionais locais."
+            },
+            {
+                mae: '"Eleve seu legado a um patamar de proteção inalcançável pela voracidade estatal e pelas taxas abusivas do sistema financeiro."',
+                filho: "Estruturação RWA em jurisdições de elite que neutraliza bloqueios e garante liquidez real."
+            },
+            {
+                mae: '"Elimine a dependência bancária nacional com canais de crédito internacional a partir de 4% ao ano."',
+                filho: "Otimização de ativos no Agro, Mineração e Indústria para gerar expansão autossustentável."
+            },
+            {
+                mae: '"Consolide sua força como uma potência única e verticalizada no mercado."',
+                filho: "Ambiente para incubação de projetos disruptivos e reinvestimento de excedentes em alta tecnologia."
+            },
+            {
+                mae: '"Estabeleça a soberania absoluta da sua estrutura patrimonial e torne o seu legado eterno."',
+                filho: "Blindagem estratégica que protege o passado e garante a liberdade das próximas gerações."
+            }
         ];
 
         let indiceAtual = 0;
-        const elementoFrase = document.getElementById('oraculo-frase');
+        const containerOraculo = document.getElementById('oraculo-container');
+        const elMae = document.getElementById('frase-mae');
+        const elFilho = document.getElementById('complemento-filho');
 
         function cicloOraculo() {
-            elementoFrase.innerText = frasesEstrategicas[indiceAtual];
-            elementoFrase.classList.remove('animar-saida');
-            elementoFrase.classList.add('animar-entrada');
+            elMae.innerText = dadosEstrategicos[indiceAtual].mae;
+            elFilho.innerText = dadosEstrategicos[indiceAtual].filho;
+            
+            containerOraculo.classList.remove('animar-saida');
+            containerOraculo.classList.add('animar-entrada');
 
             setTimeout(() => {
-                elementoFrase.classList.remove('animar-entrada');
-                elementoFrase.classList.add('animar-saida');
+                containerOraculo.classList.remove('animar-entrada');
+                containerOraculo.classList.add('animar-saida');
 
                 setTimeout(() => {
-                    elementoFrase.style.display = 'none';
-                    indiceAtual = (indiceAtual + 1) % frasesEstrategicas.length;
+                    containerOraculo.style.display = 'none';
+                    indiceAtual = (indiceAtual + 1) % dadosEstrategicos.length;
                     setTimeout(cicloOraculo, 1500); 
                 }, 2500); 
-            }, 10000); 
+            }, 12000); 
         }
 
-        // FUNÇÃO DE CADASTRO - COMANDO ÚNICO AO SCRIPT
+        // CADASTRO
         async function enviarParaGoogle(form) {
             const btn = form.querySelector('button');
             const email = document.getElementById('email_contato').value.trim().toLowerCase();
             const nome = document.getElementById('nome_contato').value;
-            
             btn.innerText = "PROCESSANDO..."; btn.disabled = true;
-
-            const payload = {
-                acao: "cadastro",
-                nome: nome,
-                email: email,
-                telefone: iti.getNumber()
-            };
-
+            const payload = { acao: "cadastro", nome: nome, email: email, telefone: iti.getNumber() };
             try {
-                const response = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
-                    body: JSON.stringify(payload) 
-                });
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const result = await response.json();
-                alert(result.mensagem || "Protocolo Iniciado. Verifique sua credencial no e-mail informado.");
+                alert(result.mensagem || "Protocolo Iniciado.");
                 document.getElementById('email_restrito').value = email;
                 form.reset();
-            } catch (e) {
-                alert("Protocolo em processamento. Por favor, valide sua caixa de entrada em instantes.");
-            }
+            } catch (e) { alert("Protocolo em processamento."); }
             btn.innerText = "OBTER CREDENCIAL"; btn.disabled = false;
         }
 
         async function recuperarToken() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             if (!email) return alert("Insira seu e-mail no campo de login.");
-            const payloadRecuperacao = { acao: "recuperacao", email: email };
             alert("Solicitação de segurança enviada para: " + email);
-            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadRecuperacao) });
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ acao: "recuperacao", email: email }) });
         }
         
         async function validarTokenRestrito() {
             const email = document.getElementById('email_restrito').value.trim().toLowerCase();
             const tokenDigitado = document.getElementById('token_restrito').value.trim().toUpperCase();
             if (!email || !tokenDigitado) return alert("Preencha as credenciais.");
-            const payloadLogin = { acao: "login", email: email, token: tokenDigitado };
-
             try {
-                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payloadLogin) });
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ acao: "login", email: email, token: tokenDigitado }) });
                 const result = await response.json();
                 if (result.status === "sucesso") {
                     localStorage.setItem('terrae_user_email', email);
                     localStorage.setItem('terrae_user_token', tokenDigitado);
                     window.location.href = "enquadramento/index.html";
                 } else { alert(result.mensagem || "Token inválido."); }
-            } catch (e) { alert("Erro na conexão com o servidor de segurança."); }
+            } catch (e) { alert("Erro na conexão."); }
         }
 
         const info = {
-            'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais. Garantimos que a perpetuidade do legado seja a única constante.",
-            'financas': "Proporcionamos total independência do sistema nacional para acelerar de forma exponencial seus projetos estratégicos globais.",
-            'governanca': "Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens, permanecendo sempre à frente dos negócios."
+            'seguranca': "Sob a égide da invencibilidade, blindamos o patrimônio contra instabilidades globais.",
+            'financas': "Proporcionamos total independência do sistema nacional para acelerar seus projetos.",
+            'governanca': "Protocolos internacionais onde o investidor mantém o controle absoluto sobre seus bens."
         };
 
         function escrever(tipo, titulo) {
@@ -401,7 +421,6 @@
             if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) fecharSetor();
         });
 
-        // INICIALIZAÇÃO DO ORÁCULO AO CARREGAR
         window.onload = cicloOraculo;
     </script>
 </body>
