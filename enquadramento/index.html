@@ -626,7 +626,7 @@
     <a href="../index.html" class="btn-sair-topo" onclick="encerrarSessao()">Sair da Área Restrita</a>
 
     <header>
-        <div class="logo"><img src="../logo-touro.png" alt="Terrae Aegis"></div>
+        <div class="logo"><a href="../index.html"><img src="../logo-touro.png" alt="Terrae Aegis"></a></div>
     </header>
 
     <div class="container-principal">
@@ -652,11 +652,8 @@
         <h3 style="color: var(--dourado-fosco); text-transform: uppercase; letter-spacing: 3px; font-size: 1em; margin-bottom: 25px; text-align: center;">Requisitar Protocolo</h3>
         
         <form id="formProtocolo">
-            <input type="hidden" name="access_key" value="84c7be5a-a38d-4e94-8186-353d71209cc5">
-            <input type="hidden" name="from_name" value="SISTEMA DE SEGURANÇA TERRAE AEGIS">
+            <input type="hidden" name="origem" value="contato">
             <input type="hidden" id="sujeito_email" name="subject" value="">
-            <input type="hidden" id="responder_para" name="reply_to" value="">
-            <input type="checkbox" name="botcheck" style="display: none;">
 
             <input type="text" id="identidade_modal" name="identidade" class="input-protocolo lowercase" readonly>
             <input type="text" id="email_modal" name="email_do_cliente" class="input-protocolo lowercase" readonly>
@@ -754,7 +751,6 @@
             
             document.getElementById('identidade_modal').value = nomeSalvo;
             document.getElementById('email_modal').value = emailSalvo;
-            document.getElementById('responder_para').value = emailSalvo;
             document.getElementById('telefone_modal').value = telSalvo;
             
             // Reseta campos de preenchimento
@@ -784,28 +780,21 @@
 
             const token = localStorage.getItem('terrae_user_token');
             const email = localStorage.getItem('terrae_user_email');
-            const identificador = token || email || "OPERADOR_ANONIMO";
-            
-            document.getElementById('sujeito_email').value = identificador;
+            document.getElementById('sujeito_email').value = "CONTATO: " + (token || email);
 
             const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
 
-            fetch('https://api.web3forms.com/submit', {
+            fetch('https://script.google.com/macros/s/AKfycbzNxGsOqgRn8wgqnWDteyIIS3outdpPTbv-ce3cpC0mss2hHwgLfE527Ht-1dqxpUeu/exec', {
                 method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                mode: 'no-cors',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
             })
-            .then(async (response) => {
-                const result = await response.json();
-                if (result.success) {
-                    alert("Protocolo Terrae Aegis enviado com sucesso para a central.");
-                    fecharContato();
-                    form.reset();
-                } else {
-                    alert("Erro no protocolo: " + result.message);
-                }
+            .then(() => {
+                alert("Protocolo Terrae Aegis enviado com sucesso.");
+                fecharContato();
+                form.reset();
             })
             .catch(() => {
                 alert("Falha na conexão de segurança. Tente novamente.");
