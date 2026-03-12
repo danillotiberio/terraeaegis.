@@ -318,6 +318,26 @@
             box-sizing: border-box;
         }
 
+        /* AJUSTE PARA CAMPOS MINÚSCULOS E EDITÁVEIS */
+        .input-protocolo.lowercase { text-transform: lowercase; }
+        .input-protocolo.editavel { cursor: text; outline: none; border-color: var(--dourado-fosco); }
+
+        .selecao-retorno {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.75em;
+            color: var(--dourado-fosco);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .campo-telefone-container {
+            flex: 1;
+            display: none; /* Inicia escondido */
+        }
+
         .area-mensagem {
             width: 100%; 
             height: 150px; 
@@ -638,11 +658,21 @@
             <input type="hidden" id="responder_para" name="reply_to" value="">
             <input type="checkbox" name="botcheck" style="display: none;">
 
-            <input type="text" id="identidade_modal" name="identidade" class="input-protocolo" readonly>
-            <input type="text" id="email_modal" name="email_do_cliente" class="input-protocolo" readonly>
-            <input type="text" id="telefone_modal" name="telefone" class="input-protocolo" value="CONTATO: [VALIDADO]" readonly>
+            <input type="text" id="identidade_modal" name="identidade" class="input-protocolo lowercase" readonly>
+            <input type="text" id="email_modal" name="email_do_cliente" class="input-protocolo lowercase" readonly>
             
-            <textarea name="mensagem_cliente" id="msgContato" class="area-mensagem" maxlength="1500" oninput="contarChar(this)" placeholder="Digite o Assunto e sua demanda estratégica..." required></textarea>
+            <div class="selecao-retorno">
+                <span>Retorno:</span>
+                <label><input type="radio" name="via" value="email" checked onclick="alternarTelefone(false)"> E-mail</label>
+                <label><input type="radio" name="via" value="telefone" onclick="alternarTelefone(true)"> Telefone</label>
+                <div id="boxTelefone" class="campo-telefone-container">
+                    <input type="text" id="telefone_modal" name="telefone" class="input-protocolo editavel" placeholder="Número para contato">
+                </div>
+            </div>
+
+            <input type="text" id="assunto_modal" name="assunto" class="input-protocolo editavel" placeholder="ASSUNTO ESTRATÉGICO" style="cursor: text;">
+            
+            <textarea name="mensagem_cliente" id="msgContato" class="area-mensagem" maxlength="1500" oninput="contarChar(this)" placeholder="Descreva sua demanda..." required></textarea>
             <div id="contador" class="char-count">1500 caracteres restantes</div>
             <button type="submit" id="btnEnviarProtocolo" class="btn-enviar-protocolo">Enviar Protocolo</button>
         </form>
@@ -671,6 +701,7 @@
         function encerrarSessao() {
             localStorage.removeItem('terrae_user_email');
             localStorage.removeItem('terrae_user_token');
+            localStorage.removeItem('terrae_user_nome');
         }
 
         const info = {
@@ -712,14 +743,26 @@
             document.getElementById('iframeSetor').src = "";
         }
 
+        function alternarTelefone(exibir) {
+            document.getElementById('boxTelefone').style.display = exibir ? 'block' : 'none';
+        }
+
         function abrirContato() {
-            const emailSalvo = localStorage.getItem('terrae_user_email') || "NÃO IDENTIFICADO";
-            const tokenSalvo = localStorage.getItem('terrae_user_token') || "SEM TOKEN";
+            const emailSalvo = (localStorage.getItem('terrae_user_email') || "NÃO IDENTIFICADO").toLowerCase();
+            const nomeSalvo = (localStorage.getItem('terrae_user_nome') || "CLIENTE SOBERANO").toLowerCase();
+            const telSalvo = localStorage.getItem('terrae_user_tel') || "";
             
-            document.getElementById('identidade_modal').value = "OPERADOR: " + tokenSalvo;
-            document.getElementById('email_modal').value = "E-MAIL: " + emailSalvo;
+            document.getElementById('identidade_modal').value = nomeSalvo;
+            document.getElementById('email_modal').value = emailSalvo;
             document.getElementById('responder_para').value = emailSalvo;
+            document.getElementById('telefone_modal').value = telSalvo;
             
+            // Reseta campos de preenchimento
+            document.getElementById('assunto_modal').value = "";
+            document.getElementById('msgContato').value = "";
+            alternarTelefone(false);
+            document.querySelector('input[name="via"][value="email"]').checked = true;
+
             document.getElementById('modalContato').style.display = 'block'; 
         }
 
@@ -743,7 +786,6 @@
             const email = localStorage.getItem('terrae_user_email');
             const identificador = token || email || "OPERADOR_ANONIMO";
             
-            // Define o assunto do e-mail (agrupamento no Gmail)
             document.getElementById('sujeito_email').value = identificador;
 
             const formData = new FormData(form);
