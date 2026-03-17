@@ -1,0 +1,22 @@
+{
+  "name": "Terrae Aegis | Holding Finance",
+  "short_name": "Terrae Aegis",
+  "description": "Holding de Investimentos e Estratégia",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0A192F",
+  "theme_color": "#C5A059",
+  "icons": [
+    {
+      "src": "logo-touro-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "logo-touro-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
