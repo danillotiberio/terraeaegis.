@@ -5,18 +5,23 @@
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0A192F",
-  "theme_color": "#C5A059",
+  "theme_color": "#0A192F",
   "icons": [
     {
-      "src": "logo-touro-64.png",
-      "sizes": "64x64",
-      "type": "image/png"
+      "src": "logo-touro.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "logo-touro-180.png",
       "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
+    },
+    {
+      "src": "logo-touro-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
     }
   ]
 }
