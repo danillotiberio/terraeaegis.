@@ -527,7 +527,6 @@
         }
 
         function processarAvanco() {
-            // ALIMENTAÇÃO MODULAR - TERRAE AEGIS (URL INTEGRADA)
             const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxKhaT-ZhkYgorxsUbrdZhltp-g_T3UX5ZaQvnF2FGAQhmHV5_7hilEYvUINMvqlPTx/exec";
             const formData = new FormData(document.getElementById('formAegis'));
             const data = {
@@ -537,7 +536,6 @@
             };
             formData.forEach((value, key) => { data[key] = value; });
 
-            // Envio via POST (Silencioso)
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -551,20 +549,27 @@
                     return;
                 }
 
-                // LÓGICA DE MENSAGEM DINÂMICA (TRÍADE)
                 const p3Val = document.getElementById('input-p3').value;
                 const container = document.getElementById('container-msg-final');
+                let msgCorpo = "";
                 
                 if (p3Val === 'Holding Internacional / Offshore') {
-                    container.innerHTML = `<p>ESTRUTURA APTA PARA INTEGRAÇÃO AO <b>POOL TERRAE AEGIS</b>. <br><br> O FOCO AGORA É A COALIZÃO DE VOLUMES CRÍTICOS PARA ESTRUTURAÇÃO. <br><br> AGUARDE O RETORNO EM ATÉ 72 HORAS.</p>`;
+                    msgCorpo = `ESTRUTURA APTA PARA INTEGRAÇÃO AO <b>POOL TERRAE AEGIS</b>. <br><br> O FOCO AGORA É A COALIZÃO DE VOLUMES CRÍTICOS PARA ESTRUTURAÇÃO.`;
                 } else if (p3Val === 'Holding Nacional BR') {
-                    container.innerHTML = `<p>DIAGNÓSTICO: <b>RISCO JURISDICIONAL DETECTADO</b>. <br><br> SUA ESTRUTURA ATUAL REQUER PROTOCOLO DE MIGRAÇÃO DE DOMICÍLIO FISCAL INTERNACIONAL. <br><br> AGUARDE O RETORNO EM ATÉ 72 HORAS.</p>`;
+                    msgCorpo = `DIAGNÓSTICO: <b>RISCO JURISDICIONAL DETECTADO</b>. <br><br> SUA ESTRUTURA ATUAL REQUER PROTOCOLO DE MIGRAÇÃO DE DOMICÍLIO FISCAL INTERNACIONAL.`;
                 } else {
-                    container.innerHTML = `<p>ALERTA: <b>EXPOSIÇÃO PATRIMONIAL IDENTIFICADA</b>. <br><br> É MANDATÓRIO INICIAR O PROCESSO DE CONSTITUIÇÃO DE HOLDING PARA PROTEÇÃO DOS SEUS ATIVOS. <br><br> AGUARDE O RETORNO EM ATÉ 72 HORAS.</p>`;
+                    msgCorpo = `ALERTA: <b>EXPOSIÇÃO PATRIMONIAL IDENTIFICADA</b>. <br><br> É MANDATÓRIO INICIAR O PROCESSO DE CONSTITUIÇÃO DE HOLDING PARA PROTEÇÃO DOS SEUS ATIVOS.`;
                 }
 
+                container.innerHTML = `
+                    <p>${msgCorpo}</p>
+                    <p style="font-size: 0.75em; margin-top: 25px; opacity: 0.8; border-top: 1px solid rgba(197, 160, 89, 0.2); padding-top: 20px;">
+                        Nosso <b>Setor de Engenharia Patrimonial</b> entrará em contato em até 72 horas para o detalhamento operacional.
+                    </p>
+                    <button class="btn-nav" style="margin-top: 30px; width: 100%;" onclick="window.location.href='../index.html'">Entendido</button>
+                `;
+
                 document.getElementById('modal-finalizacao').style.display = 'flex';
-                setTimeout(() => { window.location.href = "../index.html"; }, 6000);
             }
         }
     </script>
