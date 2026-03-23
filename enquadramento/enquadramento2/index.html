@@ -178,7 +178,7 @@
     </div>
 
     <div id="modal-finalizacao">
-        <div class="msg-box-final">
+        <div class="msg-box-final" id="container-msg-final">
             <p>Os dados estão sendo criptografados e enviados para análise. <br><br> Favor aguardar o retorno em até 72 horas.</p>
         </div>
     </div>
@@ -229,11 +229,10 @@
                 <div class="campo-grupo">
                     <label>3. Tipo da Empresa (Enquadramento Societário)</label>
                     <div class="grid-seletores">
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'LTDA')">LTDA</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'S/A Aberta')">S/A Aberta</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'S/A Fechada')">S/A Fechada</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'SCP')">SCP</div>
-                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Holding')">Holding</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'LTDA / Operacional')">LTDA / Operacional</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Holding Nacional BR')">Holding Nacional BR</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Holding Internacional / Offshore')">Holding Internacional / Offshore</div>
+                        <div class="btn-seletor" onclick="selectBtn(this, 'p3', 'Produtor Pessoa Física (CPF)')">Produtor Pessoa Física (CPF)</div>
                     </div>
                     <input type="hidden" name="p3" id="input-p3">
                 </div>
@@ -527,7 +526,7 @@
             document.querySelectorAll('.segmento').forEach((s, idx) => s.classList.toggle('ativo', idx < blocoAtual));
         }
 
-                function processarAvanco() {
+        function processarAvanco() {
             // ALIMENTAÇÃO MODULAR - TERRAE AEGIS (URL INTEGRADA)
             const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxKhaT-ZhkYgorxsUbrdZhltp-g_T3UX5ZaQvnF2FGAQhmHV5_7hilEYvUINMvqlPTx/exec";
             const formData = new FormData(document.getElementById('formAegis'));
@@ -551,8 +550,21 @@
                     alert("Por favor, declare a fidedignidade das informações.");
                     return;
                 }
+
+                // LÓGICA DE MENSAGEM DINÂMICA (TRÍADE)
+                const p3Val = document.getElementById('input-p3').value;
+                const container = document.getElementById('container-msg-final');
+                
+                if (p3Val === 'Holding Internacional / Offshore') {
+                    container.innerHTML = `<p>ESTRUTURA APTA PARA INTEGRAÇÃO AO <b>POOL TERRAE AEGIS</b>. <br><br> O FOCO AGORA É A COALIZÃO DE VOLUMES CRÍTICOS PARA CONTROLE DE MERCADO. <br><br> AGUARDE O RETORNO EM ATÉ 72 HORAS.</p>`;
+                } else if (p3Val === 'Holding Nacional BR') {
+                    container.innerHTML = `<p>DIAGNÓSTICO: <b>RISCO JURISDICIONAL DETECTADO</b>. <br><br> SUA ESTRUTURA ATUAL REQUER PROTOCOLO DE MIGRAÇÃO DE DOMICÍLIO FISCAL INTERNACIONAL. <br><br> AGUARDE O RETORNO EM ATÉ 72 HORAS.</p>`;
+                } else {
+                    container.innerHTML = `<p>ALERTA: <b>EXPOSIÇÃO PATRIMONIAL IDENTIFICADA</b>. <br><br> É MANDATÓRIO INICIAR O PROCESSO DE CONSTITUIÇÃO DE HOLDING PARA PROTEÇÃO DOS SEUS ATIVOS. <br><br> AGUARDE O RETORNO EM ATÉ 72 HORAS.</p>`;
+                }
+
                 document.getElementById('modal-finalizacao').style.display = 'flex';
-                setTimeout(() => { window.location.href = "../index.html"; }, 4000);
+                setTimeout(() => { window.location.href = "../index.html"; }, 6000);
             }
         }
     </script>
