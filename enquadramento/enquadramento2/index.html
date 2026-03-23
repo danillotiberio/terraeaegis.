@@ -159,14 +159,22 @@
 
         .assinatura-dev { position: fixed; bottom: 15px; right: 20px; font-size: 0.55em; color: var(--prata-fosco); opacity: 0.6; letter-spacing: 2px; text-transform: uppercase; z-index: 1000; }
 
-        /* CAIXA DE MENSAGEM FINAL */
+        /* CAIXA DE MENSAGEM FINAL - AJUSTE DE BOX-MODEL */
         #modal-finalizacao {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 25, 47, 0.98);
             display: none; flex-direction: column; align-items: center; justify-content: center;
             z-index: 6000; text-align: center; padding: 20px;
         }
-        .msg-box-final { border: 1px solid var(--dourado-fosco); padding: 40px; max-width: 500px; background: rgba(10, 25, 47, 0.9); }
+        .msg-box-final { 
+            border: 1px solid var(--dourado-fosco); 
+            padding: 40px; 
+            width: 90%; 
+            max-width: 500px; 
+            background: rgba(10, 25, 47, 0.9); 
+            box-sizing: border-box; /* Garante que o padding não estoure a largura */
+            margin: 20px auto;
+        }
         .msg-box-final p { font-size: 1em; letter-spacing: 2px; color: var(--dourado-fosco); text-transform: uppercase; line-height: 1.6; }
     </style>
 </head>
