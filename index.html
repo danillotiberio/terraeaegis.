@@ -46,6 +46,54 @@
             backdrop-filter: blur(10px);
         }
 
+        /* MENU HAMBURGER ESTRUTURAL */
+        .menu-hamburger {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 2100;
+        }
+        .linha-h {
+            width: 22px;
+            height: 2px;
+            background-color: var(--dourado-brilhante);
+            transition: 0.3s;
+        }
+
+        /* OVERLAY DO MENU LATERAL */
+        .overlay-menu {
+            position: fixed;
+            top: 0; left: -300px;
+            width: 280px; height: 100%;
+            background: rgba(10, 25, 47, 0.98);
+            border-right: 1px solid var(--dourado-fosco);
+            z-index: 2500;
+            transition: 0.4s ease-in-out;
+            padding-top: 80px;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+        .overlay-menu.ativo { left: 0; }
+        .item-menu-lateral {
+            padding: 15px 30px;
+            color: var(--branco-marfum);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8em;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            transition: 0.3s;
+        }
+        .item-menu-lateral:hover {
+            background: rgba(197, 160, 89, 0.1);
+            color: var(--dourado-brilhante);
+            padding-left: 40px;
+        }
+
         .item-trindade-container { padding: 15px 20px; cursor: pointer; }
         .item-trindade {
             font-size: 0.75em;
@@ -247,12 +295,26 @@
 <body oncontextmenu="return false;">
 
     <nav class="barra-trindade">
+        <div class="menu-hamburger" onclick="alternarMenu()">
+            <div class="linha-h"></div>
+            <div class="linha-h"></div>
+            <div class="linha-h"></div>
+        </div>
+
         <div class="item-trindade-container" onclick="escrever('seguranca', 'SEGURANÇA')"><span class="item-trindade">Segurança</span></div>
         <span class="divisor-trindade">|</span>
         <div class="item-trindade-container" onclick="escrever('financas', 'FINANÇAS')"><span class="item-trindade">Finanças</span></div>
         <span class="divisor-trindade">|</span>
         <div class="item-trindade-container" onclick="escrever('governanca', 'GOVERNANÇA')"><span class="item-trindade">Governança</span></div>
     </nav>
+
+    <div id="overlayMenu" class="overlay-menu">
+        <div class="item-menu-lateral" onclick="abrirPaginaMenu('menu/a-forja/index.html')">A Forja</div>
+        <div class="item-menu-lateral" onclick="abrirPaginaMenu('menu/o-legado/index.html')">O Legado</div>
+        <div class="item-menu-lateral" onclick="abrirPaginaMenu('menu/portfolio/index.html')">Portfólio de Liquidez</div>
+        <div class="item-menu-lateral" onclick="abrirPaginaMenu('menu/camara-custodia/index.html')">Câmara de Custódia</div>
+        <div class="item-menu-lateral" onclick="abrirPaginaMenu('menu/canal-direto/index.html')">Canal Direto</div>
+    </div>
 
     <div class="login-topo-minimalista">
         <div class="titulo-login">Área Restrita Login</div>
@@ -452,11 +514,28 @@
         function abrirSetor(url) { document.getElementById('iframeSetor').src = url; document.getElementById('molduraSetor').style.display = 'block'; }
         function fecharSetor() { document.getElementById('iframeSetor').src = ""; document.getElementById('molduraSetor').style.display = 'none'; }
 
+        // NOVAS FUNÇÕES DO MENU MODULAR
+        function alternarMenu() {
+            document.getElementById('overlayMenu').classList.toggle('ativo');
+        }
+
+        function abrirPaginaMenu(path) {
+            alternarMenu(); // Fecha o menu ao clicar
+            abrirSetor(path); // Abre no mesmo sistema de moldura de setor
+        }
+
         document.addEventListener('mousedown', function(e) {
             const mText = document.getElementById('moldura');
             const mSetor = document.getElementById('molduraSetor');
+            const mOverlay = document.getElementById('overlayMenu');
+
             if (mText.style.display === 'block' && !mText.contains(e.target) && !e.target.closest('.item-trindade-container')) fecharMoldura();
-            if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card')) fecharSetor();
+            if (mSetor.style.display === 'block' && !mSetor.contains(e.target) && !e.target.closest('.setor-card') && !e.target.closest('.item-menu-lateral')) fecharSetor();
+            
+            // Fecha o menu lateral se clicar fora dele e do botão hamburger
+            if (mOverlay.classList.contains('ativo') && !mOverlay.contains(e.target) && !e.target.closest('.menu-hamburger')) {
+                alternarMenu();
+            }
         });
 
         window.onload = cicloOraculo;
