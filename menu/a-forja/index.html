@@ -6,28 +6,34 @@
     <title>Terrae Aegis | A Forja</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
-        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; font-weight: 200; }
+        :root { 
+            /* Cores de Soberania Extraídas da Memória Master */
+            --azul-profundo: #0a192f; 
+            --dourado-aegis: #C5B358; 
+            --cinza-claro: #cfd8dc; 
+            --branco-puro: #ffffff;
+        }
+        body { background-color: var(--azul-profundo); color: var(--cinza-claro); font-family: 'Inter', sans-serif; margin: 0; padding: 0; font-weight: 200; }
         header { 
             padding: 80px 20px; 
             text-align: center; 
-            border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
-            background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('a_forja.png'); 
+            border-bottom: 1px solid rgba(197, 179, 88, 0.5); 
+            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), url('a_forja.png'); 
             background-size: cover; background-position: center;
         }
-        .tag-impacto { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
-        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; margin: 0; font-weight: 300; }
-        header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
+        .tag-impacto { color: var(--dourado-aegis); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; font-weight: 400; }
+        h1 { color: var(--dourado-aegis); text-transform: uppercase; letter-spacing: 4px; font-size: 2.2rem; margin: 0; font-weight: 300; }
+        header p { opacity: 0.8; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; color: var(--branco-puro); }
         .container { padding: 60px 20px; max-width: 1000px; margin: auto; }
-        .chamariz { font-style: italic; font-size: 1.4rem; line-height: 1.8; text-align: center; margin-bottom: 60px; color: rgba(255,255,255,0.9); border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 40px; }
+        .chamariz { font-style: italic; font-size: 1.4rem; line-height: 1.8; text-align: center; margin-bottom: 60px; color: var(--branco-puro); border-bottom: 1px solid rgba(197, 179, 88, 0.2); padding-bottom: 40px; }
         .pilar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 30px; }
-        .card { padding: 20px; border-left: 1px solid rgba(212, 175, 55, 0.3); }
-        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
-        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; font-weight: 300; }
-        .video-placeholder { border: 1px solid var(--dourado); display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); min-height: 200px; }
+        .card { padding: 20px; border-left: 1px solid rgba(197, 179, 88, 0.3); background: rgba(255, 255, 255, 0.02); }
+        .card h3 { color: var(--dourado-aegis); margin-top: 0; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 2px; font-weight: 400; }
+        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.9; font-weight: 300; color: var(--cinza-claro); }
         .cta-container { text-align: center; margin-top: 80px; }
-        .cta-frase { color: var(--branco); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
-        .link-restrito { color: var(--dourado); text-decoration: underline; cursor: pointer; font-weight: 400; transition: 0.3s; }
+        .cta-frase { color: var(--branco-puro); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
+        .link-restrito { color: var(--dourado-aegis); text-decoration: underline; cursor: pointer; font-weight: 400; transition: 0.3s; }
+        .link-restrito:hover { color: var(--branco-puro); }
         @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
