@@ -15,36 +15,138 @@
         }
 
         body, html { 
-            margin: 0; padding: 0; min-height: 100vh; 
+            margin: 0; padding: 0; min-height: 100%; 
             font-family: 'Montserrat', sans-serif; 
-            background-color: var(--azul-profundo); /* Azul Soberano */
-            color: var(--cinza-claro); /* Texto de Apoio */
-            display: flex; justify-content: center; align-items: center; padding: 20px;
+            background-color: var(--azul-profundo); 
+            color: var(--cinza-claro); 
+            display: flex; justify-content: center; align-items: flex-start; /* Alinhado ao topo para evitar sumiço em modais curtos */
+            padding: 20px 10px;
         }
 
         .container-central { 
             width: 100%; max-width: 480px; 
-            background-color: rgba(10, 25, 47, 0.9); /* Azul com opacidade */
-            border: 1px solid var(--dourado-aegis); /* Borda Dourada */
-            padding: 40px; box-sizing: border-box; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            background-color: rgba(10, 25, 47, 0.95); 
+            border: 1px solid var(--dourado-aegis); 
+            padding: 30px; box-sizing: border-box; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
         }
 
         h1 { 
             text-align: center; color: var(--dourado-aegis); 
-            letter-spacing: 4px; font-size: 1.4rem; 
-            text-transform: uppercase; font-weight: 700; margin: 0 0 30px 0; 
+            letter-spacing: 4px; font-size: 1.2rem; 
+            text-transform: uppercase; font-weight: 700; margin: 0 0 25px 0; 
         }
 
         form { display: flex; flex-direction: column; }
 
         input, textarea { 
-            width: 100%; background: rgba(0, 0, 0, 0.3); /* Preto translúcido para input */
-            border: 1px solid rgba(197, 179, 88, 0.3); /* Borda Dourada sutil */
-            padding: 18px; margin-bottom: 20px; 
-            color: var(--branco-puro); /* Texto digitado em branco */
+            width: 100%; background: rgba(0, 0, 0, 0.4); 
+            border: 1px solid rgba(197, 179, 88, 0.4); 
+            padding: 15px; margin-bottom: 15px; 
+            color: var(--branco-puro); 
             font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 300; 
             box-sizing: border-box; outline: none; transition: 0.3s; 
         }
 
-        input:focus, textarea:focus
+        input:focus, textarea:focus { border-color: var(--dourado-aegis); background: rgba(0, 0, 0, 0.6); }
+        
+        ::placeholder { color: rgba(207, 216, 220, 0.5); }
+
+        .retorno-group { 
+            margin: 0 0 20px 0; font-size: 11px; 
+            display: flex; align-items: center; justify-content: space-between;
+            color: var(--cinza-claro); text-transform: uppercase; letter-spacing: 1px;
+            border: 1px solid rgba(197, 179, 88, 0.2); padding: 12px;
+        }
+        
+        .retorno-group label { cursor: pointer; display: flex; align-items: center; gap: 5px; color: var(--dourado-aegis); }
+
+        textarea { height: 140px; resize: none; }
+        
+        .char-count { text-align: right; font-size: 10px; color: var(--cinza-claro); opacity: 0.7; margin-top: -10px; margin-bottom: 15px; }
+
+        .btn-status { 
+            width: 100%; background: var(--dourado-aegis); 
+            color: var(--preto-de-realce); 
+            border: none; padding: 20px; 
+            font-weight: 900; cursor: pointer; text-transform: uppercase; 
+            letter-spacing: 2px; font-size: 15px; transition: 0.4s;
+        }
+
+        .btn-status:hover { background: var(--branco-puro); transform: translateY(-2px); }
+        .btn-status:disabled { background: var(--cinza-claro); cursor: not-allowed; }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container-central">
+        <h1>Requisitar Protocolo</h1>
+
+        <form id="form-central">
+            <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
+            <input type="checkbox" name="botcheck" class="hidden">
+            
+            <input type="text" name="name" placeholder="Nome Completo" required>
+            <input type="email" name="email" placeholder="E-mail de Contato" required>
+            <input type="tel" name="phone" placeholder="Telefone / WhatsApp" required>
+
+            <div class="retorno-group">
+                <span>Retorno preferencial:</span>
+                <label><input type="radio" name="preferencia" value="E-mail" checked> E-MAIL</label>
+                <label><input type="radio" name="preferencia" value="Telefone"> WHATSAPP</label>
+            </div>
+
+            <input type="text" name="subject" placeholder="Assunto Estratégico" required>
+            <textarea name="message" id="msg" placeholder="Descreva sua demanda..." maxlength="1500" required></textarea>
+            <div class="char-count" id="char-status">1500 caracteres restantes</div>
+
+            <button type="submit" class="btn-status" id="btn-submit">Enviar Protocolo</button>
+        </form>
+    </div>
+
+<script>
+    const form = document.getElementById('form-central');
+    const btn = document.getElementById('btn-submit');
+    const textArea = document.getElementById('msg');
+    const charStatus = document.getElementById('char-status');
+
+    textArea.addEventListener('input', (e) => {
+        const currentLength = e.target.value.length;
+        charStatus.innerText = `${1500 - currentLength} caracteres restantes`;
+    });
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        btn.innerText = "PROCESSANDO...";
+        btn.disabled = true;
+
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: json
+            });
+
+            if (response.ok) {
+                btn.innerText = "PROTOCOLO REGISTRADO";
+                btn.style.background = "#ffffff";
+                form.reset();
+                charStatus.innerText = "1500 caracteres restantes";
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            btn.innerText = "ERRO: TENTE NOVAMENTE";
+            btn.disabled = false;
+        }
+    };
+</script>
+</body>
+</html>
