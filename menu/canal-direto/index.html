@@ -1,1 +1,72 @@
+<style>
+    body { background-color: #001220; color: #c5a059; font-family: 'Montserrat', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
+    .container-protocolo { width: 100%; max-width: 450px; background: #001220; border: 1px solid #c5a059; padding: 30px; position: relative; }
+    h2 { text-align: center; letter-spacing: 3px; font-size: 1.2em; margin-bottom: 25px; text-transform: uppercase; }
+    
+    input, textarea { width: 100%; background: #001a2c; border: 1px solid #1e3a50; padding: 15px; margin-bottom: 15px; color: #fff; font-size: 14px; box-sizing: border-box; outline: none; }
+    input:focus, textarea:focus { border-color: #c5a059; }
+    
+    .retorno-group { margin: 10px 0 20px; font-size: 0.85em; display: flex; align-items: center; gap: 15px; }
+    .retorno-group label { cursor: pointer; display: flex; align-items: center; gap: 5px; color: #88a0b0; }
+    
+    textarea { height: 150px; resize: none; }
+    .char-count { text-align: right; font-size: 10px; color: #556a7b; margin-top: -10px; margin-bottom: 15px; }
+    
+    .btn-enviar { width: 100%; background: #c5a059; color: #001220; border: none; padding: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+    .btn-enviar:hover { background: #fff; }
+</style>
 
+<div class="container-protocolo">
+    <h2>REQUISITAR PROTOCOLO</h2>
+
+    <form id="form-contato">
+        <input type="hidden" name="access_key" value="dae411c2-8787-4602-9ac4-ef985ca2d164">
+        <input type="checkbox" name="botcheck" style="display: none;">
+
+        <input type="text" name="name" placeholder="Nome Completo" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="tel" name="phone" placeholder="Telefone / WhatsApp" required>
+
+        <div class="retorno-group">
+            <span>RETORNO:</span>
+            <label><input type="radio" name="preferencia" value="E-mail" checked> E-MAIL</label>
+            <label><input type="radio" name="preferencia" value="Telefone"> TELEFONE</label>
+        </div>
+
+        <input type="text" name="subject" placeholder="ASSUNTO ESTRATÉGICO" required>
+        <textarea name="message" id="msg" placeholder="Descreva sua demanda..." maxlength="1500" required></textarea>
+        <div class="char-count">1500 caracteres restantes</div>
+
+        <button type="submit" class="btn-enviar" id="btn-status">ENVIAR PROTOCOLO</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('form-contato');
+    const btn = document.getElementById('btn-status');
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        btn.innerText = "ENVIANDO...";
+        btn.disabled = true;
+
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: json
+        });
+
+        if (response.status === 200) {
+            btn.innerText = "PROTOCOLO ENVIADO COM SUCESSO";
+            btn.style.background = "#fff";
+            form.reset();
+        } else {
+            btn.innerText = "ERRO AO ENVIAR";
+            btn.disabled = false;
+        }
+    };
+</script>
