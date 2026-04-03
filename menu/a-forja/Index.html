@@ -1,1 +1,76 @@
-vaxio
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrae Aegis | A Forja</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --azul: #001a33; --dourado: #d4af37; --branco: #ffffff; }
+        body { background-color: var(--azul); color: var(--branco); font-family: 'Inter', sans-serif; margin: 0; padding: 0; font-weight: 200; }
+        header { 
+            padding: 80px 20px; 
+            text-align: center; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
+            background: linear-gradient(rgba(0,26,51,0.85), rgba(0,26,51,0.85)), url('a_forja.png'); 
+            background-size: cover; background-position: center;
+        }
+        .tag-impacto { color: var(--dourado); text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+        h1 { color: var(--dourado); text-transform: uppercase; letter-spacing: 4px; font-size: 2rem; margin: 0; font-weight: 300; }
+        header p { opacity: 0.7; font-size: 1.1rem; letter-spacing: 2px; margin-top: 10px; }
+        .container { padding: 60px 20px; max-width: 1000px; margin: auto; }
+        .chamariz { font-style: italic; font-size: 1.4rem; line-height: 1.8; text-align: center; margin-bottom: 60px; color: rgba(255,255,255,0.9); border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 40px; }
+        .pilar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 30px; }
+        .card { padding: 20px; border-left: 1px solid rgba(212, 175, 55, 0.3); }
+        .card h3 { color: var(--dourado); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 400; }
+        .card p { line-height: 1.7; font-size: 1rem; opacity: 0.8; font-weight: 300; }
+        .video-placeholder { border: 1px solid var(--dourado); display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); min-height: 200px; }
+        .cta-container { text-align: center; margin-top: 80px; }
+        .cta-frase { color: var(--branco); font-style: italic; font-size: 1.2rem; opacity: 0.9; }
+        .link-restrito { color: var(--dourado); text-decoration: underline; cursor: pointer; font-weight: 400; transition: 0.3s; }
+        @media (max-width: 768px) { .pilar-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header>
+        <span class="tag-impacto">Refinamento Técnico</span>
+        <h1>A Forja</h1>
+        <p>A Gênese da Estrutura</p>
+    </header>
+    <div class="container">
+        <div class="chamariz">
+            "A Terrae Aegis nasce da identificação de uma lacuna crítica no cenário produtivo. Atuamos na estruturação de cenários que permitem ao empresariado conectar-se diretamente a ecossistemas de liquidez global."
+        </div>
+        <div class="pilar-grid">
+            <div class="card">
+                <h3>Arquitetura de Viabilização</h3>
+                <p>Nossa fundação foi projetada para ser a ponte de inteligência nos setores de Agro, Mineração e Indústria, desvinculada das limitações do mercado doméstico.</p>
+            </div>
+            <div class="card">
+                <h3>Fluidez do Ativo Real</h3>
+                <p>Estruturar operações que garantam a movimentação do capital sem o engessamento de bens ou as amarras de penhoras asfixiantes.</p>
+            </div>
+            <div class="card">
+                <h3>Blindagem Estratégica</h3>
+                <p>Protocolos de defesa patrimonial contra a insegurança jurídica, garantindo que a produção esteja sob a égide de jurisdições estáveis.</p>
+            </div>
+            <div class="card">
+                <h3>Verticalização de Resultados</h3>
+                <p>Ferramentas de eficiência financeira do topo da pirâmide global, transformando a estrutura do cliente em uma fortaleza autossustentável.</p>
+            </div>
+        </div>
+        <div class="cta-container">
+            <p class="cta-frase">Inicie sua transformação na <span class="link-restrito" onclick="fecharIrParaToken()">área restrita</span>.</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onselectstart = function() { return false; };
+        function fecharIrParaToken() {
+            const overlay = window.parent.document.querySelector('[style*="display: block"]');
+            if (overlay) { overlay.style.display = 'none'; }
+            window.parent.location.hash = 'diagnostico';
+        }
+    </script>
+</body>
+</html>
